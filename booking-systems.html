@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="Premium limo booking systems, automated booking flows, pricing logic and admin portals for limo and black-car companies." name="description"/>
+<title>Booking Systems | The Limo Marketing Agency</title>
+<style>
+    :root{
+      --white:#ffffff;
+      --black:#090909;
+      --text:#111111;
+      --muted:#667085;
+      --muted-2:#8792a6;
+      --line:rgba(10,18,38,.08);
+      --line-strong:rgba(77,108,255,.17);
+      --blue:#5170FE;
+      --blue-2:#25a9f4;
+      --blue-dark:#3858ec;
+      --blue-soft:rgba(81,112,254,.09);
+      --navy:#0d1b42;
+      --navy-2:#173677;
+      --glass:rgba(255,255,255,.72);
+      --glass-strong:rgba(255,255,255,.92);
+      --shadow:0 22px 65px rgba(18,35,78,.10);
+      --shadow-hover:0 30px 82px rgba(18,35,78,.15);
+      --radius-xl:30px;
+      --radius-lg:22px;
+      --radius-md:16px;
+      --container:1180px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;color:var(--text);background:#fff;
+      font-family:"Codec Pro","Arial","Helvetica",sans-serif;
+      overflow-x:hidden;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+    }
+    a{color:inherit;text-decoration:none}
+    button,input,textarea,select{font:inherit}
+    img,svg{display:block;max-width:100%}
+    ::selection{background:rgba(81,112,254,.18)}
+    .site{min-height:100vh;background:#fff}
+    .container{width:min(calc(100% - 32px),var(--container));margin-inline:auto}
+
+    /* Header */
+    .nav-wrap{
+      position:sticky;top:0;z-index:100;padding:14px 0 10px;
+      background:rgba(255,255,255,.90);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+      border-bottom:1px solid rgba(12,20,45,.045);transition:box-shadow .3s ease,background .3s ease;
+    }
+    .nav-wrap.scrolled{background:rgba(255,255,255,.96);box-shadow:0 10px 34px rgba(20,30,70,.055)}
+    .navbar{min-height:72px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px}
+    .brand{display:flex;align-items:center;gap:13px;min-width:0;width:max-content}
+    .brand-logo-vector{width:58px;height:58px;flex:0 0 auto}
+    .brand-name{font-weight:800;letter-spacing:-.02em;font-size:15px;line-height:1.05;white-space:nowrap}
+    .nav-links{
+      display:flex;align-items:center;justify-content:center;gap:8px;justify-self:center;
+      width:max-content;max-width:100%;padding:7px;border-radius:19px;
+      background:rgba(255,255,255,.58);border:1px solid rgba(12,20,45,.055);
+      box-shadow:0 14px 36px rgba(20,30,70,.05),inset 0 1px 0 rgba(255,255,255,.98);
+      backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)
+    }
+    .nav-links a{min-height:46px;display:inline-flex;align-items:center;justify-content:center;padding:0 16px;border-radius:14px;font-size:13px;font-weight:760;color:#2c2f36;transition:.22s ease}
+    .nav-links a:hover{color:var(--blue);transform:translateY(-1px)}
+    .nav-links a.active{background:#fff;color:var(--blue);box-shadow:0 9px 24px rgba(26,46,100,.07);border:1px solid rgba(81,112,254,.10)}
+    .meeting-card{border-radius:18px;padding:7px;justify-self:end;background:rgba(255,255,255,.68);border:1px solid rgba(12,20,45,.07);box-shadow:0 12px 34px rgba(20,30,70,.065)}
+    .btn-meeting{min-height:42px;padding:0 16px;border-radius:12px;display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#48a0ee 0%,#4a86f2 100%);color:#fff;font-size:13px;font-weight:800;box-shadow:0 11px 25px rgba(72,143,239,.24);transition:.22s ease}
+    .btn-meeting:hover{transform:translateY(-2px);box-shadow:0 16px 34px rgba(72,143,239,.31)}
+
+    .eyebrow,.section-kicker{
+      width:max-content;display:inline-flex;align-items:center;gap:9px;padding:8px 12px;border-radius:999px;
+      background:rgba(255,255,255,.82);border:1px solid rgba(81,112,254,.12);
+      box-shadow:0 10px 28px rgba(20,40,90,.06);font-size:11px;font-weight:850;letter-spacing:.12em;text-transform:uppercase
+    }
+    .eyebrow-dot{width:8px;height:8px;border-radius:50%;background:#3f87ff;box-shadow:0 0 0 6px rgba(63,135,255,.09)}
+
+    /* Hero */
+    .booking-hero{
+      position:relative;overflow:hidden;padding:62px 0 64px;
+      background:
+        radial-gradient(circle at 83% 25%,rgba(37,169,244,.16),transparent 27%),
+        radial-gradient(circle at 18% 72%,rgba(81,112,254,.10),transparent 30%),
+        linear-gradient(180deg,#fff 0%,#fbfdff 100%);
+    }
+    .booking-hero:before{content:"";position:absolute;width:620px;height:620px;border-radius:50%;right:-320px;top:30px;border:1px solid rgba(81,112,254,.075);pointer-events:none}
+    .booking-hero:after{content:"";position:absolute;width:340px;height:340px;border-radius:50%;left:-170px;bottom:-70px;border:1px solid rgba(81,112,254,.06);pointer-events:none}
+    .booking-hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,.88fr) minmax(520px,1.12fr);align-items:center;gap:34px}
+    .booking-hero-copy h1{margin:20px 0 18px;font-size:clamp(48px,5.1vw,68px);line-height:.97;letter-spacing:-.055em;font-weight:900;max-width:630px}
+    .booking-hero-copy h1 span{color:var(--blue)}
+    .booking-hero-copy>p{margin:0;max-width:585px;color:#60708b;font-size:17px;line-height:1.62}
+    .hero-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:30px}
+    .hero-btn-primary,.hero-btn-secondary{min-height:50px;padding:0 20px;border-radius:14px;display:inline-flex;align-items:center;justify-content:center;gap:10px;font-size:14px;font-weight:820;transition:.24s ease}
+    .hero-btn-primary{background:linear-gradient(135deg,#2fa8ef,#5268f5);color:#fff;box-shadow:0 16px 34px rgba(63,118,245,.25)}
+    .hero-btn-secondary{background:#fff;border:1px solid var(--line);box-shadow:0 10px 28px rgba(18,35,78,.06)}
+    .hero-btn-primary:hover,.hero-btn-secondary:hover{transform:translateY(-2px)}
+    .hero-points{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:29px;padding-top:21px;border-top:1px solid rgba(12,20,45,.07)}
+    .hero-point{display:grid;grid-template-columns:38px 1fr;gap:10px;align-items:center;min-width:0}
+    .hero-point-icon{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,#f1f6ff,#fff);border:1px solid rgba(81,112,254,.14);color:var(--blue);box-shadow:0 8px 22px rgba(43,89,194,.075)}
+    .hero-point-icon svg{width:19px;height:19px}
+    .hero-point strong{display:block;font-size:11px;line-height:1.15}
+    .hero-point span{display:block;margin-top:4px;color:#8290a4;font-size:9px;line-height:1.35}
+
+    /* Product visual */
+    .product-stage{position:relative;min-height:590px;display:flex;align-items:center;justify-content:center;isolation:isolate}
+    .product-stage:before{content:"";position:absolute;width:98%;height:80%;border-radius:50%;background:radial-gradient(circle,rgba(60,156,255,.18),rgba(81,112,254,.06) 47%,transparent 72%);filter:blur(18px);z-index:-2}
+    .product-stage:after{content:"";position:absolute;width:78%;height:15%;left:13%;bottom:4%;border-radius:50%;background:rgba(45,100,205,.13);filter:blur(34px);z-index:-1}
+    .trip-builder{
+      width:min(100%,590px);border-radius:28px;background:rgba(255,255,255,.94);border:1px solid rgba(255,255,255,.96);
+      box-shadow:0 35px 90px rgba(20,46,110,.18),0 0 0 1px rgba(81,112,254,.08);overflow:hidden;
+      animation:floatCard 6s ease-in-out infinite;
+    }
+    @keyframes floatCard{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+    .tb-head{position:relative;padding:26px 26px 20px;color:#fff;background:linear-gradient(125deg,#0c2856 0%,#1f58c7 52%,#3975ff 100%);overflow:hidden}
+    .tb-head:before{content:"";position:absolute;width:250px;height:250px;border-radius:50%;right:-80px;top:-130px;border:1px solid rgba(255,255,255,.16)}
+    .tb-head:after{content:"";position:absolute;width:210px;height:80px;right:6px;bottom:-30px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.12));transform:skewX(-24deg)}
+    .tb-title{font-size:26px;line-height:1;font-weight:900;letter-spacing:-.035em}.tb-sub{margin-top:6px;font-size:12px;color:#d5e4ff}
+    .trip-tabs{position:relative;z-index:2;margin-top:18px;padding:5px;background:rgba(255,255,255,.94);border-radius:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
+    .trip-tab{height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:7px;color:#24314b;font-size:11px;font-weight:820}
+    .trip-tab.active{color:#fff;background:linear-gradient(135deg,#27a9f2,#5863f3);box-shadow:0 8px 18px rgba(70,108,244,.26)}
+    .trip-tab svg{width:16px;height:16px}
+    .tb-body{padding:18px 22px 22px;background:linear-gradient(180deg,#fff,#fbfdff)}
+    .route-field{min-height:62px;border:1px solid rgba(81,112,254,.13);border-radius:15px;padding:12px 14px;display:grid;grid-template-columns:34px 1fr auto;align-items:center;gap:10px;margin-bottom:9px;background:rgba(255,255,255,.96)}
+    .route-icon{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;color:var(--blue);background:#f4f7ff}.route-icon svg{width:20px;height:20px}
+    .route-label{font-size:8px;font-weight:900;color:#98a4b8;letter-spacing:.11em;text-transform:uppercase}.route-value{margin-top:4px;font-size:13px;font-weight:800;color:#1b2437}
+    .route-action{font-size:10px;font-weight:800;color:#3d64ef;white-space:nowrap}
+    .tb-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:9px}
+    .mini-field{min-height:67px;border:1px solid rgba(81,112,254,.13);border-radius:15px;padding:12px 13px;display:grid;grid-template-columns:32px 1fr auto;align-items:center;gap:9px;background:#fff}
+    .mini-field svg{width:21px;height:21px;color:var(--blue)}
+    .mini-label{font-size:8px;font-weight:900;color:#98a4b8;letter-spacing:.10em;text-transform:uppercase}.mini-value{margin-top:4px;font-size:13px;font-weight:850;color:#1d2638}
+    .stepper{display:flex;gap:5px}.stepper span{width:27px;height:27px;border-radius:8px;border:1px solid rgba(81,112,254,.17);display:grid;place-items:center;color:var(--blue);font-size:15px}
+    .tb-options{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:9px}.toggle-row{min-height:58px;border:1px solid rgba(81,112,254,.13);border-radius:15px;padding:10px 13px;display:flex;align-items:center;justify-content:space-between;background:#fff}.toggle-copy strong{display:block;font-size:11px}.toggle-copy span{display:block;margin-top:3px;color:#8c99ad;font-size:8px}.toggle{width:37px;height:21px;border-radius:999px;background:#dbe4f2;position:relative}.toggle:after{content:"";position:absolute;width:15px;height:15px;border-radius:50%;left:3px;top:3px;background:#fff;box-shadow:0 2px 8px rgba(20,35,70,.12)}
+    .tb-cta{margin-top:14px;height:50px;border-radius:13px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#24aef2,#5564f4);color:#fff;font-size:14px;font-weight:900;box-shadow:0 14px 28px rgba(55,113,239,.22)}
+    .tb-note{text-align:center;margin-top:11px;color:#8693a8;font-size:9px}
+
+    .floating-chip{position:absolute;padding:13px 15px;border-radius:16px;background:rgba(255,255,255,.88);border:1px solid rgba(255,255,255,.96);box-shadow:0 18px 45px rgba(35,66,130,.14);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);animation:chipFloat 5s ease-in-out infinite;z-index:4}
+    .floating-chip strong{display:block;font-size:11px}.floating-chip span{display:block;margin-top:4px;color:#8090a7;font-size:8px}.floating-chip .chip-dot{width:9px;height:9px;border-radius:50%;background:#28c67a;box-shadow:0 0 0 5px rgba(40,198,122,.11);margin-bottom:8px}
+    .chip-a{left:-30px;top:110px}.chip-b{right:-28px;top:175px;animation-delay:-1.2s}.chip-c{right:12px;bottom:36px;animation-delay:-2.1s}
+    @keyframes chipFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+
+    .capability-strip{padding:0 0 10px;background:#fff}.capability-shell{overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:rgba(251,253,255,.8)}.capability-track{display:flex;width:max-content;animation:marquee 32s linear infinite}.capability-group{display:flex;align-items:center;padding:14px 0}.capability-item{display:flex;align-items:center;gap:10px;padding:0 25px;font-size:12px;font-weight:800;color:#3e4653;white-space:nowrap}.capability-item:before{content:"";width:5px;height:5px;border-radius:50%;background:var(--blue);box-shadow:0 0 0 5px rgba(81,112,254,.08)}@keyframes marquee{to{transform:translateX(-50%)}}
+
+    /* Shared sections */
+    section.content-section{padding:74px 0}
+    .section-head{display:grid;grid-template-columns:1fr minmax(300px,470px);gap:48px;align-items:end;margin-bottom:34px}
+    .section-head h2{margin:15px 0 0;font-size:clamp(36px,4.2vw,56px);line-height:1.02;letter-spacing:-.048em;font-weight:900;max-width:760px}.section-head h2 span{color:var(--blue)}
+    .section-head p{margin:0;color:#66758e;font-size:15px;line-height:1.7}
+
+    /* Ride types */
+    .ride-types{background:linear-gradient(180deg,#fff,#fbfdff)}
+    .ride-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}
+    .ride-card{position:relative;min-height:300px;padding:22px;border-radius:24px;background:rgba(255,255,255,.84);border:1px solid rgba(12,20,45,.07);box-shadow:0 18px 52px rgba(18,35,78,.07);overflow:hidden;transition:.3s ease}
+    .ride-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-hover);border-color:rgba(81,112,254,.18)}
+    .ride-card:after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;right:-95px;top:-95px;background:radial-gradient(circle,rgba(81,112,254,.12),transparent 70%)}
+    .ride-icon{width:48px;height:48px;border-radius:15px;background:linear-gradient(145deg,#eef4ff,#fff);border:1px solid rgba(81,112,254,.12);display:grid;place-items:center;color:var(--blue);box-shadow:0 10px 26px rgba(63,105,210,.08)}.ride-icon svg{width:25px;height:25px}
+    .ride-card h3{margin:52px 0 9px;font-size:22px;letter-spacing:-.035em}.ride-card p{margin:0;color:#718097;font-size:13px;line-height:1.6}.ride-tag{position:absolute;right:18px;top:18px;font-size:9px;font-weight:900;color:#95a2b6;letter-spacing:.12em}
+    .mini-route{margin-top:20px;padding:10px 11px;border-radius:13px;background:#f8faff;border:1px solid rgba(81,112,254,.09);display:flex;align-items:center;gap:8px;color:#536079;font-size:9px;font-weight:800}.mini-route i{width:6px;height:6px;border-radius:50%;background:#3f87ff;box-shadow:0 0 0 4px rgba(63,135,255,.08)}.mini-route b{height:1px;flex:1;background:linear-gradient(90deg,#7bb8ff,#5268f5)}
+
+    /* Journey */
+    .journey{background:#fff}
+    .journey-shell{position:relative;padding:30px;border-radius:30px;background:linear-gradient(135deg,#0d1a40 0%,#112b64 55%,#1f468c 100%);color:#fff;box-shadow:0 30px 82px rgba(20,46,110,.18);overflow:hidden}
+    .journey-shell:before{content:"";position:absolute;width:520px;height:520px;border-radius:50%;right:-180px;top:-280px;border:1px solid rgba(255,255,255,.10)}
+    .journey-top{position:relative;z-index:2;display:flex;justify-content:space-between;gap:40px;align-items:end;margin-bottom:26px}.journey-top h3{margin:0;font-size:32px;letter-spacing:-.035em}.journey-top p{margin:0;max-width:440px;color:#c9d6ee;font-size:13px;line-height:1.6}
+    .journey-grid{position:relative;z-index:2;display:grid;grid-template-columns:repeat(6,1fr);gap:10px}.journey-step{position:relative;min-height:190px;border-radius:20px;padding:17px;background:rgba(255,255,255,.075);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(12px);transition:.26s ease}.journey-step:hover{transform:translateY(-4px);background:rgba(255,255,255,.10)}.journey-step:after{content:"";position:absolute;right:-11px;top:46%;width:11px;height:1px;background:#5fc4ff}.journey-step:last-child:after{display:none}.journey-num{font-size:10px;font-weight:900;color:#8dc8ff;letter-spacing:.12em}.journey-icon{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;margin:19px 0 16px;background:rgba(88,137,255,.18);border:1px solid rgba(127,175,255,.18);color:#9bd1ff}.journey-icon svg{width:20px;height:20px}.journey-step h4{margin:0 0 7px;font-size:15px}.journey-step p{margin:0;color:#becae0;font-size:10px;line-height:1.5}
+    .journey-footer{position:relative;z-index:2;margin-top:13px;border-radius:16px;padding:13px 16px;background:rgba(39,104,213,.22);border:1px solid rgba(94,154,255,.23);display:flex;justify-content:space-between;gap:20px;align-items:center;font-size:10px;color:#cfe0ff}.journey-footer strong{font-size:12px;color:#fff}
+
+    /* Pricing */
+    .pricing{background:linear-gradient(180deg,#fbfdff,#fff)}
+    .pricing-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:28px;align-items:center}
+    .pricing-copy h2{font-size:clamp(38px,4.3vw,58px);line-height:1.02;letter-spacing:-.05em;margin:16px 0 16px}.pricing-copy h2 span{color:var(--blue)}.pricing-copy>p{color:#697892;font-size:15px;line-height:1.7;max-width:520px}
+    .pricing-list{display:grid;gap:10px;margin-top:24px}.pricing-list div{display:grid;grid-template-columns:36px 1fr;gap:11px;align-items:center;padding:13px 14px;border-radius:16px;background:#fff;border:1px solid rgba(12,20,45,.07);box-shadow:0 10px 28px rgba(18,35,78,.05)}.pricing-list svg{width:19px;height:19px;color:var(--blue);margin:auto}.pricing-list strong{display:block;font-size:12px}.pricing-list span{display:block;margin-top:3px;color:#8290a4;font-size:10px;line-height:1.4}
+    .pricing-panel{position:relative;border-radius:28px;padding:22px;background:linear-gradient(145deg,#f7faff,#fff);border:1px solid rgba(81,112,254,.12);box-shadow:0 25px 70px rgba(28,58,124,.11);overflow:hidden}.pricing-panel:before{content:"";position:absolute;width:260px;height:260px;border-radius:50%;right:-120px;top:-120px;background:radial-gradient(circle,rgba(81,112,254,.13),transparent 70%)}
+    .pricing-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}.pricing-tabs span{padding:8px 11px;border-radius:999px;background:#fff;border:1px solid rgba(81,112,254,.11);font-size:9px;font-weight:850;color:#66758c}.pricing-tabs span.active{background:#152b60;color:#fff;border-color:#152b60}
+    .formula-card{position:relative;z-index:2;border-radius:22px;background:#0f214d;color:#fff;padding:22px;box-shadow:0 18px 45px rgba(18,45,105,.20)}.formula-head{display:flex;justify-content:space-between;gap:15px;align-items:center;margin-bottom:18px}.formula-head strong{font-size:19px}.formula-head span{font-size:9px;color:#b9c9e8}
+    .formula-row{display:grid;grid-template-columns:1fr auto;gap:15px;align-items:center;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.09);font-size:11px}.formula-row span{color:#bac7df}.formula-row b{font-size:12px}.formula-total{display:grid;grid-template-columns:1fr auto;gap:15px;align-items:end;padding-top:16px}.formula-total span{font-size:10px;color:#9eb7e4}.formula-total b{font-size:27px;letter-spacing:-.03em}.pricing-note{margin-top:14px;padding:12px 13px;border-radius:15px;background:#fff;border:1px solid rgba(81,112,254,.10);font-size:10px;line-height:1.5;color:#6f7e94}
+
+    /* Experience */
+    .experience{background:#fff}
+    .experience-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:30px;align-items:center}
+    .vehicle-select{position:relative;border-radius:28px;padding:22px;background:linear-gradient(145deg,#f8fbff,#fff);border:1px solid rgba(81,112,254,.11);box-shadow:0 25px 70px rgba(18,35,78,.10)}
+    .vs-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}.vs-head h3{margin:0;font-size:20px}.vs-head span{font-size:9px;color:#8694a8}
+    .vehicle-card{display:grid;grid-template-columns:135px 1fr auto;gap:16px;align-items:center;padding:14px;border-radius:18px;background:#fff;border:1px solid rgba(12,20,45,.07);box-shadow:0 10px 25px rgba(18,35,78,.05);margin-top:10px;transition:.25s ease}.vehicle-card:hover{transform:translateX(4px);border-color:rgba(81,112,254,.17)}
+    .vehicle-art{height:82px;border-radius:14px;background:linear-gradient(135deg,#eaf2ff,#fff);position:relative;overflow:hidden}.vehicle-art:before{content:"";position:absolute;width:95px;height:32px;border-radius:18px 28px 10px 10px;background:linear-gradient(180deg,#111827,#273752);left:20px;top:26px;box-shadow:inset 0 -6px 0 rgba(255,255,255,.04)}.vehicle-art:after{content:"";position:absolute;width:16px;height:16px;border-radius:50%;background:#111827;left:34px;bottom:14px;box-shadow:61px 0 0 #111827,0 0 0 4px #dbe6f6,61px 0 0 4px #dbe6f6}
+    .vehicle-info strong{font-size:12px}.vehicle-info span{display:block;margin-top:5px;color:#8390a4;font-size:9px}.vehicle-meta{display:flex;gap:7px;margin-top:8px}.vehicle-meta i{font-style:normal;font-size:8px;padding:5px 7px;border-radius:999px;background:#f3f6fb;color:#64728a}.vehicle-price{text-align:right}.vehicle-price b{display:block;font-size:17px;color:#1f3160}.vehicle-price span{font-size:8px;color:#8c98aa}
+    .experience-copy h2{font-size:clamp(38px,4.1vw,56px);line-height:1.02;letter-spacing:-.05em;margin:15px 0 16px}.experience-copy h2 span{color:var(--blue)}.experience-copy>p{color:#697892;font-size:15px;line-height:1.7}.exp-features{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:22px}.exp-feature{padding:15px;border-radius:17px;border:1px solid rgba(12,20,45,.07);background:#fff;box-shadow:0 10px 28px rgba(18,35,78,.05)}.exp-feature svg{width:20px;height:20px;color:var(--blue);margin-bottom:11px}.exp-feature strong{display:block;font-size:11px}.exp-feature span{display:block;margin-top:4px;color:#8490a4;font-size:9px;line-height:1.4}
+
+    /* Admin */
+    .admin{background:linear-gradient(180deg,#fbfdff,#fff)}
+    .admin-shell{display:grid;grid-template-columns:1.06fr .94fr;gap:24px;align-items:stretch}
+    .admin-dashboard{border-radius:28px;background:#0e1e47;color:#fff;padding:22px;box-shadow:0 30px 80px rgba(18,45,105,.18);position:relative;overflow:hidden}.admin-dashboard:before{content:"";position:absolute;width:300px;height:300px;border-radius:50%;right:-130px;top:-160px;background:radial-gradient(circle,rgba(71,129,255,.28),transparent 70%)}
+    .admin-top{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:center}.admin-brand{display:flex;align-items:center;gap:9px;font-size:12px;font-weight:900}.admin-logo{width:30px;height:30px;border-radius:10px;background:linear-gradient(135deg,#35b3f2,#5a63f3);display:grid;place-items:center}.admin-logo svg{width:17px;height:17px}.admin-status{padding:7px 10px;border-radius:999px;background:rgba(40,201,126,.12);color:#72e4a9;font-size:8px;font-weight:850}
+    .admin-kpis{position:relative;z-index:2;display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:18px}.kpi{padding:13px;border-radius:15px;background:rgba(255,255,255,.075);border:1px solid rgba(255,255,255,.10)}.kpi span{display:block;color:#9db1d5;font-size:8px}.kpi b{display:block;margin-top:6px;font-size:18px}.kpi small{display:block;margin-top:3px;color:#6ee2aa;font-size:7px}
+    .dispatch{position:relative;z-index:2;margin-top:12px;border-radius:18px;padding:13px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.10)}.dispatch-head{display:flex;justify-content:space-between;margin-bottom:10px}.dispatch-head strong{font-size:11px}.dispatch-head span{font-size:8px;color:#9fb2d4}.trip-row{display:grid;grid-template-columns:50px 1fr 80px 65px;gap:9px;align-items:center;padding:10px 8px;border-top:1px solid rgba(255,255,255,.07);font-size:8px;color:#d0dbef}.trip-row:first-of-type{border-top:0}.trip-row b{font-size:9px;color:#fff}.status-pill{padding:5px 7px;border-radius:999px;background:rgba(40,201,126,.11);color:#78e6ae;text-align:center;font-weight:800}.status-pill.quote{background:rgba(86,131,255,.13);color:#a7c2ff}
+    .admin-copy{padding:12px 2px}.admin-copy h2{font-size:clamp(38px,4.1vw,56px);line-height:1.02;letter-spacing:-.05em;margin:15px 0 16px}.admin-copy h2 span{color:var(--blue)}.admin-copy>p{color:#697892;font-size:15px;line-height:1.7}.admin-list{display:grid;gap:10px;margin-top:23px}.admin-list div{display:grid;grid-template-columns:40px 1fr;gap:12px;align-items:center;padding:12px;border-radius:16px;background:#fff;border:1px solid rgba(12,20,45,.07);box-shadow:0 10px 28px rgba(18,35,78,.05)}.admin-list svg{width:20px;height:20px;color:var(--blue);margin:auto}.admin-list strong{display:block;font-size:11px}.admin-list span{display:block;margin-top:3px;color:#8390a4;font-size:9px}
+
+    /* Automation */
+    .automation{background:#fff}
+    .automation-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.auto-card{position:relative;min-height:245px;padding:22px;border-radius:22px;background:linear-gradient(145deg,#fff,#f9fbff);border:1px solid rgba(12,20,45,.07);box-shadow:0 18px 52px rgba(18,35,78,.07);overflow:hidden;transition:.28s ease}.auto-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-hover)}.auto-icon{width:46px;height:46px;border-radius:14px;background:linear-gradient(145deg,#eff5ff,#fff);border:1px solid rgba(81,112,254,.13);display:grid;place-items:center;color:var(--blue)}.auto-icon svg{width:23px;height:23px}.auto-card h3{font-size:19px;margin:45px 0 9px;letter-spacing:-.025em}.auto-card p{margin:0;color:#738198;font-size:12px;line-height:1.6}.auto-index{position:absolute;right:18px;top:18px;color:#b0bac9;font-size:9px;font-weight:900;letter-spacing:.12em}
+
+    /* Sales model */
+    .sales-model{background:linear-gradient(180deg,#fbfdff,#fff)}
+    .sales-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.sales-card{position:relative;padding:28px;border-radius:28px;background:#fff;border:1px solid rgba(12,20,45,.07);box-shadow:0 20px 58px rgba(18,35,78,.08);overflow:hidden}.sales-card.dark{background:linear-gradient(145deg,#0d1c44,#173779);color:#fff;border-color:transparent}.sales-tag{display:inline-flex;padding:7px 10px;border-radius:999px;background:#f3f6ff;color:#5268f5;font-size:9px;font-weight:900;letter-spacing:.10em;text-transform:uppercase}.sales-card.dark .sales-tag{background:rgba(255,255,255,.10);color:#b8d3ff}.sales-card h3{font-size:30px;line-height:1.04;letter-spacing:-.04em;margin:42px 0 12px}.sales-card p{color:#758399;font-size:13px;line-height:1.65;margin:0}.sales-card.dark p{color:#c8d5eb}.sales-list{display:grid;gap:8px;margin-top:20px}.sales-list span{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:760}.sales-list span:before{content:"";width:7px;height:7px;border-radius:50%;background:#5c78ff;box-shadow:0 0 0 4px rgba(81,112,254,.08)}.sales-card.dark .sales-list span{color:#dce6f8}.sales-card.dark .sales-list span:before{background:#66c8ff;box-shadow:0 0 0 4px rgba(102,200,255,.10)}
+
+    /* Why */
+    .why{background:#fff}.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.why-card{padding:22px;border-radius:22px;border:1px solid rgba(12,20,45,.07);background:#fff;box-shadow:0 15px 44px rgba(18,35,78,.06)}.why-card svg{width:24px;height:24px;color:var(--blue);margin-bottom:30px}.why-card h3{margin:0 0 8px;font-size:18px}.why-card p{margin:0;color:#77859a;font-size:12px;line-height:1.6}
+
+    /* FAQ */
+    .faq-section{background:linear-gradient(180deg,#fbfdff,#fff)}
+    .faq-wrap{max-width:900px;margin:0 auto}.faq-wrap .section-head{display:block;text-align:center}.faq-wrap .section-kicker{margin-inline:auto}.faq-wrap .section-head h2{margin-inline:auto;max-width:760px}.faq-list{display:grid;gap:10px;margin-top:28px}.faq-item{border-radius:18px;background:#fff;border:1px solid rgba(12,20,45,.07);box-shadow:0 12px 34px rgba(18,35,78,.05);overflow:hidden}.faq-item summary{cursor:pointer;list-style:none;padding:18px 20px;font-size:13px;font-weight:850;display:flex;justify-content:space-between;gap:20px;align-items:center}.faq-item summary::-webkit-details-marker{display:none}.faq-item summary:after{content:"+";font-size:20px;color:var(--blue);font-weight:500}.faq-item[open] summary:after{content:"−"}.faq-answer{padding:0 20px 19px;color:#738097;font-size:12px;line-height:1.65}
+
+    /* CTA */
+    .final-cta{padding:78px 0 76px;background:#fff}.cta-shell{position:relative;overflow:hidden;border-radius:30px;padding:42px;background:linear-gradient(135deg,#0b1c46 0%,#153674 54%,#2251a3 100%);color:#fff;box-shadow:0 30px 85px rgba(20,46,110,.22)}.cta-shell:before{content:"";position:absolute;width:520px;height:520px;border-radius:50%;right:-180px;top:-300px;border:1px solid rgba(255,255,255,.12)}.cta-shell:after{content:"";position:absolute;width:260px;height:260px;border-radius:50%;right:80px;bottom:-160px;background:radial-gradient(circle,rgba(61,170,255,.25),transparent 70%)}.cta-inner{position:relative;z-index:2;display:grid;grid-template-columns:1fr auto;gap:28px;align-items:center}.cta-copy h2{margin:0;font-size:clamp(35px,4vw,54px);line-height:1.02;letter-spacing:-.045em;max-width:760px}.cta-copy p{margin:13px 0 0;color:#c8d6ed;max-width:680px;font-size:13px;line-height:1.6}.cta-button{min-height:54px;padding:0 22px;border-radius:15px;display:inline-flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,#29aaf1,#5964f4);color:#fff;font-size:14px;font-weight:900;box-shadow:0 16px 34px rgba(44,130,244,.28);white-space:nowrap}
+
+    footer{border-top:1px solid var(--line);padding:24px 0 32px;display:flex;align-items:center;justify-content:space-between;gap:20px;color:#7b8799;font-size:10px}.footer-brand{display:flex;align-items:center;gap:10px;color:#1f2937;font-size:11px;font-weight:850}.footer-logo-vector{width:31px;height:31px}
+
+    .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s cubic-bezier(.22,.8,.25,1)}.reveal.is-visible{opacity:1;transform:none}
+
+    @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+
+    @media(max-width:1050px){
+      .nav-links{display:none}.navbar{grid-template-columns:auto 1fr auto}
+      .booking-hero-grid{grid-template-columns:1fr;gap:24px}.booking-hero-copy{max-width:760px}.product-stage{min-height:auto;padding:20px 24px 10px}.trip-builder{max-width:650px}.chip-a{left:2px}.chip-b{right:2px}
+      .ride-grid{grid-template-columns:repeat(2,1fr)}.journey-grid{grid-template-columns:repeat(3,1fr)}.journey-step:nth-child(3):after,.journey-step:nth-child(6):after{display:none}
+      .pricing-grid,.experience-grid,.admin-shell{grid-template-columns:1fr}.automation-grid{grid-template-columns:repeat(2,1fr)}.why-grid{grid-template-columns:1fr 1fr}
+    }
+    @media(max-width:760px){
+      .container{width:min(calc(100% - 22px),var(--container))}.nav-wrap{padding:8px 0}.navbar{min-height:58px}.brand-logo-vector{width:42px;height:42px}.brand-name{font-size:12px}.meeting-card{padding:5px}.btn-meeting{min-height:38px;padding:0 11px;font-size:11px}
+      .booking-hero{padding:38px 0 44px}.booking-hero-copy h1{font-size:clamp(39px,12vw,54px)}.booking-hero-copy>p{font-size:14px}.hero-points{grid-template-columns:1fr;gap:10px}.hero-point{grid-template-columns:34px 1fr}.product-stage{padding:12px 0 0}.floating-chip{display:none}.trip-builder{border-radius:22px}.tb-head{padding:20px 16px 16px}.tb-title{font-size:23px}.trip-tabs{grid-template-columns:1fr}.trip-tab{height:38px}.tb-body{padding:14px}.route-field{grid-template-columns:30px 1fr}.route-action{display:none}.tb-grid,.tb-options{grid-template-columns:1fr}
+      section.content-section{padding:54px 0}.section-head{grid-template-columns:1fr;gap:16px;margin-bottom:25px}.section-head h2{font-size:clamp(34px,10vw,46px)}.section-head p{font-size:13px}.ride-grid,.automation-grid,.why-grid,.sales-grid{grid-template-columns:1fr}.journey-shell{padding:20px}.journey-top{display:block}.journey-top p{margin-top:10px}.journey-grid{grid-template-columns:1fr}.journey-step{min-height:auto}.journey-step:after{display:none}.journey-footer{display:block}.journey-footer span{display:block;margin-top:8px}.pricing-copy h2,.experience-copy h2,.admin-copy h2{font-size:clamp(34px,10vw,46px)}.vehicle-card{grid-template-columns:95px 1fr}.vehicle-price{grid-column:2;text-align:left}.exp-features{grid-template-columns:1fr}.admin-kpis{grid-template-columns:1fr 1fr}.trip-row{grid-template-columns:43px 1fr 62px}.trip-row>*:nth-child(3){display:none}.cta-shell{padding:30px 22px}.cta-inner{grid-template-columns:1fr}.cta-button{width:max-content}footer{flex-direction:column;align-items:flex-start}
+    }
+    @media(max-width:420px){.brand-name{display:none}.btn-meeting{font-size:10px}.ride-card{min-height:275px}.vehicle-card{grid-template-columns:1fr}.vehicle-art{height:100px}.vehicle-price{grid-column:1}.admin-kpis{grid-template-columns:1fr}.formula-total b{font-size:23px}}
+  </style>
+
+<style id="tlma-global-directory-style">
+.tlma-directory{padding:34px 0;background:#f8fbff;border-top:1px solid rgba(10,18,38,.08);font-family:"Codec Pro",Inter,Arial,sans-serif}
+.tlma-directory-inner{width:min(calc(100% - 32px),1180px);margin:auto;display:grid;grid-template-columns:1.15fr 1fr 1fr;gap:24px}
+.tlma-directory-brand{display:flex;gap:12px;align-items:flex-start}
+.tlma-directory-mark{width:38px;height:38px;flex:0 0 38px;border-radius:12px;background-image:var(--brand-logo);background-size:25px 25px;background-position:center;background-repeat:no-repeat;background-color:#fff;border:1px solid rgba(81,112,254,.14)}
+.tlma-directory h3{margin:0 0 9px;font-size:11px;letter-spacing:-.01em;color:#11131a}
+.tlma-directory p{margin:0;color:#738096;font-size:8.5px;line-height:1.6;max-width:310px}
+.tlma-directory-group{min-width:0}
+.tlma-directory-links{display:flex;flex-wrap:wrap;gap:6px 8px}
+.tlma-directory a{display:inline-flex;align-items:center;min-height:30px;padding:0 9px;border-radius:9px;background:#fff;border:1px solid rgba(10,18,38,.07);font-size:8px;font-weight:800;color:#59677c;text-decoration:none}
+.tlma-directory a:hover{color:#5170FE;border-color:rgba(81,112,254,.20);background:#f3f7ff}
+@media(max-width:820px){.tlma-directory-inner{grid-template-columns:1fr}.tlma-directory-brand{margin-bottom:2px}}
+@media(max-width:430px){.tlma-directory-inner{width:min(calc(100% - 22px),1180px)}.tlma-directory-links{gap:6px}.tlma-directory a{font-size:7.7px}}
+</style>
+</head>
+<body>
+<div class="site">
+<div class="nav-wrap" id="siteNav">
+<div class="container">
+<nav aria-label="Main navigation" class="navbar">
+<a aria-label="The Limo Marketing Agency home" class="brand" href="index.html">
+<svg aria-label="The Limo Marketing Agency logo" class="brand-logo-vector" focusable="false" role="img" viewbox="0 0 2000 2000">
+<path clip-rule="evenodd" d="M 999 200 L 336 583 L 336 1042 L 1001 1424 L 1397 1195 L 1397 846 L 1472 802 L 1473 1239 L 1000 1513 L 336 1130 L 336 1349 L 1000 1732 L 1663 1349 L 1663 583 L 1568 528 L 868 932 L 868 1041 L 962 1096 L 1207 957 L 1207 1085 L 999 1206 L 528 934 L 525 693 L 998 419 L 1075 463 L 602 737 L 602 888 L 790 997 L 793 845 L 1455 463 Z" fill="#5170FE" fill-rule="evenodd"></path>
+</svg>
+<div class="brand-name">The Limo Marketing Agency</div>
+</a>
+<div aria-label="Primary links" class="nav-links">
+<a href="index.html">Home</a>
+<a href="services.html">Services</a>
+<a class="active" href="booking-systems.html">Booking Systems</a>
+<a href="case-studies-results.html">Results</a>
+<a href="index.html#process">How It Works</a>
+</div>
+<div class="meeting-card"><a class="btn-meeting" href="contact.html#consultation">Book a Meeting</a></div>
+</nav>
+</div>
+</div>
+<main>
+<section class="booking-hero" id="top">
+<div class="container booking-hero-grid">
+<div class="booking-hero-copy reveal">
+<div class="eyebrow"><span class="eyebrow-dot"></span>Limo Booking Technology</div>
+<h1>Turn Website Traffic into <span>Confirmed Bookings Automatically</span></h1>
+<p>A premium booking experience built around how limo and black-car companies actually sell rides — from trip selection and pricing logic to vehicle choice, quotes, customer details and operator control.</p>
+<div class="hero-actions">
+<a class="hero-btn-primary" href="contact.html#consultation">Book a Meeting <span aria-hidden="true">→</span></a>
+<a class="hero-btn-secondary" href="booking-systems.html">
+<svg aria-hidden="true" fill="none" height="17" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24" width="17"><circle cx="12" cy="12" r="9"></circle><path d="M10 8l6 4-6 4z"></path></svg>
+                See the Booking Flow
+              </a>
+</div>
+<div aria-label="Booking system capabilities" class="hero-points">
+<div class="hero-point"><div class="hero-point-icon"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M5 3h14v18H5z"></path><path d="M8 7h8M8 11h8M8 15h5"></path></svg></div><div><strong>24/7 Booking</strong><span>Capture ride requests around the clock</span></div></div>
+<div class="hero-point"><div class="hero-point-icon"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M5 19h14M7 16l5-11 5 11"></path><path d="M9 11h6"></path></svg></div><div><strong>Every Ride Type</strong><span>Airport, P2P, Round Trip and Hourly</span></div></div>
+<div class="hero-point"><div class="hero-point-icon"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><rect height="16" rx="2" width="18" x="3" y="4"></rect><path d="M7 8h10M7 12h5M7 16h8"></path></svg></div><div><strong>Operator Control</strong><span>Bookings, quotes, pricing and customers</span></div></div>
+</div>
+</div>
+<div aria-label="Booking system product preview" class="product-stage reveal">
+<div class="floating-chip chip-a"><div class="chip-dot"></div><strong>Route Ready</strong><span>Pickup and destination validated</span></div>
+<div class="floating-chip chip-b"><div class="chip-dot"></div><strong>Operator Control</strong><span>Booking enters the admin workflow</span></div>
+<div class="floating-chip chip-c"><div class="chip-dot"></div><strong>Quote or Pay</strong><span>Flexible checkout model</span></div>
+<div class="trip-builder">
+<div class="tb-head">
+<div class="tb-title">Trip Builder</div>
+<div class="tb-sub">From airport runs to hourly charters.</div>
+<div class="trip-tabs">
+<div class="trip-tab"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M4 12h15M14 7l5 5-5 5"></path></svg>One Way</div>
+<div class="trip-tab"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M7 7h12l-3-3M17 17H5l3 3"></path></svg>Round Trip</div>
+<div class="trip-tab active"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><circle cx="12" cy="12" r="8"></circle><path d="M12 7v5l3 2"></path></svg>Hourly Charter</div>
+</div>
+</div>
+<div class="tb-body">
+<div class="route-field"><div class="route-icon"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M12 22s7-6 7-13a7 7 0 10-14 0c0 7 7 13 7 13z"></path><circle cx="12" cy="9" r="2"></circle></svg></div><div><div class="route-label">Pickup</div><div class="route-value">JFK International Airport</div></div><div class="route-action">+ Add Stop</div></div>
+<div class="route-field"><div class="route-icon"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M12 22s7-6 7-13a7 7 0 10-14 0c0 7 7 13 7 13z"></path><circle cx="12" cy="9" r="2"></circle></svg></div><div><div class="route-label">Drop-off</div><div class="route-value">Midtown Manhattan, NY</div></div><div class="route-action">+ Add Stop</div></div>
+<div class="tb-grid">
+<div class="mini-field"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><rect height="15" rx="2" width="16" x="4" y="5"></rect><path d="M8 3v4M16 3v4M4 9h16"></path></svg><div><div class="mini-label">Date</div><div class="mini-value">Sep 28, 2026</div></div></div>
+<div class="mini-field"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l4 2"></path></svg><div><div class="mini-label">Time</div><div class="mini-value">7:30 PM</div></div></div>
+<div class="mini-field"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><circle cx="9" cy="8" r="3"></circle><path d="M3 20c.8-4 2.8-6 6-6s5.2 2 6 6"></path></svg><div><div class="mini-label">Passengers</div><div class="mini-value">4</div></div><div class="stepper"><span>−</span><span>+</span></div></div>
+<div class="mini-field"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><rect height="15" rx="2" width="12" x="6" y="6"></rect><path d="M9 6V4h6v2"></path></svg><div><div class="mini-label">Luggage</div><div class="mini-value">3</div></div><div class="stepper"><span>−</span><span>+</span></div></div>
+</div>
+<div class="tb-options"><div class="toggle-row"><div class="toggle-copy"><strong>Favorite Chauffeur</strong><span>Request if available</span></div><div class="toggle"></div></div><div class="toggle-row"><div class="toggle-copy"><strong>Car Seat</strong><span>Add one if needed</span></div><div class="toggle"></div></div></div>
+<div class="tb-cta">View Available Vehicles →</div>
+<div class="tb-note">Hourly Charter trip selected.</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section aria-label="Booking system features" class="capability-strip">
+<div class="capability-shell"><div class="capability-track"><div class="capability-group">
+<div class="capability-item">Airport Transfers</div><div class="capability-item">Point to Point</div><div class="capability-item">Round Trips</div><div class="capability-item">Hourly Charters</div><div class="capability-item">Vehicle Selection</div><div class="capability-item">Quotes</div><div class="capability-item">Admin Portal</div><div class="capability-item">Email &amp; SMS</div><div class="capability-item">Pricing Logic</div><div class="capability-item">Customer Follow-up</div>
+</div><div aria-hidden="true" class="capability-group">
+<div class="capability-item">Airport Transfers</div><div class="capability-item">Point to Point</div><div class="capability-item">Round Trips</div><div class="capability-item">Hourly Charters</div><div class="capability-item">Vehicle Selection</div><div class="capability-item">Quotes</div><div class="capability-item">Admin Portal</div><div class="capability-item">Email &amp; SMS</div><div class="capability-item">Pricing Logic</div><div class="capability-item">Customer Follow-up</div>
+</div></div></div>
+</section>
+<section class="content-section ride-types" id="ride-types">
+<div class="container">
+<div class="section-head reveal">
+<div><div class="section-kicker"><span class="eyebrow-dot"></span>Every Ride Type</div><h2>One Booking System for the Rides your Business <span>Actually Sells</span></h2></div>
+<p>Your customer should not have to call just to explain the trip. The booking flow changes intelligently around the service they select.</p>
+</div>
+<div class="ride-grid">
+<article class="ride-card reveal"><div class="ride-tag">01</div><div class="ride-icon"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M3 19h18M5 16l7-12 7 12M8 11h8"></path></svg></div><h3>Airport Transfers</h3><p>Airport-specific pickup and drop-off flow with flat-rate pricing support, passenger and luggage details.</p><div class="mini-route"><i></i>JFK<b></b><i></i>Manhattan</div></article>
+<article class="ride-card reveal"><div class="ride-tag">02</div><div class="ride-icon"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M5 6h9a5 5 0 015 5v0a5 5 0 01-5 5H5"></path><path d="M8 3L5 6l3 3M16 13l3 3-3 3"></path></svg></div><h3>Point to Point</h3><p>Door-to-door rides using location, distance, zones or custom pricing rules depending on how you operate.</p><div class="mini-route"><i></i>Pickup<b></b><i></i>Destination</div></article>
+<article class="ride-card reveal"><div class="ride-tag">03</div><div class="ride-icon"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M4 7h14l-3-3M20 17H6l3 3"></path><path d="M18 7l2 2-2 2M6 17l-2-2 2-2"></path></svg></div><h3>Round Trip</h3><p>Capture return timing, route details and direction-specific logic without forcing the customer through two separate bookings.</p><div class="mini-route"><i></i>Outbound<b></b><i></i>Return</div></article>
+<article class="ride-card reveal"><div class="ride-tag">04</div><div class="ride-icon"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg></div><h3>Hourly Charter</h3><p>Let customers reserve the vehicle for a block of time with minimum-hour rules and hourly pricing.</p><div class="mini-route"><i></i>3+ Hours<b></b><i></i>Flexible Stops</div></article>
+</div>
+</div>
+</section>
+<section class="content-section journey" id="booking-flow">
+<div class="container">
+<div class="section-head reveal">
+<div><div class="section-kicker"><span class="eyebrow-dot"></span>Booking Journey</div><h2>From Website Visit to <span>Operator-Ready Booking</span></h2></div>
+<p>The system moves the customer forward step by step while collecting the information your operation actually needs.</p>
+</div>
+<div class="journey-shell reveal">
+<div class="journey-top"><h3>One Connected Customer Journey</h3><p>Fewer handoff gaps, cleaner customer data and a booking request that arrives ready for action.</p></div>
+<div class="journey-grid">
+<div class="journey-step"><div class="journey-num">01</div><div class="journey-icon"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M5 3h14v18H5z"></path><path d="M8 7h8M8 11h8"></path></svg></div><h4>Choose Trip</h4><p>Airport, P2P, Round Trip or Hourly.</p></div>
+<div class="journey-step"><div class="journey-num">02</div><div class="journey-icon"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M12 22s7-6 7-13a7 7 0 10-14 0c0 7 7 13 7 13z"></path><circle cx="12" cy="9" r="2"></circle></svg></div><h4>Build Route</h4><p>Pickup, destination, stops, date and time.</p></div>
+<div class="journey-step"><div class="journey-num">03</div><div class="journey-icon"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><circle cx="8" cy="8" r="3"></circle><path d="M2 20c1-4 3-6 6-6s5 2 6 6"></path><rect height="9" rx="1" width="6" x="15" y="8"></rect></svg></div><h4>Add Details</h4><p>Passengers, luggage, extras and contact info.</p></div>
+<div class="journey-step"><div class="journey-num">04</div><div class="journey-icon"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M4 16h16l-2-6H6l-2 6z"></path><circle cx="7" cy="18" r="2"></circle><circle cx="17" cy="18" r="2"></circle></svg></div><h4>Select Vehicle</h4><p>Show only vehicles that fit the ride and capacity.</p></div>
+<div class="journey-step"><div class="journey-num">05</div><div class="journey-icon"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M4 5h16v14H4z"></path><path d="M7 9h10M7 13h7"></path></svg></div><h4>Quote or Checkout</h4><p>Use an operator quote or a payment-ready flow.</p></div>
+<div class="journey-step"><div class="journey-num">06</div><div class="journey-icon"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><rect height="16" rx="2" width="18" x="3" y="4"></rect><path d="M7 8h10M7 12h6M7 16h8"></path></svg></div><h4>Admin Control</h4><p>Booking lands in the operator workflow.</p></div>
+</div>
+<div class="journey-footer"><strong>Customer Experience + Operations in one system.</strong><span>Trip → Route → Details → Vehicle → Quote/Pay → Admin</span></div>
+</div>
+</div>
+</section>
+<section class="content-section pricing" id="pricing-engine">
+<div class="container pricing-grid">
+<div class="pricing-copy reveal">
+<div class="section-kicker"><span class="eyebrow-dot"></span>Pricing Engine</div>
+<h2>Pricing Logic Built around <span>Limo Operations</span></h2>
+<p>Instead of forcing every ride through one generic rate, the system can apply the pricing model that fits the trip type and the way your business actually prices service.</p>
+<div class="pricing-list">
+<div><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M3 19h18M5 16l7-12 7 12"></path></svg><div><strong>Airport Flat Rates</strong><span>Route or airport-specific vehicle pricing.</span></div></div>
+<div><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M4 18c3-6 6-9 16-12"></path><circle cx="5" cy="18" r="2"></circle><circle cx="19" cy="6" r="2"></circle></svg><div><strong>Point-to-Point Rules</strong><span>Distance, zone, route or custom fee logic.</span></div></div>
+<div><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l4 2"></path></svg><div><strong>Hourly Pricing</strong><span>Minimum hours, hourly rates and vehicle-specific rules.</span></div></div>
+<div><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M5 5h14v14H5z"></path><path d="M8 9h8M8 13h5"></path></svg><div><strong>Fees &amp; Gratuity</strong><span>Configurable gratuity, surcharges and service fees.</span></div></div>
+</div>
+</div>
+<div class="pricing-panel reveal">
+<div class="pricing-tabs"><span class="active">Airport</span><span>Point to Point</span><span>Hourly</span><span>Round Trip</span></div>
+<div class="formula-card">
+<div class="formula-head"><strong>Vehicle Pricing</strong><span>Example calculation</span></div>
+<div class="formula-row"><span>Flat Transportation Base</span><b>$180.00</b></div>
+<div class="formula-row"><span>Gratuity</span><b>+ $36.00</b></div>
+<div class="formula-row"><span>STC / Required Surcharge</span><b>+ $8.00</b></div>
+<div class="formula-row"><span>Optional Direction / Service Fee</span><b>+ $4.00</b></div>
+<div class="formula-total"><span>Vehicle Subtotal</span><b>$228.00</b></div>
+</div>
+<div class="pricing-note">Pricing can be configured around your own vehicles, airports, zones, hourly rules and fee structure. The page does not require every operator to use the same formula.</div>
+</div>
+</div>
+</section>
+<section class="content-section experience" id="customer-experience">
+<div class="container experience-grid">
+<div class="vehicle-select reveal">
+<div class="vs-head"><h3>Choose Your Vehicle</h3><span>Matched to trip requirements</span></div>
+<div class="vehicle-card"><div class="vehicle-art"></div><div class="vehicle-info"><strong>Cadillac Escalade</strong><span>Premium SUV</span><div class="vehicle-meta"><i>6 Passengers</i><i>4 Bags</i></div></div><div class="vehicle-price"><b>$189</b><span>example</span></div></div>
+<div class="vehicle-card"><div class="vehicle-art"></div><div class="vehicle-info"><strong>Executive Sprinter</strong><span>Group Transportation</span><div class="vehicle-meta"><i>12 Passengers</i><i>8 Bags</i></div></div><div class="vehicle-price"><b>Quote</b><span>based on trip</span></div></div>
+<div class="vehicle-card"><div class="vehicle-art"></div><div class="vehicle-info"><strong>Luxury Sedan</strong><span>Business Class</span><div class="vehicle-meta"><i>3 Passengers</i><i>2 Bags</i></div></div><div class="vehicle-price"><b>$145</b><span>example</span></div></div>
+</div>
+<div class="experience-copy reveal">
+<div class="section-kicker"><span class="eyebrow-dot"></span>Customer Experience</div>
+<h2>Make Booking Feel <span>Simple, Premium and Clear</span></h2>
+<p>The customer sees a clean guided experience while the system quietly collects the operational details needed behind the scenes.</p>
+<div class="exp-features">
+<div class="exp-feature"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M12 22s7-6 7-13a7 7 0 10-14 0c0 7 7 13 7 13z"></path><circle cx="12" cy="9" r="2"></circle></svg><strong>Address Autocomplete</strong><span>Cleaner pickup and destination entry.</span></div>
+<div class="exp-feature"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M4 16h16l-2-6H6l-2 6z"></path><circle cx="7" cy="18" r="2"></circle><circle cx="17" cy="18" r="2"></circle></svg><strong>Capacity Matching</strong><span>Vehicles filtered by passengers and luggage.</span></div>
+<div class="exp-feature"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M4 5h16v14H4z"></path><path d="M7 9h10M7 13h7"></path></svg><strong>Clear Trip Summary</strong><span>Route, schedule, extras and vehicle in one view.</span></div>
+<div class="exp-feature"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M12 3l7 4v5c0 4-3 7-7 9-4-2-7-5-7-9V7l7-4z"></path><path d="M9 12l2 2 4-4"></path></svg><strong>Trust &amp; Privacy</strong><span>Professional consent, validation and secure handoff.</span></div>
+</div>
+</div>
+</div>
+</section>
+<section class="content-section admin" id="admin-portal">
+<div class="container admin-shell">
+<div aria-label="Admin booking portal preview" class="admin-dashboard reveal">
+<div class="admin-top"><div class="admin-brand"><div class="admin-logo"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M4 4h16v16H4z"></path><path d="M8 8h3v3H8zM13 8h3v3h-3zM8 13h3v3H8zM13 13h3v3h-3z"></path></svg></div>Operations Portal</div><div class="admin-status">System Active</div></div>
+<div class="admin-kpis"><div class="kpi"><span>New Requests</span><b>18</b><small>Today</small></div><div class="kpi"><span>Quotes Sent</span><b>11</b><small>Ready to follow up</small></div><div class="kpi"><span>Confirmed</span><b>7</b><small>Booked rides</small></div></div>
+<div class="dispatch"><div class="dispatch-head"><strong>Booking &amp; Quote Board</strong><span>Live operator view</span></div>
+<div class="trip-row"><b>NYC-1042</b><span>JFK → Manhattan · Escalade</span><span>7:30 PM</span><span class="status-pill">Confirmed</span></div>
+<div class="trip-row"><b>NYC-1043</b><span>LGA → Brooklyn · Sedan</span><span>9:15 PM</span><span class="status-pill quote">Quote</span></div>
+<div class="trip-row"><b>NYC-1044</b><span>Hourly · 5 Hours · Sprinter</span><span>Tomorrow</span><span class="status-pill quote">Pending</span></div>
+<div class="trip-row"><b>NYC-1045</b><span>EWR → Midtown · SUV</span><span>11:00 AM</span><span class="status-pill">Confirmed</span></div>
+</div>
+</div>
+<div class="admin-copy reveal">
+<div class="section-kicker"><span class="eyebrow-dot"></span>Admin Portal</div>
+<h2>Control What Customers <span>Do Not Need to See</span></h2>
+<p>The front end stays simple. Your team gets the operational layer for reviewing bookings, building quotes, managing pricing and following up with customers.</p>
+<div class="admin-list">
+<div><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><rect height="15" rx="2" width="18" x="3" y="5"></rect><path d="M7 9h10M7 13h6"></path></svg><div><strong>Bookings &amp; Drafts</strong><span>See confirmed, pending and incomplete customer journeys.</span></div></div>
+<div><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M4 5h16v14H4z"></path><path d="M7 9h6M7 13h10M7 17h8"></path></svg><div><strong>Quote Builder</strong><span>Create a customer-facing quote from the booking details.</span></div></div>
+<div><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M4 16h16l-2-6H6l-2 6z"></path><circle cx="7" cy="18" r="2"></circle><circle cx="17" cy="18" r="2"></circle></svg><div><strong>Fleet &amp; Pricing</strong><span>Manage vehicles, capacity, pricing rules and availability.</span></div></div>
+<div><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M4 4h16v16H4z"></path><path d="M7 15l3-3 3 2 4-5"></path></svg><div><strong>Operational Visibility</strong><span>Track what is moving from request to quote to confirmed ride.</span></div></div>
+</div>
+</div>
+</div>
+</section>
+<section class="content-section automation" id="automation">
+<div class="container">
+<div class="section-head reveal"><div><div class="section-kicker"><span class="eyebrow-dot"></span>Automation Layer</div><h2>The Follow-up Work that Should Not Depend on <span>Manual Memory</span></h2></div><p>Automations can be configured around the way your team works, reducing repetitive handoffs while keeping the operator in control.</p></div>
+<div class="automation-grid">
+<article class="auto-card reveal"><div class="auto-index">01</div><div class="auto-icon"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M3 5h18v14H3z"></path><path d="M3 7l9 6 9-6"></path></svg></div><h3>Email Notifications</h3><p>Send confirmations, quote links or internal notifications when a booking event happens.</p></article>
+<article class="auto-card reveal"><div class="auto-index">02</div><div class="auto-icon"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><rect height="18" rx="2" width="14" x="5" y="3"></rect><path d="M8 7h8M8 11h6M8 15h7"></path></svg></div><h3>SMS Communication</h3><p>Use text notifications for customers or operators when fast visibility matters.</p></article>
+<article class="auto-card reveal"><div class="auto-index">03</div><div class="auto-icon"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M4 6h16v12H4z"></path><path d="M8 10h8M8 14h5"></path><circle cx="18" cy="18" r="3"></circle></svg></div><h3>Draft Follow-up</h3><p>Incomplete bookings can stay visible so your team can follow up on customers who did not finish.</p></article>
+<article class="auto-card reveal"><div class="auto-index">04</div><div class="auto-icon"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M4 19V12M10 19V8M16 19V4M22 19V10"></path></svg></div><h3>Measurement</h3><p>Connect booking events to analytics so marketing decisions can be based on real customer actions.</p></article>
+</div>
+</div>
+</section>
+<section class="content-section sales-model" id="sales-model">
+<div class="container">
+<div class="section-head reveal"><div><div class="section-kicker"><span class="eyebrow-dot"></span>Flexible Sales Model</div><h2>Your Booking System Should Match <span>How You Sell Rides</span></h2></div><p>Not every limo company sells the same way. The system can be structured around an operator-led quote workflow or a more automated checkout model.</p></div>
+<div class="sales-grid">
+<article class="sales-card reveal"><span class="sales-tag">Quote-First</span><h3>Keep Pricing under Operator Control</h3><p>Ideal when the trip needs review, custom pricing or human approval before the customer receives a final quote.</p><div class="sales-list"><span>Customer submits complete ride details</span><span>Operator reviews the request</span><span>Personalized quote is sent</span><span>Customer accepts and continues</span></div></article>
+<article class="sales-card dark reveal"><span class="sales-tag">Automated / Payment-Ready</span><h3>Move Qualified Trips toward Instant Booking</h3><p>For services with clear pricing rules, the customer journey can be designed to move from route selection to vehicle and checkout with less operator intervention.</p><div class="sales-list"><span>Automatic pricing where appropriate</span><span>Vehicle-specific totals and fees</span><span>Checkout integration can be added</span><span>Booking enters operations immediately</span></div></article>
+</div>
+</div>
+</section>
+<section class="content-section why" id="why-booking-system">
+<div class="container">
+<div class="section-head reveal"><div><div class="section-kicker"><span class="eyebrow-dot"></span>Built for the Business</div><h2>More than a Form. A Better <span>Booking Operation</span></h2></div><p>The goal is not to add another piece of software. It is to make the customer journey and the operator workflow work together.</p></div>
+<div class="why-grid">
+<article class="why-card reveal"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M3 12h18M12 3v18"></path><circle cx="12" cy="12" r="8"></circle></svg><h3>Built around your operation</h3><p>Trip types, vehicles, pricing and workflow can reflect how your company already works.</p></article>
+<article class="why-card reveal"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M4 19V5h16v14z"></path><path d="M8 15l3-3 2 2 3-4"></path></svg><h3>Designed for conversion</h3><p>A cleaner booking journey reduces friction between website traffic and a real ride request.</p></article>
+<article class="why-card reveal"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M12 3l7 4v5c0 4-3 7-7 9-4-2-7-5-7-9V7l7-4z"></path><path d="M9 12l2 2 4-4"></path></svg><h3>Built to scale</h3><p>New vehicles, routes, airports, pricing rules and services can be added without rebuilding the entire customer experience.</p></article>
+</div>
+</div>
+</section>
+<section class="content-section faq-section" id="faq">
+<div class="container faq-wrap">
+<div class="section-head reveal"><div class="section-kicker"><span class="eyebrow-dot"></span>Booking System FAQ</div><h2>Questions Limo Operators Usually Ask before We Build</h2></div>
+<div class="faq-list">
+<details class="faq-item reveal"><summary>Can the system handle airport, hourly, round-trip and point-to-point bookings?</summary><div class="faq-answer">Yes. The booking flow can treat each ride type differently so the customer sees the correct inputs, pricing logic and operational details for that trip.</div></details>
+<details class="faq-item reveal"><summary>Can I use fixed airport rates and different pricing for other rides?</summary><div class="faq-answer">Yes. Airport flat rates can coexist with point-to-point, hourly, zone, distance or other custom pricing rules.</div></details>
+<details class="faq-item reveal"><summary>Do I have to show prices instantly?</summary><div class="faq-answer">No. The system can be quote-first, instant-price, or a mix depending on the trip type and how you prefer to sell rides.</div></details>
+<details class="faq-item reveal"><summary>Can customers choose a vehicle based on passenger and luggage capacity?</summary><div class="faq-answer">Yes. Vehicle options can be filtered using the ride requirements so the customer is not shown an unsuitable vehicle.</div></details>
+<details class="faq-item reveal"><summary>What does the admin portal control?</summary><div class="faq-answer">The portal can cover bookings, drafts, quotes, customer details, vehicles, pricing rules and the operational information your team needs to manage each request.</div></details>
+<details class="faq-item reveal"><summary>Can payments be added?</summary><div class="faq-answer">Yes. A payment-ready checkout can be integrated when the pricing and sales model are appropriate. Quote-first workflows can also stay operator controlled.</div></details>
+</div>
+</div>
+</section>
+<section class="final-cta">
+<div class="container">
+<div class="cta-shell reveal"><div class="cta-inner"><div class="cta-copy"><h2>Ready to Turn Your Website into a Real Booking System?</h2><p>We can map your ride types, pricing, vehicles and operator workflow into a booking experience built around your limo business.</p></div><a class="cta-button" href="contact.html#consultation">Book a Meeting <span aria-hidden="true">→</span></a></div></div>
+</div>
+</section>
+</main>
+<div class="container">
+
+<section aria-label="Website directory" class="tlma-directory">
+<div class="tlma-directory-inner">
+<div class="tlma-directory-brand">
+<span aria-hidden="true" class="tlma-directory-mark"></span>
+<div>
+<h3>The Limo Marketing Agency</h3>
+<p>Marketing, websites, booking technology and growth systems for premium transportation companies.</p>
+</div>
+</div>
+<div class="tlma-directory-group">
+<h3>Services &amp; Company</h3>
+<div class="tlma-directory-links">
+<a href="index.html">Home</a>
+<a href="services.html">Services</a>
+<a href="google-ads-for-limo-companies.html">Google Ads</a>
+<a href="seo-for-limo-companies.html">SEO</a>
+<a href="geo-ai-search-optimization.html">GEO / AI Search</a>
+<a href="limo-website-design.html">Website Design</a>
+<a href="social-media-marketing-for-limo-companies.html">Social Media</a>
+<a href="booking-systems.html">Booking Systems</a>
+<a href="case-studies-results.html">Results</a>
+<a href="resources.html">Resources</a>
+<a href="about.html">About</a>
+<a href="contact.html#consultation">Contact</a>
+</div>
+</div>
+<div class="tlma-directory-group">
+<h3>Industries &amp; Legal</h3>
+<div class="tlma-directory-links">
+<a href="industries.html">Industries</a>
+<a href="limousine-companies.html">Limousine Companies</a>
+<a href="chauffeur-companies.html">Chauffeur Companies</a>
+<a href="black-car-services.html">Black Car Services</a>
+<a href="airport-transportation-companies.html">Airport Transportation</a>
+<a href="privacy-policy.html">Privacy Policy</a>
+<a href="terms.html">Terms</a>
+</div>
+</div>
+</div>
+</section>
+<footer>
+<div class="footer-brand">
+<svg aria-label="The Limo Marketing Agency logo" class="footer-logo-vector" focusable="false" role="img" viewbox="0 0 2000 2000"><path clip-rule="evenodd" d="M 999 200 L 336 583 L 336 1042 L 1001 1424 L 1397 1195 L 1397 846 L 1472 802 L 1473 1239 L 1000 1513 L 336 1130 L 336 1349 L 1000 1732 L 1663 1349 L 1663 583 L 1568 528 L 868 932 L 868 1041 L 962 1096 L 1207 957 L 1207 1085 L 999 1206 L 528 934 L 525 693 L 998 419 L 1075 463 L 602 737 L 602 888 L 790 997 L 793 845 L 1455 463 Z" fill="#5170FE" fill-rule="evenodd"></path></svg>
+          The Limo Marketing Agency
+        </div>
+<span>Google Ads · SEO · GEO · Web Development · Booking Automation</span>
+</footer>
+</div>
+</div>
+<script>
+    (function(){
+      const nav=document.getElementById('siteNav');
+      const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const syncNav=()=>nav&&nav.classList.toggle('scrolled',window.scrollY>12);
+      syncNav();window.addEventListener('scroll',syncNav,{passive:true});
+      const items=[...document.querySelectorAll('.reveal')];
+      if(reduce||!('IntersectionObserver' in window)){items.forEach(el=>el.classList.add('is-visible'));}
+      else{const io=new IntersectionObserver((entries)=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('is-visible');io.unobserve(entry.target);}});},{threshold:.10,rootMargin:'0px 0px -32px'});items.forEach(el=>io.observe(el));}
+      document.querySelectorAll('.faq-item').forEach(item=>{item.addEventListener('toggle',()=>{if(item.open){document.querySelectorAll('.faq-item[open]').forEach(other=>{if(other!==item)other.open=false;});}});});
+    })();
+  </script>
+</body>
+</html>

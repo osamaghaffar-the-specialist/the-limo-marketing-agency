@@ -1,0 +1,8 @@
+THE LIMO MARKETING AGENCY - INTERNAL LINK AUDIT
+
+HTML pages checked: 22
+Inline JavaScript blocks checked: 40
+Broken internal links/fragments: 0
+Dead href='#' links: 0
+example.com references: 0
+JavaScript syntax errors: 0
