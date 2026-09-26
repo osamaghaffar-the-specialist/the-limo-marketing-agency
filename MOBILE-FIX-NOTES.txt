@@ -1,0 +1,18 @@
+THE LIMO MARKETING AGENCY - MOBILE QA FIX
+
+Automated mobile audit widths:
+320px, 390px and 768px.
+
+Confirmed horizontal-overflow failures before the fix:
+- contact.html at 320px and 390px
+- google-ads-for-limo-companies.html at 320px
+
+Additional mobile usability hardening applied site-wide:
+- stacked section-head grids on phones
+- touch-friendly footer, TOC and card links
+- larger mobile form labels and controls
+- readable small UI copy on industry/service visuals
+- mobile-safe route/growth diagrams
+- single-column cramped content grids
+- mobile table scrolling contained inside the article
+- 320px fallback for booking admin metrics
