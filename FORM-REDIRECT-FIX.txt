@@ -1,0 +1,17 @@
+FORM REDIRECT FIX
+
+Problem:
+The previous implementation used a normal FormSubmit browser POST, so visitors were taken to FormSubmit's own "Thanks" page when _next was not honored.
+
+Fix:
+- All live forms now submit through FormSubmit's AJAX endpoint.
+- The visitor stays on the website during submission.
+- After a successful FormSubmit response, JavaScript redirects directly to:
+  https://osamaghaffar-the-specialist.github.io/the-limo-marketing-agency/thank-you.html
+- Submission failure keeps the visitor on the form and shows an inline error.
+- Existing source page, source URL, subject and submission timestamp fields remain included.
+
+Forms patched: 15
+Pages patched: 15
+Old direct-submit code remaining: 0
+JavaScript syntax errors: 0

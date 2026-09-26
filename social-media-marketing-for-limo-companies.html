@@ -964,7 +964,6 @@ document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
 const menuBtn=document.getElementById('menuBtn'), mobileNav=document.getElementById('mobileNav');
 if(menuBtn&&mobileNav) menuBtn.addEventListener('click',()=>{const open=mobileNav.classList.toggle('open');menuBtn.setAttribute('aria-expanded',String(open));menuBtn.textContent=open?'Close':'Menu';});
 </script>
-
 <script id="tlma-global-header-js">
 (function(){
   const header=document.querySelector('.tlma-global-header');
@@ -1022,28 +1021,43 @@ if(menuBtn&&mobileNav) menuBtn.addEventListener('click',()=>{const open=mobileNa
 })();
 </script>
 
+
 <script id="tlma-live-email-forms">
 (function(){
   const destination=atob('b3NhbWFnaGFmZmFyMDAxQGdtYWlsLmNvbQ==');
-  const endpoint='https://formsubmit.co/'+destination;
+  const ajaxEndpoint='https://formsubmit.co/ajax/'+destination;
+  const fallbackEndpoint='https://formsubmit.co/'+destination;
   const thankYou='https://osamaghaffar-the-specialist.github.io/the-limo-marketing-agency/thank-you.html';
 
-  document.querySelectorAll('form[data-live-lead-form="true"]').forEach(function(form){
-    form.action=endpoint;
-    form.method='POST';
+  function ensureStatus(form){
+    let status=form.querySelector('.tlma-form-status');
+    if(!status){
+      status=document.createElement('div');
+      status.className='tlma-form-status';
+      status.setAttribute('role','status');
+      status.setAttribute('aria-live','polite');
+      status.style.cssText='grid-column:1/-1;margin-top:8px;font-size:11px;line-height:1.5;color:#667389;';
+      form.appendChild(status);
+    }
+    return status;
+  }
 
+  document.querySelectorAll('form[data-live-lead-form="true"]').forEach(function(form){
+    form.method='POST';
+    form.action=fallbackEndpoint;
+
+    const nextField=form.querySelector('[name="_next"]');
     const urlField=form.querySelector('[name="_url"]');
     const sourceUrl=form.querySelector('[name="source_url"]');
     const timeField=form.querySelector('[name="submission_time"]');
-    const nextField=form.querySelector('[name="_next"]');
 
+    if(nextField) nextField.value=thankYou;
     if(urlField) urlField.value=window.location.href;
     if(sourceUrl) sourceUrl.value=window.location.href;
     if(timeField) timeField.value=new Date().toISOString();
-    if(nextField) nextField.value=thankYou;
   });
 
-  document.addEventListener('submit',function(event){
+  document.addEventListener('submit',async function(event){
     const form=event.target;
     if(!(form instanceof HTMLFormElement) || form.dataset.liveLeadForm!=='true') return;
 
@@ -1055,29 +1069,57 @@ if(menuBtn&&mobileNav) menuBtn.addEventListener('click',()=>{const open=mobileNa
       return;
     }
 
+    const status=ensureStatus(form);
+    const submit=form.querySelector('button[type="submit"],input[type="submit"]');
+    const originalButtonText=submit && submit.tagName==='BUTTON' ? submit.textContent : '';
+
+    if(submit){
+      submit.disabled=true;
+      if(submit.tagName==='BUTTON') submit.textContent='Sending...';
+    }
+    status.textContent='Sending your request...';
+
     const timeField=form.querySelector('[name="submission_time"]');
     const urlField=form.querySelector('[name="_url"]');
     const sourceUrl=form.querySelector('[name="source_url"]');
+    const nextField=form.querySelector('[name="_next"]');
+
     if(timeField) timeField.value=new Date().toISOString();
     if(urlField) urlField.value=window.location.href;
     if(sourceUrl) sourceUrl.value=window.location.href;
+    if(nextField) nextField.value=thankYou;
 
-    window.dataLayer=window.dataLayer||[];
-    window.dataLayer.push({
-      event:'website_form_submission',
-      source_page:form.dataset.sourcePage||document.title
-    });
+    try{
+      const formData=new FormData(form);
+      const response=await fetch(ajaxEndpoint,{
+        method:'POST',
+        headers:{'Accept':'application/json'},
+        body:formData
+      });
 
-    const submit=form.querySelector('button[type="submit"],input[type="submit"]');
-    if(submit){
-      submit.disabled=true;
-      if(submit.tagName==='BUTTON'){
-        submit.dataset.originalText=submit.textContent;
-        submit.textContent='Sending...';
+      let payload={};
+      try{ payload=await response.json(); }catch(_e){}
+
+      if(!response.ok || payload.success===false){
+        throw new Error(payload.message || 'Submission failed');
+      }
+
+      window.dataLayer=window.dataLayer||[];
+      window.dataLayer.push({
+        event:'website_form_submission',
+        source_page:form.dataset.sourcePage||document.title
+      });
+
+      status.textContent='Submitted successfully. Redirecting...';
+      window.location.assign(thankYou);
+    }catch(error){
+      console.error('Form submission error:',error);
+      status.textContent='We could not send the form. Please try again.';
+      if(submit){
+        submit.disabled=false;
+        if(submit.tagName==='BUTTON') submit.textContent=originalButtonText || 'Submit';
       }
     }
-
-    HTMLFormElement.prototype.submit.call(form);
   },true);
 })();
 </script>
