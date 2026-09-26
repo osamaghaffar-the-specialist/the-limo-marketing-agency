@@ -1,0 +1,11 @@
+GOOGLE ADS CASE STUDY ADDITION
+
+Added a dedicated Google Ads Performance section to case-studies-results.html.
+
+Supplied snapshots used:
+- Aug 1 to 31, 2026: 8.1K clicks, 197K impressions, 333.33 conversions, 144K conversion value.
+- May 1 to 31, 2026: 10.2K clicks, $11.07 cost/conv., 1.67K conversions, $18.5K cost.
+- Nov 1 to 30, 2025: 5,791 clicks, 570.99 conversions, 193,873.62 conversion value, 9.86% conversion rate.
+
+Important framing:
+The screenshots are presented as account snapshots. No client identity, revenue attribution or causal performance claim was invented.

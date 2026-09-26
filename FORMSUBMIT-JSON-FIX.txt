@@ -1,0 +1,21 @@
+FORMSUBMIT AJAX JSON FIX
+
+Root cause:
+The prior AJAX implementation posted FormData to FormSubmit's AJAX endpoint.
+FormSubmit's current official Fetch example expects:
+- Content-Type: application/json
+- Accept: application/json
+- JSON.stringify(...) request body
+
+Fix:
+- All live forms now serialize their fields into JSON.
+- Multiple checkbox values are joined cleanly.
+- The AJAX request sends the official JSON content type.
+- On successful response, visitors are redirected to:
+  https://osamaghaffar-the-specialist.github.io/the-limo-marketing-agency/thank-you.html
+- A standard POST action remains as a no-JavaScript fallback.
+
+Forms patched: 15
+Pages patched: 15
+Pages missing JSON implementation: 0
+JavaScript syntax errors: 0

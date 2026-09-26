@@ -837,7 +837,41 @@ html,body{max-width:100%;overflow-x:hidden}
     return status;
   }
 
+  function formToJson(form){
+    const fd=new FormData(form);
+    const data={};
+
+    fd.forEach(function(value,key){
+      // File inputs are not used by the current site forms. Ignore empty File objects.
+      if(value instanceof File){
+        if(value && value.name){
+          data[key]=value.name;
+        }
+        return;
+      }
+
+      const clean=String(value);
+      if(Object.prototype.hasOwnProperty.call(data,key)){
+        if(Array.isArray(data[key])){
+          data[key].push(clean);
+        }else{
+          data[key]=[data[key],clean];
+        }
+      }else{
+        data[key]=clean;
+      }
+    });
+
+    // FormSubmit email output is clearer when repeated checkbox values are joined.
+    Object.keys(data).forEach(function(key){
+      if(Array.isArray(data[key])) data[key]=data[key].join(', ');
+    });
+
+    return data;
+  }
+
   document.querySelectorAll('form[data-live-lead-form="true"]').forEach(function(form){
+    // Keep a valid non-JS fallback.
     form.method='POST';
     form.action=fallbackEndpoint;
 
@@ -874,29 +908,39 @@ html,body{max-width:100%;overflow-x:hidden}
     }
     status.textContent='Sending your request...';
 
+    const now=new Date().toISOString();
     const timeField=form.querySelector('[name="submission_time"]');
     const urlField=form.querySelector('[name="_url"]');
     const sourceUrl=form.querySelector('[name="source_url"]');
     const nextField=form.querySelector('[name="_next"]');
 
-    if(timeField) timeField.value=new Date().toISOString();
+    if(timeField) timeField.value=now;
     if(urlField) urlField.value=window.location.href;
     if(sourceUrl) sourceUrl.value=window.location.href;
     if(nextField) nextField.value=thankYou;
 
     try{
-      const formData=new FormData(form);
+      const payload=formToJson(form);
+
       const response=await fetch(ajaxEndpoint,{
         method:'POST',
-        headers:{'Accept':'application/json'},
-        body:formData
+        headers:{
+          'Content-Type':'application/json',
+          'Accept':'application/json'
+        },
+        body:JSON.stringify(payload)
       });
 
-      let payload={};
-      try{ payload=await response.json(); }catch(_e){}
+      let result={};
+      try{ result=await response.json(); }catch(_e){}
 
-      if(!response.ok || payload.success===false){
-        throw new Error(payload.message || 'Submission failed');
+      const explicitFailure =
+        result &&
+        Object.prototype.hasOwnProperty.call(result,'success') &&
+        (result.success===false || result.success==='false');
+
+      if(!response.ok || explicitFailure){
+        throw new Error(result.message || ('HTTP '+response.status));
       }
 
       window.dataLayer=window.dataLayer||[];
@@ -906,7 +950,7 @@ html,body{max-width:100%;overflow-x:hidden}
       });
 
       status.textContent='Submitted successfully. Redirecting...';
-      window.location.assign(thankYou);
+      window.location.href=thankYou;
     }catch(error){
       console.error('Form submission error:',error);
       status.textContent='We could not send the form. Please try again.';
