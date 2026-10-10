@@ -1,0 +1,96 @@
+name: P2 Performance Audit
+
+on:
+  push:
+    branches:
+      - seo-p2-performance
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v4
+      - name: Audit HTML and asset weight
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re, hashlib, html
+          from html.parser import HTMLParser
+
+          ROOT = Path('.')
+          html_files = sorted(ROOT.glob('*.html'))
+          print('===== P2 PERFORMANCE AUDIT =====')
+          print('HTML_FILES', len(html_files))
+
+          data_uri_re = re.compile(r'data:image/[^;"\']+;base64,([A-Za-z0-9+/=\r\n]+)', re.I)
+          style_re = re.compile(r'<style\b[^>]*>(.*?)</style>', re.I|re.S)
+          script_re = re.compile(r'<script\b([^>]*)>(.*?)</script>', re.I|re.S)
+
+          class ImgParser(HTMLParser):
+              def __init__(self):
+                  super().__init__(); self.imgs=[]; self.links=[]; self.scripts=[]
+              def handle_starttag(self, tag, attrs):
+                  a=dict(attrs)
+                  if tag=='img': self.imgs.append(a)
+                  if tag=='link': self.links.append(a)
+                  if tag=='script': self.scripts.append(a)
+
+          fingerprints={}
+          total_data_chars=0
+          total_inline_css=0
+          total_inline_js=0
+          all_rows=[]
+
+          for path in html_files:
+              text=path.read_text(encoding='utf-8', errors='replace')
+              p=ImgParser(); p.feed(text)
+              data=[]
+              for m in data_uri_re.finditer(text):
+                  payload=''.join(m.group(1).split())
+                  n=len(payload)
+                  total_data_chars += n
+                  fp=hashlib.sha256(payload.encode()).hexdigest()[:16]
+                  fingerprints.setdefault(fp, {'chars':n,'files':set(),'count':0})
+                  fingerprints[fp]['files'].add(path.name); fingerprints[fp]['count']+=1
+                  data.append(n)
+              css_bytes=sum(len(m.group(1).encode('utf-8')) for m in style_re.finditer(text))
+              js_bytes=0
+              for m in script_re.finditer(text):
+                  attrs=m.group(1).lower()
+                  if 'src=' not in attrs:
+                      js_bytes += len(m.group(2).encode('utf-8'))
+              total_inline_css += css_bytes; total_inline_js += js_bytes
+              imgs=len(p.imgs)
+              no_dims=sum(1 for a in p.imgs if not a.get('width') or not a.get('height'))
+              no_lazy=sum(1 for a in p.imgs if a.get('loading','').lower()!='lazy')
+              ext_css=sum(1 for a in p.links if 'stylesheet' in str(a.get('rel','')).lower() and a.get('href'))
+              ext_js=sum(1 for a in p.scripts if a.get('src'))
+              row=(path.name, path.stat().st_size, len(data), sum(data), max(data or [0]), css_bytes, js_bytes, imgs, no_dims, no_lazy, ext_css, ext_js)
+              all_rows.append(row)
+
+          print('\n===== PAGE WEIGHT =====')
+          for r in sorted(all_rows, key=lambda x:x[1], reverse=True):
+              print('PAGE|%s|BYTES=%d|DATA_URIS=%d|DATA_CHARS=%d|LARGEST_DATA=%d|INLINE_CSS=%d|INLINE_JS=%d|IMGS=%d|IMG_NO_DIMS=%d|IMG_NOT_LAZY=%d|EXT_CSS=%d|EXT_JS=%d' % r)
+
+          print('\n===== REPEATED DATA-URI FINGERPRINTS =====')
+          for fp,d in sorted(fingerprints.items(), key=lambda kv:(kv[1]['count'],kv[1]['chars']), reverse=True):
+              print(f'DATA|SHA16={fp}|CHARS={d["chars"]}|COUNT={d["count"]}|FILES={len(d["files"])}|NAMES={sorted(d["files"])}')
+
+          print('\n===== STATIC ASSETS =====')
+          for pth in sorted((p for p in ROOT.rglob('*') if p.is_file() and not str(p).startswith('.git/')), key=lambda p:p.stat().st_size, reverse=True)[:40]:
+              if pth.suffix.lower() not in {'.html'}:
+                  print(f'ASSET|{pth.as_posix()}|BYTES={pth.stat().st_size}')
+
+          print('\n===== TOTALS =====')
+          print('TOTAL_HTML_BYTES', sum(r[1] for r in all_rows))
+          print('TOTAL_DATA_URI_BASE64_CHARS', total_data_chars)
+          print('TOTAL_INLINE_CSS_BYTES', total_inline_css)
+          print('TOTAL_INLINE_JS_BYTES', total_inline_js)
+          print('UNIQUE_DATA_URI_FINGERPRINTS', len(fingerprints))
+          print('AUDIT_DONE')
+          PY
