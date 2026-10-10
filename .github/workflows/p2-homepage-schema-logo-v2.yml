@@ -1,0 +1,25 @@
+name: P2 Homepage Schema Logo Fix V2
+
+on:
+  push:
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    if: github.ref == 'refs/heads/seo-p2-homepage-schema-logo'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply transform
+        run: python .github/scripts/fix_homepage_schema_logo.py
+      - name: Validate diff
+        run: git diff --check
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "P2: Add Organization logo schema to homepage"
+          git push
