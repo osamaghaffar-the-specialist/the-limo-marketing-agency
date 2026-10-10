@@ -20,71 +20,24 @@ jobs:
         run: |
           python - <<'PY'
           from pathlib import Path
-          import re
-
+          import base64, re
           path = Path('google-ads-for-limo-companies.html')
           text = path.read_text(encoding='utf-8')
           marker = '<!-- GOOGLE ADS RANKING BRIEF ADDITIONS: 2026-10-10 -->'
           anchor = '<section aria-labelledby="architecture-title" class="section">'
-
           assert text.count(anchor) == 1, f'architecture anchor count={text.count(anchor)}'
           assert marker not in text, 'ranking brief marker already present'
-
           title_before = re.search(r'<title>(.*?)</title>', text, re.S).group(1)
           canonical_before = re.search(r'<link rel="canonical" href="([^"]+)"', text).group(1)
           h1_before = re.search(r'<h1[^>]*>(.*?)</h1>', text, re.S).group(1)
-
-          block = r'''<!-- GOOGLE ADS RANKING BRIEF ADDITIONS: 2026-10-10 -->
-<section aria-labelledby="audit-first-title" class="section">
-<div class="container">
-<div class="section-head">
-<div><div class="kicker"><span class="dot"></span>What We Audit First</div><h2 id="audit-first-title">Before Increasing Budget, Fix the Signals That Decide Whether a Click Can <span>Become a Booking.</span></h2></div>
-<p><strong>For a limo Google Ads account, budget is not the first lever.</strong> We first check the search terms, location controls, negative keywords, campaign segmentation, conversion actions, landing-page fit and booking path so more spend is not simply amplifying a weak setup.</p>
-</div>
-<div class="two-col">
-<article class="panel">
-<div class="kicker"><span class="dot"></span>Search &amp; Account Controls</div>
-<h3>Is the Account Buying the Right Searches?</h3>
-<p><strong>Search terms and match types:</strong> confirm the account is entering auctions for services the operator actually sells, not broad or research-only traffic.</p>
-<p><strong>Negative keywords:</strong> remove recurring job-seeker, DIY, irrelevant vehicle, bargain-only or out-of-market searches when they do not match the business.</p>
-<p><strong>Location settings:</strong> align targeting with real pickup/service areas and review where users are physically located versus what locations they mention in the query.</p>
-<p><strong>Service segmentation:</strong> separate materially different airport, corporate, hourly or event demand when volume and economics justify different budgets, ads or landing pages.</p>
-</article>
-<article class="panel">
-<div class="kicker"><span class="dot"></span>Conversion &amp; Booking Controls</div>
-<h3>Can Google Learn Which Clicks Create Real Business?</h3>
-<p><strong>Primary conversions:</strong> distinguish meaningful calls, quote requests and completed booking actions from soft page-view events.</p>
-<p><strong>Landing-page fit:</strong> keep the search, ad message and destination aligned so an airport-transfer search does not land on an unrelated generic page.</p>
-<p><strong>Booking path:</strong> check whether the visitor can move from the ad to a call, quote or booking without unnecessary friction.</p>
-<p><strong>Budget decisions:</strong> scale only after the account has enough trustworthy search-term and conversion data to explain what is working. For budget planning, see our <a href="how-much-should-limo-company-spend-google-ads-2026.html">limo Google Ads budget guide</a>.</p>
-</article>
-</div>
-</div>
-</section>
-<section aria-labelledby="account-structure-title" class="section soft">
-<div class="container">
-<div class="section-head">
-<div><div class="kicker"><span class="dot"></span>Account Structure</div><h2 id="account-structure-title">How Should a Limo Google Ads Account Be <span>Structured?</span></h2></div>
-<p><strong>Structure campaigns around materially different customer intent and economics, not one catch-all keyword list.</strong> The exact campaign count depends on market demand, service mix, margins and conversion volume, so there is no universal template that fits every operator.</p>
-</div>
-<div class="intent-grid">
-<article class="intent-card"><span aria-hidden="true" class="brand-badge"><svg aria-hidden="true" class="brand-mark-svg" focusable="false" viewbox="0 0 2000 2000"><path d="M 999 200 L 336 583 L 336 1042 L 1001 1424 L 1397 1195 L 1397 846 L 1472 802 L 1473 1239 L 1000 1513 L 336 1130 L 336 1349 L 1000 1732 L 1663 1349 L 1663 583 L 1568 528 L 868 932 L 868 1041 L 962 1096 L 1207 957 L 1207 1085 L 999 1206 L 528 934 L 525 693 L 998 419 L 1075 463 L 602 737 L 602 888 L 790 997 L 793 845 L 1455 463 Z" fill="currentColor"></path></svg></span><h3>Airport &amp; Route Demand</h3><p>Airport names, route pairs and private-transfer searches often deserve their own message and destination when the operator serves them consistently.</p><div class="query">Goal: match the exact trip intent</div></article>
-<article class="intent-card"><span aria-hidden="true" class="brand-badge"><svg aria-hidden="true" class="brand-mark-svg" focusable="false" viewbox="0 0 2000 2000"><path d="M 999 200 L 336 583 L 336 1042 L 1001 1424 L 1397 1195 L 1397 846 L 1472 802 L 1473 1239 L 1000 1513 L 336 1130 L 336 1349 L 1000 1732 L 1663 1349 L 1663 583 L 1568 528 L 868 932 L 868 1041 L 962 1096 L 1207 957 L 1207 1085 L 999 1206 L 528 934 L 525 693 L 998 419 L 1075 463 L 602 737 L 602 888 L 790 997 L 793 845 L 1455 463 Z" fill="currentColor"></path></svg></span><h3>Corporate &amp; Executive</h3><p>Corporate-account and executive-transport searches can have different qualification criteria, messaging and lifetime value from leisure demand.</p><div class="query">Goal: protect high-value business intent</div></article>
-<article class="intent-card"><span aria-hidden="true" class="brand-badge"><svg aria-hidden="true" class="brand-mark-svg" focusable="false" viewbox="0 0 2000 2000"><path d="M 999 200 L 336 583 L 336 1042 L 1001 1424 L 1397 1195 L 1397 846 L 1472 802 L 1473 1239 L 1000 1513 L 336 1130 L 336 1349 L 1000 1732 L 1663 1349 L 1663 583 L 1568 528 L 868 932 L 868 1041 L 962 1096 L 1207 957 L 1207 1085 L 999 1206 L 528 934 L 525 693 L 998 419 L 1075 463 L 602 737 L 602 888 L 790 997 L 793 845 L 1455 463 Z" fill="currentColor"></path></svg></span><h3>Hourly Chauffeur</h3><p>Hourly bookings should be separated when pricing, minimum hours and customer expectations differ from point-to-point trips.</p><div class="query">Goal: align qualification with service rules</div></article>
-<article class="intent-card"><span aria-hidden="true" class="brand-badge"><svg aria-hidden="true" class="brand-mark-svg" focusable="false" viewbox="0 0 2000 2000"><path d="M 999 200 L 336 583 L 336 1042 L 1001 1424 L 1397 1195 L 1397 846 L 1472 802 L 1473 1239 L 1000 1513 L 336 1130 L 336 1349 L 1000 1732 L 1663 1349 L 1663 583 L 1568 528 L 868 932 L 868 1041 L 962 1096 L 1207 957 L 1207 1085 L 999 1206 L 528 934 L 525 693 L 998 419 L 1075 463 L 602 737 L 602 888 L 790 997 L 793 845 L 1455 463 Z" fill="currentColor"></path></svg></span><h3>Events &amp; Specialty Trips</h3><p>Wedding, prom, group or specialty searches should only receive dedicated structure where those services are genuinely offered and commercially important.</p><div class="query">Goal: avoid mixing unrelated economics</div></article>
-</div>
-</div>
-</section>'''
-
+          block = base64.b64decode('PCEtLSBHT09HTEUgQURTIFJBTktJTkcgQlJJRUYgQURESVRJT05TOiAyMDI2LTEwLTEwIC0tPgo8c2VjdGlvbiBhcmlhLWxhYmVsbGVkYnk9ImF1ZGl0LWZpcnN0LXRpdGxlIiBjbGFzcz0ic2VjdGlvbiI+CjxkaXYgY2xhc3M9ImNvbnRhaW5lciI+CjxkaXYgY2xhc3M9InNlY3Rpb24taGVhZCI+CjxkaXY+PGRpdiBjbGFzcz0ia2lja2VyIj48c3BhbiBjbGFzcz0iZG90Ij48L3NwYW4+V2hhdCBXZSBBdWRpdCBGaXJzdDwvZGl2PjxoMiBpZD0iYXVkaXQtZmlyc3QtdGl0bGUiPkJlZm9yZSBJbmNyZWFzaW5nIEJ1ZGdldCwgRml4IHRoZSBTaWduYWxzIFRoYXQgRGVjaWRlIFdoZXRoZXIgYSBDbGljayBDYW4gPHNwYW4+QmVjb21lIGEgQm9va2luZy48L3NwYW4+PC9oMj48L2Rpdj4KPHA+PHN0cm9uZz5Gb3IgYSBsaW1vIEdvb2dsZSBBZHMgYWNjb3VudCwgYnVkZ2V0IGlzIG5vdCB0aGUgZmlyc3QgbGV2ZXIuPC9zdHJvbmc+IFdlIGZpcnN0IGNoZWNrIHRoZSBzZWFyY2ggdGVybXMsIGxvY2F0aW9uIGNvbnRyb2xzLCBuZWdhdGl2ZSBrZXl3b3JkcywgY2FtcGFpZ24gc2VnbWVudGF0aW9uLCBjb252ZXJzaW9uIGFjdGlvbnMsIGxhbmRpbmctcGFnZSBmaXQgYW5kIGJvb2tpbmcgcGF0aCBzbyBtb3JlIHNwZW5kIGlzIG5vdCBzaW1wbHkgYW1wbGlmeWluZyBhIHdlYWsgc2V0dXAuPC9wPgo8L2Rpdj4KPGRpdiBjbGFzcz0idHdvLWNvbCI+CjxhcnRpY2xlIGNsYXNzPSJwYW5lbCI+CjxkaXYgY2xhc3M9ImtpY2tlciI+PHNwYW4gY2xhc3M9ImRvdCI+PC9zcGFuPlNlYXJjaCAmYW1wOyBBY2NvdW50IENvbnRyb2xzPC9kaXY+CjxoMz5JcyB0aGUgQWNjb3VudCBCdXlpbmcgdGhlIFJpZ2h0IFNlYXJjaGVzPzwvaDM+CjxwPjxzdHJvbmc+U2VhcmNoIHRlcm1zIGFuZCBtYXRjaCB0eXBlczo8L3N0cm9uZz4gY29uZmlybSB0aGUgYWNjb3VudCBpcyBlbnRlcmluZyBhdWN0aW9ucyBmb3Igc2VydmljZXMgdGhlIG9wZXJhdG9yIGFjdHVhbGx5IHNlbGxzLCBub3QgYnJvYWQgb3IgcmVzZWFyY2gtb25seSB0cmFmZmljLjwvcD4KPHA+PHN0cm9uZz5OZWdhdGl2ZSBrZXl3b3Jkczo8L3N0cm9uZz4gcmVtb3ZlIHJlY3VycmluZyBqb2Itc2Vla2VyLCBESVksIGlycmVsZXZhbnQgdmVoaWNsZSwgYmFyZ2Fpbi1vbmx5IG9yIG91dC1vZi1tYXJrZXQgc2VhcmNoZXMgd2hlbiB0aGV5IGRvIG5vdCBtYXRjaCB0aGUgYnVzaW5lc3MuPC9wPgo8cD48c3Ryb25nPkxvY2F0aW9uIHNldHRpbmdzOjwvc3Ryb25nPiBhbGlnbiB0YXJnZXRpbmcgd2l0aCByZWFsIHBpY2t1cC9zZXJ2aWNlIGFyZWFzIGFuZCByZXZpZXcgd2hlcmUgdXNlcnMgYXJlIHBoeXNpY2FsbHkgbG9jYXRlZCB2ZXJzdXMgd2hhdCBsb2NhdGlvbnMgdGhleSBtZW50aW9uIGluIHRoZSBxdWVyeS48L3A+CjxwPjxzdHJvbmc+U2VydmljZSBzZWdtZW50YXRpb246PC9zdHJvbmc+IHNlcGFyYXRlIG1hdGVyaWFsbHkgZGlmZmVyZW50IGFpcnBvcnQsIGNvcnBvcmF0ZSwgaG91cmx5IG9yIGV2ZW50IGRlbWFuZCB3aGVuIHZvbHVtZSBhbmQgZWNvbm9taWNzIGp1c3RpZnkgZGlmZmVyZW50IGJ1ZGdldHMsIGFkcyBvciBsYW5kaW5nIHBhZ2VzLjwvcD4KPC9hcnRpY2xlPgo8YXJ0aWNsZSBjbGFzcz0icGFuZWwiPgo8ZGl2IGNsYXNzPSJraWNrZXIiPjxzcGFuIGNsYXNzPSJkb3QiPjwvc3Bhbj5Db252ZXJzaW9uICZhbXA7IEJvb2tpbmcgQ29udHJvbHM8L2Rpdj4KPGgzPkNhbiBHb29nbGUgTGVhcm4gV2hpY2ggQ2xpY2tzIENyZWF0ZSBSZWFsIEJ1c2luZXNzPzwvaDM+CjxwPjxzdHJvbmc+UHJpbWFyeSBjb252ZXJzaW9uczo8L3N0cm9uZz4gZGlzdGluZ3Vpc2ggbWVhbmluZ2Z1bCBjYWxscywgcXVvdGUgcmVxdWVzdHMgYW5kIGNvbXBsZXRlZCBib29raW5nIGFjdGlvbnMgZnJvbSBzb2Z0IHBhZ2UtdmlldyBldmVudHMuPC9wPgo8cD48c3Ryb25nPkxhbmRpbmctcGFnZSBmaXQ6PC9zdHJvbmc+IGtlZXAgdGhlIHNlYXJjaCwgYWQgbWVzc2FnZSBhbmQgZGVzdGluYXRpb24gYWxpZ25lZCBzbyBhbiBhaXJwb3J0LXRyYW5zZmVyIHNlYXJjaCBkb2VzIG5vdCBsYW5kIG9uIGFuIHVucmVsYXRlZCBnZW5lcmljIHBhZ2UuPC9wPgo8cD48c3Ryb25nPkJvb2tpbmcgcGF0aDo8L3N0cm9uZz4gY2hlY2sgd2hldGhlciB0aGUgdmlzaXRvciBjYW4gbW92ZSBmcm9tIHRoZSBhZCB0byBhIGNhbGwsIHF1b3RlIG9yIGJvb2tpbmcgd2l0aG91dCB1bm5lY2Vzc2FyeSBmcmljdGlvbi48L3A+CjxwPjxzdHJvbmc+QnVkZ2V0IGRlY2lzaW9uczo8L3N0cm9uZz4gc2NhbGUgb25seSBhZnRlciB0aGUgYWNjb3VudCBoYXMgZW5vdWdoIHRydXN0d29ydGh5IHNlYXJjaC10ZXJtIGFuZCBjb252ZXJzaW9uIGRhdGEgdG8gZXhwbGFpbiB3aGF0IGlzIHdvcmtpbmcuIEZvciBidWRnZXQgcGxhbm5pbmcsIHNlZSBvdXIgPGEgaHJlZj0iaG93LW11Y2gtc2hvdWxkLWxpbW8tY29tcGFueS1zcGVuZC1nb29nbGUtYWRzLTIwMjYuaHRtbCI+bGltbyBHb29nbGUgQWRzIGJ1ZGdldCBndWlkZTwvYT4uPC9wPgo8L2FydGljbGU+CjwvZGl2Pgo8L2Rpdj4KPC9zZWN0aW9uPgo8c2VjdGlvbiBhcmlhLWxhYmVsbGVkYnk9ImFjY291bnQtc3RydWN0dXJlLXRpdGxlIiBjbGFzcz0ic2VjdGlvbiBzb2Z0Ij4KPGRpdiBjbGFzcz0iY29udGFpbmVyIj4KPGRpdiBjbGFzcz0ic2VjdGlvbi1oZWFkIj4KPGRpdj48ZGl2IGNsYXNzPSJraWNrZXIiPjxzcGFuIGNsYXNzPSJkb3QiPjwvc3Bhbj5BY2NvdW50IFN0cnVjdHVyZTwvZGl2PjxoMiBpZD0iYWNjb3VudC1zdHJ1Y3R1cmUtdGl0bGUiPkhvdyBTaG91bGQgYSBMaW1vIEdvb2dsZSBBZHMgQWNjb3VudCBCZSA8c3Bhbj5TdHJ1Y3R1cmVkPzwvc3Bhbj48L2gyPjwvZGl2Pgo8cD48c3Ryb25nPlN0cnVjdHVyZSBjYW1wYWlnbnMgYXJvdW5kIG1hdGVyaWFsbHkgZGlmZmVyZW50IGN1c3RvbWVyIGludGVudCBhbmQgZWNvbm9taWNzLCBub3Qgb25lIGNhdGNoLWFsbCBrZXl3b3JkIGxpc3QuPC9zdHJvbmc+IFRoZSBleGFjdCBjYW1wYWlnbiBjb3VudCBkZXBlbmRzIG9uIG1hcmtldCBkZW1hbmQsIHNlcnZpY2UgbWl4LCBtYXJnaW5zIGFuZCBjb252ZXJzaW9uIHZvbHVtZSwgc28gdGhlcmUgaXMgbm8gdW5pdmVyc2FsIHRlbXBsYXRlIHRoYXQgZml0cyBldmVyeSBvcGVyYXRvci48L3A+CjwvZGl2Pgo8ZGl2IGNsYXNzPSJpbnRlbnQtZ3JpZCI+CjxhcnRpY2xlIGNsYXNzPSJpbnRlbnQtY2FyZCI+PGgzPkFpcnBvcnQgJmFtcDsgUm91dGUgRGVtYW5kPC9oMz48cD5BaXJwb3J0IG5hbWVzLCByb3V0ZSBwYWlycyBhbmQgcHJpdmF0ZS10cmFuc2ZlciBzZWFyY2hlcyBvZnRlbiBkZXNlcnZlIHRoZWlyIG93biBtZXNzYWdlIGFuZCBkZXN0aW5hdGlvbiB3aGVuIHRoZSBvcGVyYXRvciBzZXJ2ZXMgdGhlbSBjb25zaXN0ZW50bHkuPC9wPjxkaXYgY2xhc3M9InF1ZXJ5Ij5Hb2FsOiBtYXRjaCB0aGUgZXhhY3QgdHJpcCBpbnRlbnQ8L2Rpdj48L2FydGljbGU+CjxhcnRpY2xlIGNsYXNzPSJpbnRlbnQtY2FyZCI+PGgzPkNvcnBvcmF0ZSAmYW1wOyBFeGVjdXRpdmU8L2gzPjxwPkNvcnBvcmF0ZS1hY2NvdW50IGFuZCBleGVjdXRpdmUtdHJhbnNwb3J0IHNlYXJjaGVzIGNhbiBoYXZlIGRpZmZlcmVudCBxdWFsaWZpY2F0aW9uIGNyaXRlcmlhLCBtZXNzYWdpbmcgYW5kIGxpZmV0aW1lIHZhbHVlIGZyb20gbGVpc3VyZSBkZW1hbmQuPC9wPjxkaXYgY2xhc3M9InF1ZXJ5Ij5Hb2FsOiBwcm90ZWN0IGhpZ2gtdmFsdWUgYnVzaW5lc3MgaW50ZW50PC9kaXY+PC9hcnRpY2xlPgo8YXJ0aWNsZSBjbGFzcz0iaW50ZW50LWNhcmQiPjxoMz5Ib3VybHkgQ2hhdWZmZXVyPC9oMz48cD5Ib3VybHkgYm9va2luZ3Mgc2hvdWxkIGJlIHNlcGFyYXRlZCB3aGVuIHByaWNpbmcsIG1pbmltdW0gaG91cnMgYW5kIGN1c3RvbWVyIGV4cGVjdGF0aW9ucyBkaWZmZXIgZnJvbSBwb2ludC10by1wb2ludCB0cmlwcy48L3A+PGRpdiBjbGFzcz0icXVlcnkiPkdvYWw6IGFsaWduIHF1YWxpZmljYXRpb24gd2l0aCBzZXJ2aWNlIHJ1bGVzPC9kaXY+PC9hcnRpY2xlPgo8YXJ0aWNsZSBjbGFzcz0iaW50ZW50LWNhcmQiPjxoMz5FdmVudHMgJmFtcDsgU3BlY2lhbHR5IFRyaXBzPC9oMz48cD5XZWRkaW5nLCBwcm9tLCBncm91cCBvciBzcGVjaWFsdHkgc2VhcmNoZXMgc2hvdWxkIG9ubHkgcmVjZWl2ZSBkZWRpY2F0ZWQgc3RydWN0dXJlIHdoZXJlIHRob3NlIHNlcnZpY2VzIGFyZSBnZW51aW5lbHkgb2ZmZXJlZCBhbmQgY29tbWVyY2lhbGx5IGltcG9ydGFudC48L3A+PGRpdiBjbGFzcz0icXVlcnkiPkdvYWw6IGF2b2lkIG1peGluZyB1bnJlbGF0ZWQgZWNvbm9taWNzPC9kaXY+PC9hcnRpY2xlPgo8L2Rpdj4KPC9kaXY+Cjwvc2VjdGlvbj4=').decode('utf-8')
           text = text.replace(anchor, block + '\n' + anchor, 1)
-
           assert text.count(marker) == 1
           assert re.search(r'<title>(.*?)</title>', text, re.S).group(1) == title_before
           assert re.search(r'<link rel="canonical" href="([^"]+)"', text).group(1) == canonical_before
           assert re.search(r'<h1[^>]*>(.*?)</h1>', text, re.S).group(1) == h1_before
           assert text.count('<h1') == 1
           assert 'how-much-should-limo-company-spend-google-ads-2026.html' in text
-
           path.write_text(text, encoding='utf-8')
           print('Controlled Google Ads ranking additions applied successfully.')
           PY
