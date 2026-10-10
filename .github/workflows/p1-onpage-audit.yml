@@ -1,0 +1,21 @@
+name: P1 On-Page SEO Audit
+
+on:
+  push:
+    branches:
+      - seo-p1-onpage-audit
+    paths:
+      - 'scripts/p1_onpage_audit.py'
+      - '.github/workflows/p1-onpage-audit.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v4
+        with:
+          ref: seo-p1-onpage-audit
+      - name: Run P1 on-page audit
+        run: python scripts/p1_onpage_audit.py
