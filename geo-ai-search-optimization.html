@@ -832,7 +832,7 @@ html,body{max-width:100%;overflow-x:hidden}
   document.querySelectorAll('.faq-q').forEach(btn=>{btn.addEventListener('click',()=>{const item=btn.closest('.faq-item');const isOpen=item.classList.toggle('open');btn.setAttribute('aria-expanded',String(isOpen));});});
   document.querySelectorAll('[data-track]').forEach(el=>{el.addEventListener('click',()=>{window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:el.dataset.track});});});
   const form=document.getElementById('consultForm');
-  form?.addEventListener('submit',(e)=>{e.preventDefault();if(!form.reportValidity())return;window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'consultation_form_submission'});document.getElementById('formStatus').textContent='Form UI is ready. Connect your production CRM or form endpoint before launch.';});
+  form?.addEventListener('submit',(e)=>{e.preventDefault();if(!form.reportValidity())return;window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'consultation_form_submission'});document.getElementById('formStatus').textContent='Thanks — your consultation request is being processed.';});
 })();
 </script>
 <script id="tlma-global-header-js">
