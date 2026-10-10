@@ -1,65 +1,19 @@
 from pathlib import Path
 import re
 
-ROOT = 'https://osamaghaffar-the-specialist.github.io/the-limo-marketing-agency/'
-
 
 def must_replace(text, old, new, label):
     if old not in text:
         raise SystemExit(f'MISSING:{label}')
     return text.replace(old, new, 1)
 
-
-def insert_after_hero(text, block, marker):
-    if marker in text:
-        return text
-    m = re.search(r'<section[^>]*class="[^"]*hero[^"]*"[^>]*>', text, re.I)
-    if not m:
-        raise SystemExit(f'MISSING_HERO:{marker}')
-    end = text.find('</section>', m.end())
-    if end == -1:
-        raise SystemExit(f'MISSING_HERO_END:{marker}')
-    end += len('</section>')
-    return text[:end] + '\n' + block + text[end:]
-
+# This second pass removes duplicate answer blocks discovered during review and
+# strengthens the site's pre-existing answer boxes instead of adding new ones.
 
 # ---------------- SEO PAGE ----------------
 p = Path('seo-for-limo-companies.html')
 text = p.read_text(encoding='utf-8')
-text = must_replace(text,
-    '<title>SEO for Limo Companies | The Limo Marketing Agency</title>',
-    '<title>Limo SEO Services | SEO for Limo Companies</title>',
-    'seo-title')
-text = must_replace(text,
-    '<meta name="description" content="SEO for limo, chauffeur and black car companies, including technical SEO, local search, content, internal linking and organic growth strategy."/>',
-    '<meta name="description" content="Limo SEO services for limo, chauffeur and black car companies, including technical SEO, local search, service pages, content, internal linking and organic growth strategy."/>',
-    'seo-meta')
-text = must_replace(text,
-    '<meta property="og:title" content="SEO for Limo Companies | The Limo Marketing Agency"/>',
-    '<meta property="og:title" content="Limo SEO Services | SEO for Limo Companies"/>',
-    'seo-og-title')
-text = must_replace(text,
-    '<meta property="og:description" content="SEO for limo, chauffeur and black car companies, including technical SEO, local search, content, internal linking and organic growth strategy."/>',
-    '<meta property="og:description" content="Limo SEO services for limo, chauffeur and black car companies, including technical SEO, local search, service pages, content, internal linking and organic growth strategy."/>',
-    'seo-og-description')
-text = must_replace(text,
-    '"name": "SEO for Limo Companies",\n      "serviceType": "Search engine optimization for limo, chauffeur, black car and airport transportation companies"',
-    '"name": "Limo SEO Services for Limo Companies",\n      "serviceType": "Limo SEO and search engine optimization services for limo, chauffeur, black car and airport transportation companies"',
-    'seo-service-schema')
-text = must_replace(text,
-    '<div class="eyebrow"><span class="dot"></span>SEO FOR LIMO COMPANIES</div>',
-    '<div class="eyebrow"><span class="dot"></span>LIMO SEO SERVICES</div>',
-    'seo-eyebrow')
-text = must_replace(text,
-    '<h1>Get Found When Limo Customers Are <span>Already Searching.</span></h1>',
-    '<h1>Limo SEO Services That Get You Found When Customers Are <span>Already Searching.</span></h1>',
-    'seo-h1')
-text = must_replace(text,
-    '<p>We build organic search visibility for limo, chauffeur, black car and airport transportation companies around the searches that can become calls, booking requests and paid rides, not traffic for traffic\'s sake.</p>',
-    '<p>Our limo SEO services build organic search visibility for limo, chauffeur, black car and airport transportation companies around the searches that can become calls, booking requests and paid rides, not traffic for traffic\'s sake.</p>',
-    'seo-hero-copy')
-
-seo_answer = '''<section class="section soft" aria-labelledby="what-is-limo-seo">
+seo_duplicate = '''<section class="section soft" aria-labelledby="what-is-limo-seo">
 <div class="container">
 <div class="center-head">
 <div class="kicker">QUICK ANSWER</div>
@@ -67,48 +21,23 @@ seo_answer = '''<section class="section soft" aria-labelledby="what-is-limo-seo"
 <p><strong>Limo SEO is search engine optimization for limousine, chauffeur, black car and airport transportation companies.</strong> It combines technical SEO, local search, service and location pages, internal linking, structured data and content built around searches that can lead to calls, quote requests and bookings.</p>
 </div>
 </div>
-</section>'''
-text = insert_after_hero(text, seo_answer, 'id="what-is-limo-seo"')
-p.write_text(text, encoding='utf-8')
+</section>
+'''
+if seo_duplicate in text:
+    text = text.replace(seo_duplicate, '', 1)
 
+text = must_replace(
+    text,
+    '<div><h2>What is SEO for limo companies?</h2><p>SEO for limo companies is the process of making a limo, chauffeur, black car or airport transportation business easier to find in organic and local search for commercially relevant queries, while connecting those search visits to calls, consultation requests and booking flows. The goal is not simply more rankings, it is more qualified visibility and measurable customer action.</p></div>',
+    '<div><h2>What is limo SEO and how does it help limo companies?</h2><p><strong>Limo SEO is search engine optimization for limousine, chauffeur, black car and airport transportation companies.</strong> It combines technical SEO, local search, service and location pages, internal linking, structured data and useful content so the business is easier to find for commercially relevant searches and those visits can move toward calls, quote requests and bookings.</p></div>',
+    'seo-existing-answer'
+)
+p.write_text(text, encoding='utf-8')
 
 # ---------------- GOOGLE ADS PAGE ----------------
 p = Path('google-ads-for-limo-companies.html')
 text = p.read_text(encoding='utf-8')
-text = must_replace(text,
-    '<title>Google Ads for Limo Companies | The Limo Marketing Agency</title>',
-    '<title>Limo Google Ads &amp; PPC | Google Ads for Limo Companies</title>',
-    'ads-title')
-text = must_replace(text,
-    '<meta name="description" content="Google Ads management for limo, chauffeur and black car companies focused on high-intent searches, qualified leads, conversion tracking and booked rides."/>',
-    '<meta name="description" content="Limo Google Ads and PPC management for limo, chauffeur and black car companies focused on high-intent searches, conversion tracking, qualified leads and booked rides."/>',
-    'ads-meta')
-text = must_replace(text,
-    '<meta property="og:title" content="Google Ads for Limo Companies | The Limo Marketing Agency"/>',
-    '<meta property="og:title" content="Limo Google Ads &amp; PPC | Google Ads for Limo Companies"/>',
-    'ads-og-title')
-text = must_replace(text,
-    '<meta property="og:description" content="Google Ads management for limo, chauffeur and black car companies focused on high-intent searches, qualified leads, conversion tracking and booked rides."/>',
-    '<meta property="og:description" content="Limo Google Ads and PPC management for limo, chauffeur and black car companies focused on high-intent searches, conversion tracking, qualified leads and booked rides."/>',
-    'ads-og-description')
-text = must_replace(text,
-    '"name": "Google Ads Management for Limo Companies",\n      "serviceType": "Google Ads and PPC management for limo, chauffeur and black car companies"',
-    '"name": "Limo Google Ads and PPC Management",\n      "serviceType": "Google Ads and PPC management for limo, chauffeur, black car and airport transportation companies"',
-    'ads-service-schema')
-text = must_replace(text,
-    '<div class="eyebrow"><span class="dot"></span>Google Ads for Limo Companies</div>',
-    '<div class="eyebrow"><span class="dot"></span>Limo Google Ads &amp; PPC</div>',
-    'ads-eyebrow')
-text = must_replace(text,
-    '<h1 id="page-title">Turn High-Intent Searches into <span>Booked Rides.</span></h1>',
-    '<h1 id="page-title">Limo Google Ads That Turn High-Intent Searches into <span>Booked Rides.</span></h1>',
-    'ads-h1')
-text = must_replace(text,
-    '<p>Google Ads management built specifically for limo companies, chauffeur companies, black car services and airport transportation businesses. We connect search intent, campaign structure, landing pages and conversion tracking so you can focus spend on the searches most likely to become real business.</p>',
-    '<p>Our limo Google Ads and PPC management is built specifically for limo companies, chauffeur companies, black car services and airport transportation businesses. We connect search intent, campaign structure, landing pages and conversion tracking so you can focus spend on the searches most likely to become real business.</p>',
-    'ads-hero-copy')
-
-ads_answer = '''<section class="section soft" aria-labelledby="what-are-limo-google-ads">
+ads_duplicate = '''<section class="section soft" aria-labelledby="what-are-limo-google-ads">
 <div class="container">
 <div class="center-head">
 <div class="kicker">QUICK ANSWER</div>
@@ -116,13 +45,23 @@ ads_answer = '''<section class="section soft" aria-labelledby="what-are-limo-goo
 <p><strong>Limo Google Ads are paid search campaigns designed for limousine, chauffeur, black car and airport transportation services.</strong> For a limo service, Google Ads and PPC work best when high-intent keywords, location targeting, negative keywords, landing pages and conversion tracking are aligned around calls, quote requests and bookings.</p>
 </div>
 </div>
-</section>'''
-text = insert_after_hero(text, ads_answer, 'id="what-are-limo-google-ads"')
+</section>
+'''
+if ads_duplicate in text:
+    text = text.replace(ads_duplicate, '', 1)
+
+text = must_replace(
+    text,
+    '<h2 id="quick-answer-title">Do Google Ads work for limo companies?</h2>\n<p>They can work well when campaigns target real booking intent, send each search to a relevant landing page and measure valuable actions such as calls, consultation requests or completed bookings. The goal is not to buy more traffic. The goal is to buy the right demand and connect it to a conversion path.</p>',
+    '<h2 id="quick-answer-title">What are limo Google Ads, and do they work for limo companies?</h2>\n<p><strong>Limo Google Ads are paid search campaigns designed for limousine, chauffeur, black car and airport transportation services.</strong> They can work well when campaigns target real booking intent, use relevant location and negative-keyword controls, send each search to the right landing page and measure valuable actions such as calls, consultation requests or completed bookings.</p>',
+    'ads-existing-answer'
+)
 p.write_text(text, encoding='utf-8')
 
 # Validation
-for filename in ['seo-for-limo-companies.html', 'google-ads-for-limo-companies.html']:
-    t = Path(filename).read_text(encoding='utf-8')
+seo = Path('seo-for-limo-companies.html').read_text(encoding='utf-8')
+ads = Path('google-ads-for-limo-companies.html').read_text(encoding='utf-8')
+for filename, t in [('seo-for-limo-companies.html', seo), ('google-ads-for-limo-companies.html', ads)]:
     if len(re.findall(r'<h1\b', t, flags=re.I)) != 1:
         raise SystemExit(f'H1_COUNT_FAIL:{filename}')
     if '<link rel="canonical"' not in t:
@@ -130,4 +69,13 @@ for filename in ['seo-for-limo-companies.html', 'google-ads-for-limo-companies.h
     if '#website' not in t or '#service' not in t or '#webpage' not in t:
         raise SystemExit(f'SCHEMA_GRAPH_FAIL:{filename}')
 
-print('P1_SEO_GOOGLE_ADS_PASS')
+if 'id="what-is-limo-seo"' in seo:
+    raise SystemExit('SEO_DUPLICATE_ANSWER_REMAINS')
+if 'id="what-are-limo-google-ads"' in ads:
+    raise SystemExit('ADS_DUPLICATE_ANSWER_REMAINS')
+if 'What is limo SEO and how does it help limo companies?' not in seo:
+    raise SystemExit('SEO_ANSWER_MISSING')
+if 'What are limo Google Ads, and do they work for limo companies?' not in ads:
+    raise SystemExit('ADS_ANSWER_MISSING')
+
+print('P1_SEO_GOOGLE_ADS_REVIEW_PASS')
