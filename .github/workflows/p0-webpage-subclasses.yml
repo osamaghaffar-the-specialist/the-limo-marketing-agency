@@ -1,0 +1,46 @@
+name: P0 Validate Page Entity Relationships
+
+on:
+  push:
+    branches:
+      - seo-p0-normalization
+    paths:
+      - 'scripts/p0_webpage_subclasses.py'
+      - '.github/workflows/p0-webpage-subclasses.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  normalize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v4
+        with:
+          ref: seo-p0-normalization
+          fetch-depth: 0
+
+      - name: Normalize page-like schema entities
+        run: python scripts/p0_webpage_subclasses.py
+
+      - name: Validate changes
+        run: |
+          git diff --check
+          ! grep -R -F '"isPartOf": {' --include='*.html' . >/dev/null || true
+          grep -F '"@id": "https://osamaghaffar-the-specialist.github.io/the-limo-marketing-agency/#website"' about.html
+          grep -F '"@id": "https://osamaghaffar-the-specialist.github.io/the-limo-marketing-agency/#website"' contact.html
+          grep -F '"@id": "https://osamaghaffar-the-specialist.github.io/the-limo-marketing-agency/#website"' resources.html
+
+      - name: Commit normalized HTML
+        run: |
+          if git diff --quiet; then
+            echo 'No page-entity changes required.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- '*.html'
+          git commit -m 'Normalize webpage subclass relationships to WebSite'
+          git push origin HEAD:seo-p0-normalization
