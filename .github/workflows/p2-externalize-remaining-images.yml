@@ -1,0 +1,121 @@
+name: P2 Externalize Remaining Embedded Images
+
+on:
+  push:
+    branches:
+      - seo-p2-performance
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v4
+        with:
+          ref: seo-p2-performance
+          fetch-depth: 0
+      - name: Externalize remaining embedded images
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re, hashlib, base64
+          from collections import defaultdict
+
+          ROOT=Path('.')
+          html_files=sorted(ROOT.glob('*.html'))
+          pat=re.compile(r'data:(image/[^;"\']+);base64,([A-Za-z0-9+/=\r\n]+)',re.I)
+          allowed={'image/webp':'webp','image/png':'png'}
+
+          # Inventory first, before modifying anything.
+          found={}
+          occurrences=[]
+          for path in html_files:
+              text=path.read_text(encoding='utf-8',errors='strict')
+              for m in pat.finditer(text):
+                  mime=m.group(1).lower()
+                  if mime not in allowed:
+                      raise SystemExit(f'safety stop: unsupported remaining MIME {mime} in {path.name}')
+                  payload=''.join(m.group(2).split())
+                  fp=hashlib.sha256(payload.encode()).hexdigest()[:16]
+                  raw=base64.b64decode(payload, validate=True)
+                  if fp in found and found[fp]['raw']!=raw:
+                      raise SystemExit(f'safety stop: fingerprint collision {fp}')
+                  found.setdefault(fp,{'mime':mime,'raw':raw,'count':0,'files':set()})
+                  found[fp]['count']+=1
+                  found[fp]['files'].add(path.name)
+                  occurrences.append((path.name,fp))
+
+          print('UNIQUE_BEFORE',len(found))
+          print('OCCURRENCES_BEFORE',len(occurrences))
+          if len(found)!=21 or len(occurrences)!=25:
+              raise SystemExit(f'safety stop: expected 21 unique / 25 occurrences, got {len(found)} / {len(occurrences)}')
+
+          assets_dir=ROOT/'assets'/'embedded'
+          assets_dir.mkdir(parents=True,exist_ok=True)
+          asset_paths={}
+          for fp,d in found.items():
+              ext=allowed[d['mime']]
+              rel=f'assets/embedded/{fp}.{ext}'
+              p=ROOT/rel
+              if p.exists() and p.read_bytes()!=d['raw']:
+                  raise SystemExit(f'safety stop: existing asset differs: {rel}')
+              p.write_bytes(d['raw'])
+              asset_paths[fp]=rel
+              print(f'ASSET|{fp}|MIME={d["mime"]}|BYTES={len(d["raw"])}|COUNT={d["count"]}|FILES={sorted(d["files"])}|PATH={rel}')
+
+          before_sizes={p.name:p.stat().st_size for p in html_files}
+          replacements=defaultdict(int)
+          changed=[]
+          for path in html_files:
+              text=path.read_text(encoding='utf-8')
+              original=text
+              def repl(m):
+                  payload=''.join(m.group(2).split())
+                  fp=hashlib.sha256(payload.encode()).hexdigest()[:16]
+                  if fp not in asset_paths:
+                      raise SystemExit(f'safety stop: unexpected payload during replacement in {path.name}: {fp}')
+                  replacements[fp]+=1
+                  return asset_paths[fp]
+              text,n=pat.subn(repl,text)
+              if n:
+                  path.write_text(text,encoding='utf-8')
+                  changed.append((path.name,n,before_sizes[path.name],path.stat().st_size))
+
+          # Exact count verification.
+          for fp,d in found.items():
+              if replacements[fp]!=d['count']:
+                  raise SystemExit(f'safety stop: replacement mismatch {fp}: {replacements[fp]} != {d["count"]}')
+
+          remaining=[]
+          for path in html_files:
+              text=path.read_text(encoding='utf-8')
+              remaining.extend((path.name,m.group(1)) for m in pat.finditer(text))
+          if remaining:
+              raise SystemExit(f'safety stop: embedded image data URIs remain: {remaining[:5]}')
+
+          total_asset_bytes=sum(len(d['raw']) for d in found.values())
+          html_saved=sum(b-a for _,_,b,a in changed)
+          print('CHANGED_HTML_FILES',len(changed))
+          for name,n,b,a in changed:
+              print(f'CHANGED|{name}|REPLACEMENTS={n}|BEFORE={b}|AFTER={a}|SAVED={b-a}')
+          print('TOTAL_ASSET_BYTES',total_asset_bytes)
+          print('TOTAL_HTML_BYTES_SAVED',html_saved)
+          print('DATA_URI_REMAINING',len(remaining))
+          print('FIX_DONE')
+          PY
+      - name: Validate diff
+        run: |
+          git diff --check
+          test -n "$(git diff --name-only '*.html')"
+          test -n "$(git status --short assets/embedded)"
+      - name: Commit embedded image extraction
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- '*.html' assets/embedded
+          git commit -m "Externalize remaining embedded images for faster HTML delivery"
+          git push origin HEAD:seo-p2-performance
