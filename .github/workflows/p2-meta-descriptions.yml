@@ -1,0 +1,31 @@
+name: P2 Money Page Meta Descriptions
+
+on:
+  push:
+    branches:
+      - seo-p2-meta-descriptions
+
+permissions:
+  contents: write
+
+jobs:
+  optimize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Update five money-page meta descriptions
+        run: python .github/scripts/update_money_page_meta.py
+      - name: Validate intended diff only
+        run: |
+          git diff --check
+          changed="$(git diff --name-only | sort)"
+          expected="$(printf '%s\n' booking-systems.html geo-ai-search-optimization.html google-ads-for-limo-companies.html limo-website-design.html seo-for-limo-companies.html | sort)"
+          test "$changed" = "$expected"
+          git diff --stat
+      - name: Commit optimized descriptions
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add booking-systems.html geo-ai-search-optimization.html google-ads-for-limo-companies.html limo-website-design.html seo-for-limo-companies.html
+          git commit -m "P2: Sharpen money page meta descriptions"
+          git push
