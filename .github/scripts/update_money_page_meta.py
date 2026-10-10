@@ -31,23 +31,37 @@ og_re = re.compile(r'<meta(?=[^>]*\bproperty=["\']og:description["\'])[^>]*\bcon
 for filename, (old, new) in UPDATES.items():
     path = Path(filename)
     text = path.read_text(encoding="utf-8")
-    count = text.count(old)
-    if count != 2:
-        raise SystemExit(f"{filename}: expected old description twice, found {count}")
+
     if not 135 <= len(new) <= 160:
         raise SystemExit(f"{filename}: new description length {len(new)} outside 135-160")
 
-    new_text = text.replace(old, new)
+    meta_matches = list(meta_re.finditer(text))
+    og_matches = list(og_re.finditer(text))
+    if len(meta_matches) != 1 or len(og_matches) != 1:
+        raise SystemExit(f"{filename}: expected one meta description and one OG description")
+    if html.unescape(meta_matches[0].group(1)) != old:
+        raise SystemExit(f"{filename}: current meta description does not match audited source")
+    if html.unescape(og_matches[0].group(1)) != old:
+        raise SystemExit(f"{filename}: current OG description does not match audited source")
+
+    new_text, meta_count = meta_re.subn(
+        lambda m: m.group(0).replace(m.group(1), new, 1), text, count=1
+    )
+    new_text, og_count = og_re.subn(
+        lambda m: m.group(0).replace(m.group(1), new, 1), new_text, count=1
+    )
+    if meta_count != 1 or og_count != 1:
+        raise SystemExit(f"{filename}: replacement count validation failed")
+
     path.write_text(new_text, encoding="utf-8")
 
     meta = meta_re.search(new_text)
     og = og_re.search(new_text)
     if not meta or not og:
-        raise SystemExit(f"{filename}: description tag validation failed")
-    meta_text = html.unescape(meta.group(1))
-    og_text = html.unescape(og.group(1))
-    if meta_text != new or og_text != new:
+        raise SystemExit(f"{filename}: post-edit description tag validation failed")
+    if html.unescape(meta.group(1)) != new or html.unescape(og.group(1)) != new:
         raise SystemExit(f"{filename}: meta/OG descriptions do not match intended text")
+
     print(f"{filename} PASS length={len(new)}")
 
 print("UPDATED", len(UPDATES), "FILES")
