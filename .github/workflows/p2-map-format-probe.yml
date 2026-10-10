@@ -1,0 +1,57 @@
+name: P2 Map Format Probe
+
+on:
+  push:
+    branches:
+      - seo-p2-images-cls
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Measure safe map compression options
+        run: |
+          python -m pip install --quiet pillow
+          python - <<'PY'
+          from pathlib import Path
+          from PIL import Image, ImageChops, ImageStat
+          import math, tempfile
+
+          src=Path('assets/home-worldwide-map-hd.png')
+          with Image.open(src) as im0:
+              original=im0.convert('RGB')
+          print('ORIGINAL_BYTES', src.stat().st_size)
+          print('DIMENSIONS', f'{original.width}x{original.height}')
+
+          def mse(a,b):
+              d=ImageChops.difference(a,b)
+              stat=ImageStat.Stat(d)
+              # RMS per channel -> MSE over all channels
+              return sum(v*v for v in stat.rms)/len(stat.rms)
+
+          def psnr(a,b):
+              m=mse(a,b)
+              return float('inf') if m==0 else 20*math.log10(255.0/math.sqrt(m))
+
+          for q in (82,86,88,90,92,95):
+              out=Path(f'/tmp/map-q{q}.webp')
+              original.save(out,'WEBP',quality=q,method=6)
+              with Image.open(out) as dec:
+                  recon=dec.convert('RGB')
+              size=out.stat().st_size
+              reduction=(1-size/src.stat().st_size)*100
+              print(f'WEBP|Q={q}|BYTES={size}|REDUCTION={reduction:.2f}%|PSNR={psnr(original,recon):.2f}')
+
+          out=Path('/tmp/map-lossless.webp')
+          original.save(out,'WEBP',lossless=True,method=6)
+          with Image.open(out) as dec:
+              recon=dec.convert('RGB')
+          size=out.stat().st_size
+          reduction=(1-size/src.stat().st_size)*100
+          print(f'WEBP|LOSSLESS|BYTES={size}|REDUCTION={reduction:.2f}%|PSNR={psnr(original,recon)}')
+          print('PROBE_DONE')
+          PY
