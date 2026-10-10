@@ -1,0 +1,37 @@
+name: P1 Services Industries Hub Optimization
+
+on:
+  push:
+    branches:
+      - seo-p1-hubs-services-industries
+
+permissions:
+  contents: write
+
+jobs:
+  optimize:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v4
+        with:
+          ref: seo-p1-hubs-services-industries
+          fetch-depth: 0
+
+      - name: Optimize services and industries hubs
+        run: python scripts/p1_hubs_services_industries.py
+
+      - name: Validate diff
+        run: |
+          git diff --check
+          git diff --exit-code -- .github/workflows/p1-hubs-services-industries.yml scripts/p1_hubs_services_industries.py || true
+          test "$(git diff --name-only | sort | tr '\n' ' ')" = "industries.html services.html "
+
+      - name: Commit optimized hub pages
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add industries.html services.html
+          git commit -m "Optimize services and industries hub architecture"
+          git push origin HEAD:seo-p1-hubs-services-industries
