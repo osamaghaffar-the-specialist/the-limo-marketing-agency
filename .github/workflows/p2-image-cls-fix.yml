@@ -1,0 +1,123 @@
+name: P2 Image and CLS Fix
+
+on:
+  push:
+    branches:
+      - seo-p2-images-cls
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: seo-p2-images-cls
+      - name: Apply verified image fixes
+        run: |
+          python -m pip install --quiet pillow
+          python - <<'PY'
+          from pathlib import Path
+          from urllib.parse import urlsplit
+          from PIL import Image
+          import re, sys
+
+          root=Path('.')
+          index=root/'index.html'
+          old_map=root/'assets'/'home-worldwide-map-hd.png'
+          new_map=root/'assets'/'home-worldwide-map-hd.webp'
+
+          if old_map.exists():
+              with Image.open(old_map) as im:
+                  rgb=im.convert('RGB')
+                  if rgb.size != (1024,1024):
+                      raise SystemExit(f'Unexpected map dimensions: {rgb.size}')
+                  rgb.save(new_map,'WEBP',quality=92,method=6)
+              print('MAP_WEBP_BYTES',new_map.stat().st_size)
+              if new_map.stat().st_size >= 200000:
+                  raise SystemExit('Map WebP unexpectedly large')
+          elif not new_map.exists():
+              raise SystemExit('Neither old nor new map asset exists')
+
+          text=index.read_text(encoding='utf-8',errors='strict')
+          text=text.replace('assets/home-worldwide-map-hd.png','assets/home-worldwide-map-hd.webp')
+
+          img_re=re.compile(r'<img\b[^>]*?>',re.I|re.S)
+          changed=0
+
+          def add_dims(m):
+              nonlocal_dummy=None
+              global changed
+              tag=m.group(0)
+              if re.search(r'\bwidth\s*=',tag,re.I) and re.search(r'\bheight\s*=',tag,re.I):
+                  return tag
+              sm=re.search(r'\bsrc\s*=\s*(["\'])(.*?)\1',tag,re.I|re.S)
+              if not sm:
+                  return tag
+              src=sm.group(2)
+              if src.startswith(('http://','https://','//','data:')):
+                  return tag
+              clean=urlsplit(src).path
+              if clean.startswith('./'): clean=clean[2:]
+              p=root/clean
+              if not p.is_file():
+                  raise SystemExit(f'Local img source missing while adding dimensions: {src}')
+              try:
+                  with Image.open(p) as im:
+                      w,h=im.size
+              except Exception as e:
+                  raise SystemExit(f'Cannot read image {src}: {e}')
+              attrs=''
+              if not re.search(r'\bwidth\s*=',tag,re.I): attrs += f' width="{w}"'
+              if not re.search(r'\bheight\s*=',tag,re.I): attrs += f' height="{h}"'
+              if not attrs:
+                  return tag
+              changed += 1
+              if tag.endswith('/>'):
+                  return tag[:-2] + attrs + '/>'
+              return tag[:-1] + attrs + '>'
+
+          text2=img_re.sub(add_dims,text)
+          if changed not in (0,20):
+              raise SystemExit(f'Expected 20 dimension fixes on first run or 0 on replay, got {changed}')
+          index.write_text(text2,encoding='utf-8')
+          print('IMG_TAGS_DIMENSION_FIXED',changed)
+
+          if old_map.exists():
+              old_map.unlink()
+
+          # Post-fix checks.
+          final=index.read_text(encoding='utf-8',errors='strict')
+          tags=img_re.findall(final)
+          missing=[]
+          for i,tag in enumerate(tags,1):
+              if not re.search(r'\bwidth\s*=',tag,re.I) or not re.search(r'\bheight\s*=',tag,re.I):
+                  missing.append(i)
+          print('IMG_COUNT',len(tags))
+          print('IMG_MISSING_DIMS',len(missing))
+          print('MAP_OLD_REF_COUNT',final.count('home-worldwide-map-hd.png'))
+          print('MAP_NEW_REF_COUNT',final.count('home-worldwide-map-hd.webp'))
+          print('MAP_NEW_EXISTS',new_map.exists())
+          print('MAP_NEW_BYTES',new_map.stat().st_size if new_map.exists() else 0)
+          if len(tags)!=21 or missing:
+              raise SystemExit(f'Post-fix image dimension failure: count={len(tags)} missing={missing}')
+          if final.count('home-worldwide-map-hd.png')!=0 or final.count('home-worldwide-map-hd.webp')!=1:
+              raise SystemExit('Map reference replacement failure')
+          if not new_map.exists():
+              raise SystemExit('New map WebP missing')
+          with Image.open(new_map) as im:
+              if im.size!=(1024,1024): raise SystemExit(f'New map dimensions changed: {im.size}')
+          print('FIX_QA_PASS')
+          PY
+
+          if git diff --quiet && git diff --cached --quiet; then
+            echo "NO_CHANGES_TO_COMMIT"
+            exit 0
+          fi
+          git config user.name "Usama Ghaffar"
+          git config user.email "osamaghaffar001@gmail.com"
+          git add index.html assets/home-worldwide-map-hd.webp assets/home-worldwide-map-hd.png
+          git commit -m "P2: reserve image space and optimize worldwide map"
+          git push origin HEAD:seo-p2-images-cls
