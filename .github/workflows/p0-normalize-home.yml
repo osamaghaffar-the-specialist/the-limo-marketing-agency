@@ -1,0 +1,45 @@
+name: P0 Normalize Homepage SEO GEO Signals
+
+on:
+  push:
+    branches:
+      - seo-p0-normalization
+    paths:
+      - 'scripts/p0_normalize_home.py'
+      - '.github/workflows/p0-normalize-home.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  normalize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v4
+        with:
+          ref: seo-p0-normalization
+          fetch-depth: 0
+
+      - name: Normalize homepage URL signals
+        run: python scripts/p0_normalize_home.py
+
+      - name: Validate diff
+        run: |
+          git diff --check
+          grep -F '<loc>https://osamaghaffar-the-specialist.github.io/the-limo-marketing-agency/</loc>' sitemap.xml
+          ! grep -R -F 'https://osamaghaffar-the-specialist.github.io/the-limo-marketing-agency/index.html' --include='*.html' .
+          ! grep -R -F 'href="index.html"' --include='*.html' .
+
+      - name: Commit normalized files
+        run: |
+          if git diff --quiet; then
+            echo 'No normalization changes required.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- '*.html'
+          git commit -m 'Normalize homepage entity URL across SEO GEO signals'
+          git push origin HEAD:seo-p0-normalization
