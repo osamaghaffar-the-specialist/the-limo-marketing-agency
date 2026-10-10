@@ -17,14 +17,12 @@ FILES = [
     "contact.html",
 ]
 
-marker = (
+org_header = (
     '      "@type": "Organization",\n'
     f'      "@id": "{ORG_ID}",\n'
-    '      "name": "The Limo Marketing Agency",\n'
-    f'      "url": "{ROOT}",'
+    '      "name": "The Limo Marketing Agency",'
 )
-logo_block = (
-    f'{marker}\n'
+logo_lines = (
     '      "logo": {\n'
     '        "@type": "ImageObject",\n'
     f'        "@id": "{ROOT}#logo",\n'
@@ -42,7 +40,6 @@ for filename in FILES:
     path = Path(filename)
     text = path.read_text(encoding="utf-8")
 
-    # Skip safely if this page already has the exact Organization logo relation.
     blocks = re.findall(r'<script[^>]+type=["\']application/ld\+json["\'][^>]*>(.*?)</script>', text, flags=re.I | re.S)
     parsed = [json.loads(block.strip()) for block in blocks]
     orgs = []
@@ -55,20 +52,34 @@ for filename in FILES:
     if len(orgs) != 1:
         raise SystemExit(f"{filename}: expected exactly one Organization node, found {len(orgs)}")
 
-    existing_logo = orgs[0].get("logo")
+    org = orgs[0]
+    existing_logo = org.get("logo")
     if isinstance(existing_logo, dict) and existing_logo.get("url") == LOGO_URL and existing_logo.get("contentUrl") == LOGO_URL:
         print(filename, "ALREADY_OK")
         continue
 
-    count = text.count(marker)
+    header_count = text.count(org_header)
+    if header_count != 1:
+        raise SystemExit(f"{filename}: expected one Organization header, found {header_count}")
+
+    current_url = org.get("url")
+    if current_url == ROOT:
+        target = org_header + f'\n      "url": "{ROOT}",'
+        replacement = target + "\n" + logo_lines
+    elif current_url is None:
+        target = org_header
+        replacement = org_header + f'\n      "url": "{ROOT}",\n' + logo_lines
+    else:
+        raise SystemExit(f"{filename}: unexpected Organization url {current_url!r}")
+
+    count = text.count(target)
     print(filename, "INSERTION_TARGET_COUNT", count)
     if count != 1:
         raise SystemExit(f"{filename}: expected one insertion target, found {count}")
 
-    text = text.replace(marker, logo_block, 1)
+    text = text.replace(target, replacement, 1)
     path.write_text(text, encoding="utf-8")
 
-    # Re-parse after edit and verify the exact node.
     blocks2 = re.findall(r'<script[^>]+type=["\']application/ld\+json["\'][^>]*>(.*?)</script>', text, flags=re.I | re.S)
     parsed2 = [json.loads(block.strip()) for block in blocks2]
     orgs2 = []
@@ -80,7 +91,10 @@ for filename in FILES:
                 orgs2.append(node)
     if len(orgs2) != 1:
         raise SystemExit(f"{filename}: post-edit Organization validation failed")
-    logo = orgs2[0].get("logo")
+    org2 = orgs2[0]
+    logo = org2.get("logo")
+    if org2.get("url") != ROOT:
+        raise SystemExit(f"{filename}: Organization url validation failed")
     if not isinstance(logo, dict) or logo.get("url") != LOGO_URL or logo.get("contentUrl") != LOGO_URL:
         raise SystemExit(f"{filename}: post-edit logo validation failed")
     changed.append(filename)
