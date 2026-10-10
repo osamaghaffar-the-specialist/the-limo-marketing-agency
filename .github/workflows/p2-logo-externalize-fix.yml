@@ -1,0 +1,104 @@
+name: P2 Externalize Repeated Logo
+
+on:
+  push:
+    branches:
+      - seo-p2-performance
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v4
+        with:
+          ref: seo-p2-performance
+          fetch-depth: 0
+      - name: Externalize repeated brand logo
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re, hashlib, base64, struct
+
+          target='229c49f149a86c48'
+          pat=re.compile(r'data:(image/[^;"\']+);base64,([A-Za-z0-9+/=\r\n]+)',re.I)
+          html_files=sorted(Path('.').glob('*.html'))
+          replacement='assets/brand-logo.png'
+          raw_asset=None
+          matches=[]
+          before={p.name:p.stat().st_size for p in html_files}
+
+          for path in html_files:
+              text=path.read_text(encoding='utf-8',errors='strict')
+              for m in pat.finditer(text):
+                  payload=''.join(m.group(2).split())
+                  fp=hashlib.sha256(payload.encode()).hexdigest()[:16]
+                  if fp==target:
+                      raw=base64.b64decode(payload)
+                      if m.group(1).lower()!='image/png': raise SystemExit(f'{path}: target MIME changed')
+                      if len(raw)!=31467: raise SystemExit(f'{path}: target raw byte size changed: {len(raw)}')
+                      if not raw.startswith(b'\x89PNG\r\n\x1a\n'): raise SystemExit(f'{path}: target is not PNG')
+                      w,h=struct.unpack('>II',raw[16:24])
+                      if (w,h)!=(314,360): raise SystemExit(f'{path}: unexpected logo dimensions {(w,h)}')
+                      if raw_asset is None: raw_asset=raw
+                      elif raw_asset!=raw: raise SystemExit('fingerprint collision / payload mismatch')
+                      matches.append((path,m.group(0)))
+
+          files_with_matches=sorted({p.name for p,_ in matches})
+          print('MATCH_COUNT',len(matches))
+          print('MATCH_FILES',len(files_with_matches),files_with_matches)
+          if len(matches)!=42 or len(files_with_matches)!=23:
+              raise SystemExit('safety stop: expected 42 occurrences across 23 HTML files')
+          if raw_asset is None: raise SystemExit('target asset not found')
+
+          asset=Path('assets/brand-logo.png')
+          if asset.exists() and asset.read_bytes()!=raw_asset:
+              raise SystemExit('assets/brand-logo.png already exists with different bytes')
+          asset.write_bytes(raw_asset)
+
+          changed=[]
+          for path in html_files:
+              text=path.read_text(encoding='utf-8')
+              original=text
+              def repl(m):
+                  payload=''.join(m.group(2).split())
+                  fp=hashlib.sha256(payload.encode()).hexdigest()[:16]
+                  return replacement if fp==target else m.group(0)
+              text,n=pat.subn(repl,text)
+              if text!=original:
+                  path.write_text(text,encoding='utf-8')
+                  changed.append((path.name,n,before[path.name],path.stat().st_size))
+
+          # post-fix verification
+          remaining=0
+          for path in html_files:
+              text=path.read_text(encoding='utf-8')
+              for m in pat.finditer(text):
+                  payload=''.join(m.group(2).split())
+                  if hashlib.sha256(payload.encode()).hexdigest()[:16]==target:
+                      remaining+=1
+          if remaining: raise SystemExit(f'target data URI still remains {remaining} times')
+          if not asset.exists() or asset.stat().st_size!=31467: raise SystemExit('brand asset verification failed')
+
+          print('ASSET_BYTES',asset.stat().st_size)
+          for name,n,b,a in changed:
+              print(f'CHANGED|{name}|REPLACEMENTS={n}|BEFORE={b}|AFTER={a}|SAVED={b-a}')
+          print('TOTAL_SAVED_HTML_BYTES',sum(b-a for _,_,b,a in changed))
+          print('FIX_DONE')
+          PY
+      - name: Validate diff
+        run: |
+          git diff --check
+          test -f assets/brand-logo.png
+          test -n "$(git diff --name-only '*.html')"
+      - name: Commit performance fix
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- '*.html' assets/brand-logo.png
+          git commit -m "Externalize repeated brand logo for faster page delivery"
+          git push origin HEAD:seo-p2-performance
