@@ -1,0 +1,60 @@
+name: Apply Limo SEO Ranking Brief
+
+on:
+  push:
+    branches:
+      - seo-seo-page-ranking-optimization
+    paths:
+      - tools/apply-seo-ranking-brief.py
+      - .github/workflows/seo-ranking-brief-apply.yml
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: seo-seo-page-ranking-optimization
+          fetch-depth: 0
+
+      - name: Apply controlled SEO content upgrade
+        run: python tools/apply-seo-ranking-brief.py
+
+      - name: Production guardrails
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json, re
+          p = Path('seo-for-limo-companies.html')
+          t = p.read_text(encoding='utf-8')
+          assert t.count('<!-- SEO RANKING BRIEF ADDITIONS: 2026-10-10 -->') == 1
+          assert t.count('<title>Limo SEO Services | SEO for Limo Companies</title>') == 1
+          assert t.count('<link rel="canonical" href="https://osamaghaffar-the-specialist.github.io/the-limo-marketing-agency/seo-for-limo-companies.html"/>') == 1
+          assert len(re.findall(r'<h1\b', t, re.I)) == 1
+          assert 'What Should a Limo Company <span>Optimize First?</span>' in t
+          assert 'What SEO cannot guarantee' in t
+          assert 'href="google-ads-for-limo-companies.html"' in t
+          assert 'href="geo-ai-search-optimization.html"' in t
+          for raw in re.findall(r'<script[^>]+type=["\']application/ld\+json["\'][^>]*>(.*?)</script>', t, re.I|re.S):
+              json.loads(raw)
+          print('GUARDRAILS_PASS')
+          PY
+          git diff --check
+          git diff --name-only
+          test "$(git diff --name-only | tr -d '\r')" = "seo-for-limo-companies.html"
+
+      - name: Commit production page only
+        run: |
+          if git diff --quiet; then
+            echo "No production diff to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add seo-for-limo-companies.html
+          git commit -m "SEO: implement limo SEO ranking brief [skip ci]"
+          git push origin HEAD:seo-seo-page-ranking-optimization
