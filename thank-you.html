@@ -740,5 +740,30 @@ document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
   });
 })();
 </script>
+<script id="tlma-generate-lead-event">
+(function(){
+  window.dataLayer=window.dataLayer||[];
+  var confirmed=false;
+  var leadSource='website';
+
+  try{
+    confirmed=sessionStorage.getItem('tlma_lead_submitted')==='1';
+    leadSource=sessionStorage.getItem('tlma_lead_source_page')||'website';
+    if(confirmed){
+      sessionStorage.removeItem('tlma_lead_submitted');
+      sessionStorage.removeItem('tlma_lead_source_page');
+    }
+  }catch(_e){}
+
+  if(!confirmed) return;
+
+  window.dataLayer.push({
+    event:'generate_lead',
+    lead_source:leadSource,
+    form_type:'consultation',
+    conversion_page:'thank-you'
+  });
+})();
+</script>
 </body>
 </html>
