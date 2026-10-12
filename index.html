@@ -11812,6 +11812,11 @@ html,body{max-width:100%;overflow-x:hidden}
         source_page:form.dataset.sourcePage||document.title
       });
 
+      try{
+        sessionStorage.setItem('tlma_lead_submitted','1');
+        sessionStorage.setItem('tlma_lead_source_page',form.dataset.sourcePage||document.title);
+      }catch(_e){}
+
       status.textContent='Submitted successfully. Redirecting...';
       window.location.href=thankYou;
     }catch(error){
