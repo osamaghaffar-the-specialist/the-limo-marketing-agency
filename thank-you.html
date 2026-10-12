@@ -2,6 +2,14 @@
 
 <html lang="en">
 <head>
+<!-- TLMA Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-DXCDK9ZELZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-DXCDK9ZELZ');
+</script>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Thank You | The Limo Marketing Agency</title>
@@ -757,12 +765,17 @@ document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
 
   if(!confirmed) return;
 
-  window.dataLayer.push({
-    event:'generate_lead',
+  const leadEventParams={
     lead_source:leadSource,
     form_type:'consultation',
     conversion_page:'thank-you'
-  });
+  };
+
+  if(typeof window.gtag==='function'){
+    window.gtag('event','generate_lead',leadEventParams);
+  }else{
+    window.dataLayer.push(Object.assign({event:'generate_lead'},leadEventParams));
+  }
 })();
 </script>
 </body>
