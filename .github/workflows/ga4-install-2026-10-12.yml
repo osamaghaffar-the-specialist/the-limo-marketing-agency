@@ -1,0 +1,41 @@
+name: GA4 install 2026-10-12
+
+on:
+  push:
+    branches:
+      - ga4-install-2026-10-12
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: ga4-install-2026-10-12
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Apply and validate GA4 install
+        run: python .github/seo-assets/apply-ga4-install-2026-10-12.py
+
+      - name: Remove temporary automation files
+        run: |
+          rm .github/seo-assets/apply-ga4-install-2026-10-12.py
+          rm .github/workflows/ga4-install-2026-10-12.yml
+
+      - name: Commit validated GA4 install
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --check
+          git commit -m "Measurement: install GA4 and wire generate_lead"
+          git push origin HEAD:ga4-install-2026-10-12
