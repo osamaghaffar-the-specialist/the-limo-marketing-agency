@@ -4,13 +4,16 @@ MEASUREMENT_ID = "G-DXCDK9ZELZ"
 MARKER = "<!-- TLMA Google Analytics 4 -->"
 TAG = f'''{MARKER}\n<script async src="https://www.googletagmanager.com/gtag/js?id={MEASUREMENT_ID}"></script>\n<script>\n  window.dataLayer = window.dataLayer || [];\n  function gtag(){{dataLayer.push(arguments);}}\n  gtag('js', new Date());\n  gtag('config', '{MEASUREMENT_ID}');\n</script>'''
 
-# Only real top-level HTML documents. Google Search Console verification files can
-# also end in .html but are plain-text tokens and must never be modified.
+# Only real top-level HTML documents. Google verification tokens can also end in
+# .html but are plain-text files and must never be modified.
 html_files = []
+non_document_html = []
 for path in sorted(Path('.').glob('*.html')):
     text = path.read_text(encoding='utf-8')
     if '<html' in text.lower() and '<head>' in text:
         html_files.append(path)
+    else:
+        non_document_html.append(path)
 
 assert html_files, 'No real top-level HTML documents found'
 
@@ -39,11 +42,12 @@ for path in html_files:
     assert text.count(MEASUREMENT_ID) == 2, f'Expected exactly 2 Measurement ID references in {path}, got {text.count(MEASUREMENT_ID)}'
     assert text.count(MARKER) == 1, f'Expected one GA4 marker in {path}'
 
-# Search Console verification token must remain byte-for-byte free of GA4 markup.
-for path in Path('.').glob('google*.html'):
+# Any .html file that is not an actual document (e.g. Search Console verification)
+# must remain untouched by the analytics patch.
+for path in non_document_html:
     text = path.read_text(encoding='utf-8')
-    assert MEASUREMENT_ID not in text, f'GA4 unexpectedly added to verification file {path}'
-    assert MARKER not in text, f'GA4 marker unexpectedly added to verification file {path}'
+    assert MEASUREMENT_ID not in text, f'GA4 unexpectedly added to non-document HTML file {path}'
+    assert MARKER not in text, f'GA4 marker unexpectedly added to non-document HTML file {path}'
 
 text = thank_you.read_text(encoding='utf-8')
 assert "window.gtag('event','generate_lead',leadEventParams);" in text
@@ -53,5 +57,5 @@ for pii in ['email:', 'phone:', 'name:', 'company:']:
     assert pii not in params, f'PII-like field found in lead event params: {pii}'
 
 print(f'GA4 installed on {len(html_files)} real top-level HTML documents; newly changed tag files: {len(changed)}')
-print('Search Console verification files excluded and unchanged')
+print(f'Excluded {len(non_document_html)} non-document .html verification/token file(s)')
 print('Success-only generate_lead event wired to gtag.js on thank-you.html')
