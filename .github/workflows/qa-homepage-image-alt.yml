@@ -1,0 +1,24 @@
+name: QA Homepage Image Alt
+
+on:
+  push:
+    branches:
+      - qa-homepage-image-alt-2026-10-13
+    paths:
+      - scripts/qa-homepage-image-alt.py
+      - .github/workflows/qa-homepage-image-alt.yml
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: qa-homepage-image-alt-2026-10-13
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python scripts/qa-homepage-image-alt.py
