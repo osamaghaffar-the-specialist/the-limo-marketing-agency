@@ -9,6 +9,12 @@ Purpose: keep every named case study and public result claim tied to verifiable 
 - **PARTIAL** — some work evidence exists, but permission and/or metric evidence is incomplete
 - **HOLD** — do not amplify the story beyond current conservative wording until evidence is verified
 
+## Public-page control — 2026-10-13
+
+The public `case-studies-results.html` page has been converted to an evidence-first portfolio while the records below remain PARTIAL/HOLD. Named client transformations, named-client CreativeWork schema and the permission-unverified testimonial are removed from the publishable version. The page can still show anonymized implementation evidence and Google Ads account snapshots with conservative metric definitions.
+
+**Publication gate:** a named client story may return only after its ledger status becomes VERIFIED for the exact public claim being made.
+
 ---
 
 ## NYC Lux Ride
@@ -18,7 +24,7 @@ Purpose: keep every named case study and public result claim tied to verifiable 
 ### Evidence currently available
 - Known implementation trail exists for a limo/black-car booking system project.
 - Work trail includes a customer booking flow, admin quote workflow, quote logic, Supabase-backed booking data, and customer/operator notification workflow.
-- Current TLMA case-study page identifies this story as booking/admin/automation work.
+- This implementation may be described anonymously as system capability while client-name permission remains incomplete.
 
 ### Permission status
 - Public permission to use the client/company name, logo, screenshots, testimonial or quantified results is **not yet recorded in this ledger**.
@@ -28,8 +34,8 @@ Purpose: keep every named case study and public result claim tied to verifiable 
 - Do not infer results from the existence of the system.
 
 ### Safe public claims until permission is recorded
-- Describe only the type of system/work delivered if the relationship itself is confirmed.
-- Do not publish new KPI cards, testimonial quotes or client-attributed performance claims.
+- Describe only the type of system/work delivered without attaching the company name to a new public claim.
+- Do not publish KPI cards, testimonial quotes or client-attributed performance claims.
 
 ### Evidence still needed
 - written approval to use company name/story publicly
@@ -43,8 +49,8 @@ Purpose: keep every named case study and public result claim tied to verifiable 
 
 **Current status: HOLD**
 
-### Current site state
-The public case-study page names NYC United Limo and describes website redesign, SEO and Google Ads work, with a link to the current public website.
+### Public site state after 2026-10-13 cleanup
+The evidence-first case-study page no longer names NYC United Limo or amplifies a client transformation while proof controls are incomplete.
 
 ### Missing proof controls
 - relationship/work evidence has not yet been independently logged here
@@ -60,8 +66,8 @@ Do not amplify this story on the homepage, SEO service page, Google Ads service 
 
 **Current status: HOLD**
 
-### Current site state
-The public case-study page names King & Queen Limo as a client story.
+### Public site state after 2026-10-13 cleanup
+The evidence-first case-study page no longer names King & Queen Limo or presents it as a public client transformation.
 
 ### Missing proof controls
 - relationship/work evidence not yet logged here
@@ -77,8 +83,8 @@ Keep future amplification on hold until verification is complete.
 
 **Current status: HOLD**
 
-### Current site state
-The public case-study page names NYC Executive Limo as a client story.
+### Public site state after 2026-10-13 cleanup
+The evidence-first case-study page no longer names NYC Executive Limo or presents it as a public client transformation.
 
 ### Missing proof controls
 - relationship/work evidence not yet logged here
