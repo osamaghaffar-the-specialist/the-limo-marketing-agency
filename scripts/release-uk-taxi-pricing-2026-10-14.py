@@ -60,8 +60,10 @@ PAGE.write_text(text, encoding='utf-8')
 # --- Resources hub: add one discoverable editorial link and keep ItemList schema aligned ---
 rtext = RESOURCES.read_text(encoding='utf-8')
 if URL not in rtext:
-    card = '''\n      <article class="article-card">\n        <span class="article-type">UK Taxi Technology</span>\n        <h3>Taxi Dispatch System Prices UK (2026): Real Costs Compared</h3>\n        <p>Compare published UK taxi dispatch pricing models, entry prices and common extras using vendor and authorised-reseller sources.</p>\n        <div class="article-meta"><span>Pricing guide</span><span>Updated Oct 2026</span></div>\n        <a href="uk/taxi-dispatch-system-prices/">Compare UK dispatch prices →</a>\n      </article>'''
-    rtext = replace_once(rtext, '<div class="article-grid">', '<div class="article-grid">' + card, 'resources article card')
+    card = '''\n<article class="article-card reveal"><span class="article-type">UK TAXI TECHNOLOGY</span><h3>Taxi Dispatch System Prices UK (2026): Real Costs Compared</h3><p>Compare published UK taxi dispatch pricing models, entry prices and common extras using vendor and authorised-reseller sources.</p><div class="article-meta"><span>Pricing Guide</span><span>Updated Oct 2026</span></div><a href="uk/taxi-dispatch-system-prices/">Compare UK Dispatch Prices →</a></article>'''
+    exact_grid_start = '<div class="article-grid">\n<article class="article-card reveal"><span class="article-type">GOOGLE ADS</span>'
+    replacement = '<div class="article-grid">' + card + '\n<article class="article-card reveal"><span class="article-type">GOOGLE ADS</span>'
+    rtext = replace_once(rtext, exact_grid_start, replacement, 'resources strategic-articles grid')
 
     match = re.search(r'(<script type="application/ld\+json">\s*)(\{.*?\})(\s*</script>)', rtext, flags=re.S)
     if not match:
