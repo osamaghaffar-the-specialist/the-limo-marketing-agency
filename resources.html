@@ -241,6 +241,25 @@ h1 span,h2 span{color:var(--blue)}
  .featured-guide,.topic-board,.split-panel,.subscribe-shell,.cta-shell{padding:20px}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}.reveal{opacity:1;transform:none}}
+
+/* First-party booking diagnostic; browser-only, no data capture */
+.audit-panel{border:1px solid rgba(81,112,254,.16);border-radius:24px;background:#fff;box-shadow:0 18px 50px rgba(18,35,78,.06);padding:24px}
+.audit-intro{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:18px;flex-wrap:wrap}
+.audit-intro h3{margin:0 0 8px;font-size:clamp(21px,2.6vw,27px)}
+.audit-intro p{margin:0;max-width:710px;color:var(--muted);font-size:13px;line-height:1.75}
+.audit-counter{flex:0 0 auto;background:#eef3ff;color:#173677;border:1px solid rgba(81,112,254,.18);padding:11px 15px;border-radius:14px;font-weight:850;font-size:12px}
+.audit-check-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.audit-card{display:flex;gap:12px;padding:16px;border:1px solid var(--line);background:#fafbff;border-radius:15px;cursor:pointer;min-width:0}
+.audit-card input{width:18px;height:18px;margin:2px 0 0;flex:0 0 18px;accent-color:#5170FE}
+.audit-card-body{display:flex;flex-direction:column;gap:6px;min-width:0}
+.audit-card-body strong{font-size:13px;line-height:1.5}.audit-card-body small{font-size:12px;line-height:1.7;color:var(--muted)}
+.audit-card.is-verified{background:#effaf5;border-color:rgba(32,185,131,.32)}
+.audit-summary{margin-top:20px;padding-top:17px;border-top:1px solid var(--line)}
+.audit-summary p{font-size:12px;line-height:1.8;color:var(--muted);max-width:950px;margin:0 0 15px}
+.audit-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.audit-primary,.audit-secondary{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:12px 18px;border-radius:12px;font-weight:850;font-size:12px}
+.audit-primary{background:var(--blue);color:#fff}.audit-secondary{background:#f1f5ff;color:#173677}
+@media(max-width:720px){.audit-check-grid{grid-template-columns:1fr}.audit-panel{padding:16px}.audit-counter{width:100%;text-align:center}.audit-actions a{width:100%}}
 </style>
 <style id="tlma-global-header-css">
 :root{--tlma-global-logo:url("assets/brand-logo.png");}
@@ -756,6 +775,29 @@ html,body{max-width:100%;overflow-x:hidden}
 </div>
 </div>
 </section>
+
+<section class="section" id="limo-booking-conversion-audit" aria-labelledby="bookingAuditHeading">
+<div class="container">
+<div class="section-head">
+<div><div class="kicker"><span class="dot"></span>FREE OPERATOR WORKSHEET</div><h2 id="bookingAuditHeading">Limo Booking Conversion Audit: <span>12 Checks from Click to Confirmed Ride.</span></h2></div>
+<p>Before increasing your marketing budget, trace real enquiries from search to operator response, quote and confirmation. Tick only checks that you can verify with a real record or process.</p>
+</div>
+<div class="audit-panel reveal">
+<div class="audit-intro"><div><h3>Find the leakage point, not just the next keyword.</h3><p>Use recent enquiry, quote and reservation records. Nothing you tick here is sent to us or stored online; it is a private browser-only worksheet.</p></div><div class="audit-counter" aria-live="polite" id="auditProgress">0 of 12 checks verified</div></div>
+<div class="audit-check-grid"><label class="audit-card"><input class="audit-check" type="checkbox" aria-label="Verified: Match search intent to landing page"/><span class="audit-card-body"><strong>01. Match search intent to landing page</strong><small>Evidence: Compare actual service/airport queries with the landing URL that received each visit.</small></span></label>
+<label class="audit-card"><input class="audit-check" type="checkbox" aria-label="Verified: Define enquiry vs. quote vs. booking"/><span class="audit-card-body"><strong>02. Define enquiry vs. quote vs. booking</strong><small>Evidence: Write down what qualifies as a form lead, a quote request, and a confirmed reservation.</small></span></label>
+<label class="audit-card"><input class="audit-check" type="checkbox" aria-label="Verified: Verify successful form delivery"/><span class="audit-card-body"><strong>03. Verify successful form delivery</strong><small>Evidence: Match a successfully submitted form to a notification or operator-side record.</small></span></label>
+<label class="audit-card"><input class="audit-check" type="checkbox" aria-label="Verified: Prevent duplicate lead events"/><span class="audit-card-body"><strong>04. Prevent duplicate lead events</strong><small>Evidence: Confirm failures, refreshes and repeated submits are not counted as extra leads.</small></span></label>
+<label class="audit-card"><input class="audit-check" type="checkbox" aria-label="Verified: Capture the real trip details"/><span class="audit-card-body"><strong>05. Capture the real trip details</strong><small>Evidence: Check pickup, drop-off, ride type, date/time, passengers, luggage and flight details when relevant.</small></span></label>
+<label class="audit-card"><input class="audit-check" type="checkbox" aria-label="Verified: Assign each incoming lead"/><span class="audit-card-body"><strong>06. Assign each incoming lead</strong><small>Evidence: Confirm a specific operator receives the inquiry and record time to first response.</small></span></label>
+<label class="audit-card"><input class="audit-check" type="checkbox" aria-label="Verified: Track the quote separately"/><span class="audit-card-body"><strong>07. Track the quote separately</strong><small>Evidence: Use a quote ID or dated record; track quote issued, accepted, declined or still open.</small></span></label>
+<label class="audit-card"><input class="audit-check" type="checkbox" aria-label="Verified: Match prices to operations"/><span class="audit-card-body"><strong>08. Match prices to operations</strong><small>Evidence: Validate airport rates, hourly rules, extras, service area and actual vehicle capacity.</small></span></label>
+<label class="audit-card"><input class="audit-check" type="checkbox" aria-label="Verified: Separate confirmed reservations"/><span class="audit-card-body"><strong>09. Separate confirmed reservations</strong><small>Evidence: Only count a booking when a reservation ID or documented confirmation exists.</small></span></label>
+<label class="audit-card"><input class="audit-check" type="checkbox" aria-label="Verified: Verify dispatch handoff"/><span class="audit-card-body"><strong>10. Verify dispatch handoff</strong><small>Evidence: Check confirmation, chauffeur or dispatch assignment, and relevant payment/cancellation state.</small></span></label>
+<label class="audit-card"><input class="audit-check" type="checkbox" aria-label="Verified: Retain attribution responsibly"/><span class="audit-card-body"><strong>11. Retain attribution responsibly</strong><small>Evidence: Where consent allows, record source/landing page and document attribution blind spots.</small></span></label>
+<label class="audit-card"><input class="audit-check" type="checkbox" aria-label="Verified: Report actual business stages"/><span class="audit-card-body"><strong>12. Report actual business stages</strong><small>Evidence: Separate clicks, enquiries, quotes and paid bookings; do not infer revenue from form events.</small></span></label></div>
+<div class="audit-summary"><p><strong>What the count means:</strong> This is a documentation checklist, not a conversion rate, lead-quality score, revenue estimate or ranking guarantee. Prioritize missing success-only measurement and response ownership, then quotes, confirmed bookings and attribution.</p><div class="audit-actions"><a class="audit-primary" href="contact.html#consultation">Review My Booking Funnel &rarr;</a><a class="audit-secondary" href="booking-systems.html">Explore Booking Systems &rarr;</a></div></div>
+</div></div></section>
 <section class="section">
 <div class="container">
 <div class="subscribe-shell reveal">
@@ -1017,6 +1059,15 @@ if(menuBtn&&mobileNav)menuBtn.addEventListener('click',()=>{
       }
     }
   },true);
+})();
+</script>
+
+<script id="tlma-booking-audit-checklist">
+(function(){
+const area=document.getElementById('limo-booking-conversion-audit');if(!area)return;
+const boxes=Array.from(area.querySelectorAll('.audit-check')),count=area.querySelector('#auditProgress');
+function update(){let n=0;boxes.forEach(function(b){if(b.checked)n++;b.closest('.audit-card').classList.toggle('is-verified',b.checked)});count.textContent=n+' of '+boxes.length+' checks verified'}
+boxes.forEach(function(b){b.addEventListener('change',update)});update();
 })();
 </script>
 </body>
