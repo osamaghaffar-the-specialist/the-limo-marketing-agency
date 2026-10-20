@@ -3,6 +3,12 @@
 **Started:** 2026-10-12  
 **Purpose:** Record real authority/outreach actions separately from the prospect strategy document. This log does not treat a sent email as a backlink, placement, partnership, membership or endorsement.
 
+## 2026-10-20 — UK Editorial Outreach
+
+| Prospect | Market | Action | Contact route | Topic / pitch | Status | Next step |
+|---|---|---|---|---|---|---|
+| TheChauffeur.com | UK chauffeur / private hire | Owner-approved original editorial contribution pitch emailed from the connected TLMA Gmail account | `editor@thechauffeur.com` (official editorial contact) | “Where Chauffeur Companies Lose Bookings — A 12-Point Operational Audit”; includes a link to the existing browser-only TLMA booking-conversion worksheet; proposed 800–1,000 word non-promotional article | **SENT — 2026-10-20**; Gmail message `1a159f83a9c44183`; **NO PUBLICATION / NO BACKLINK CLAIMED** | Wait for an editorial reply; if interested, prepare a UK-operator-focused article with original process examples, no invented business outcomes. Any follow-up requires separate approval. |
+
 ## 2026-10-12 — Editorial Outreach Batch
 
 | Prospect | Market | Action | Contact route | Topic / pitch | Status | Next step |
