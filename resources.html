@@ -808,7 +808,7 @@ html,body{max-width:100%;overflow-x:hidden}
 </div>
 <form action="https://formsubmit.co/" class="subscribe-form" data-live-lead-form="true" data-source-page="Limo Marketing Resources &amp; Insights" id="resourceSubscribe" method="POST"><input name="_next" type="hidden" value="https://osamaghaffar-the-specialist.github.io/the-limo-marketing-agency/thank-you.html"/><input name="_subject" type="hidden" value="New Resource Subscriber - Limo Marketing Resources &amp; Insights"/><input name="_template" type="hidden" value="table"/><input name="_captcha" type="hidden" value="false"/><input name="_url" type="hidden" value="https://osamaghaffar-the-specialist.github.io/the-limo-marketing-agency/resources.html"/><input name="source_page" type="hidden" value="Limo Marketing Resources &amp; Insights"/><input name="source_path" type="hidden" value="resources.html"/><input name="source_url" type="hidden" value="https://osamaghaffar-the-specialist.github.io/the-limo-marketing-agency/resources.html"/><input name="submission_time" type="hidden" value=""/><input aria-hidden="true" autocomplete="off" name="_honey" style="display:none!important" tabindex="-1" type="text" value=""/>
 <input autocomplete="email" name="email" placeholder="Your work email" required="" type="email"/>
-<button data-event="resource_subscribe" type="submit">Get New Insights</button>
+<button type="submit">Get New Insights</button>
 <div class="subscribe-note">Practical updates only. You can unsubscribe from future emails at any time.</div>
 </form>
 </div>
@@ -836,12 +836,6 @@ html,body{max-width:100%;overflow-x:hidden}
 <script>
 window.dataLayer=window.dataLayer||[];
 document.querySelectorAll('[data-event]').forEach(el=>el.addEventListener('click',()=>window.dataLayer.push({event:el.dataset.event,page_type:'resources'})));
-
-const subscribe=document.getElementById('resourceSubscribe');
-if(subscribe)subscribe.addEventListener('submit',e=>{
- e.preventDefault();
- window.dataLayer.push({event:'resource_subscribe',page_type:'resources'});
-});
 
 const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{
  if(entry.isIntersecting){
@@ -1040,6 +1034,27 @@ if(menuBtn&&mobileNav)menuBtn.addEventListener('click',()=>{
 
       if(!response.ok || explicitFailure){
         throw new Error(result.message || ('HTTP '+response.status));
+      }
+
+      // Newsletter requests are not sales leads. Do not send subscribers to
+      // the consultation thank-you page or record clicks as subscriptions.
+      if(form.id==='resourceSubscribe'){
+        window.dataLayer=window.dataLayer||[];
+        window.dataLayer.push({
+          event:'resource_subscribe_success',
+          page_type:'resources',
+          form_type:'newsletter'
+        });
+        if(typeof window.gtag==='function'){
+          window.gtag('event','sign_up',{method:'resources_newsletter'});
+        }
+        status.textContent='Thanks — your request for updates was sent successfully.';
+        form.reset();
+        if(submit){
+          submit.disabled=false;
+          if(submit.tagName==='BUTTON') submit.textContent=originalButtonText||'Get New Insights';
+        }
+        return;
       }
 
       window.dataLayer=window.dataLayer||[];
