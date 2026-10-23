@@ -148,7 +148,7 @@
           "name": "What is limo booking and reservation software?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Limo booking and reservation software is a connected system that lets customers enter trip details, apply configured pricing, choose a vehicle, pay online and create a booking record for the operator's Admin Portal."
+            "text": "Our documented custom workflow gathers trip details, records customer requests and supports operator-created quotations and notifications. Automated customer pricing, checkout and confirmation are additional integrations that must be scoped and verified separately."
           }
         },
         {
@@ -156,7 +156,7 @@
           "name": "Is this just a booking form?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No. The booking form is only the customer-facing entry point. The system connects trip details, vehicle selection, configured pricing, final payable total, card payment, confirmation and the Admin Portal record."
+            "text": "No. The customer request can connect to an operator-facing quotation and booking record. Other modules, including online card payments, require an agreed integration scope and testing."
           }
         },
         {
@@ -164,7 +164,7 @@
           "name": "Does the customer see the price before paying?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. The system applies the pricing rules configured for the selected ride and shows the final payable total before the payment step."
+            "text": "An operator can prepare and send a quote. Automatic customer-facing fares before checkout are possible only when the pricing engine and any payment steps have been configured and tested for that project."
           }
         },
         {
@@ -172,7 +172,7 @@
           "name": "Does the customer have to wait for us to send a quote?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "For standard rides covered by your configured rules, no manual quote wait is required. The system calculates the price and moves the customer directly toward payment. Exceptional or custom trips can still be handled manually if your business needs that flexibility."
+            "text": "In the documented workflow, an operator can review and send a quote. Removing that manual step for standard trips would require a separately configured and verified automated-pricing workflow."
           }
         },
         {
@@ -180,7 +180,7 @@
           "name": "How does card payment work?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The booking flow connects to a secure payment processor. The customer reviews the total and completes card payment as part of the booking journey rather than sending card details to your staff."
+            "text": "Secure payment processing is an optional project integration, not a proven active checkout on this page. The payment provider, authorization, webhooks, confirmations and failure states must be agreed and tested before launch."
           }
         },
         {
@@ -188,7 +188,7 @@
           "name": "What happens immediately after successful payment?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The reservation moves into the confirmed workflow and the Admin Portal can show the customer details, trip information, selected vehicle, payable total, payment state and booking status for operations."
+            "text": "If a project includes a tested payment processor and confirmation workflow, payment events can update the reservation record and trigger customer/operator notifications. This page does not represent a recorded live charge."
           }
         },
         {
@@ -220,7 +220,7 @@
           "name": "What can we manage from the Admin Portal?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The business side can be built to manage core operational information such as vehicles, capacities, vehicle photos, pricing configuration, airport rates, hourly rules, bookings, statuses, payments and incomplete Draft bookings."
+            "text": "The documented capability covers booking requests, quotation handling and related data. Fleet information, pricing administration, payment status and draft workflows can be scoped as further modules rather than assumed to be delivered in every installation."
           }
         },
         {
@@ -260,7 +260,7 @@
           "name": "How much time can this save?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The exact time depends on your current workflow and booking volume. The clearest saving is that standard pricing, payment confirmation and booking record creation no longer need to be repeated manually for every customer. If your current manual pricing response takes 10-15 minutes, that waiting window can be removed for rides covered by the automated rules."
+            "text": "Time savings depend on the actual workflow, volume and integrations delivered. Structured requests and operator quotations can reduce manual re-entry; payment and instant-confirmation time savings should not be claimed without real measured deployment evidence."
           }
         }
       ],
@@ -801,7 +801,7 @@ html,body{max-width:100%;overflow-x:hidden}
 <div class="container">
 <div class="section-head reveal"><div><div class="kicker"><span class="dot"></span>Automated Pricing Engine</div><h2>Your Pricing Rules. <span>Calculated Automatically.</span></h2></div><p>The system is not using one generic formula for every ride. Different service types can follow the pricing logic your company actually uses.</p></div>
 <div class="pricing-shell reveal">
-<div class="pricing-copy"><h3>From Pricing Rules to One Clear Payable Total.</h3><p>The customer should not need to understand your internal pricing structure. They only need a clear final amount before payment.</p><div class="formula">
+<div class="pricing-copy"><h3>Illustrative Pricing Rules and Quote Total.</h3><p>The $228 example below shows a possible calculation breakdown, not a real customer charge or a verified live pricing engine. Operator quotes can be prepared for review before any optional payment integration.</p><div class="formula">
 <div class="formula-row"><span>Transportation Base</span><strong>$180.00</strong></div>
 <div class="formula-row"><span>Configured Gratuity</span><strong>$27.00</strong></div>
 <div class="formula-row"><span>Applicable Surcharge / Fee</span><strong>$21.00</strong></div>
@@ -855,7 +855,7 @@ html,body{max-width:100%;overflow-x:hidden}
 <div class="container">
 <div class="draft-band reveal">
 <div class="draft-copy"><div class="kicker"><span class="dot"></span>Draft Booking Automation</div><h3>Do Not Let an Unfinished Booking Become an Invisible Lead.</h3><p>If a customer starts the booking journey but does not reach payment, the system can preserve the incomplete booking as a Draft so your team can see the intent and decide whether a follow-up is appropriate.</p><div class="draft-points"><div class="draft-point"><span class="tick">✓</span>See who started the booking</div><div class="draft-point"><span class="tick">✓</span>See the trip information already entered</div><div class="draft-point"><span class="tick">✓</span>See whether the journey reached payment or stopped earlier</div><div class="draft-point"><span class="tick">✓</span>Turn abandoned intent into a follow-up opportunity</div></div></div>
-<div class="draft-visual"><div class="draft-table"><div class="table-head"><span>Customer</span><span>Trip</span><span>Status</span><span>Payment</span></div><div class="table-row"><span>Marcus R.</span><span>JFK → Manhattan</span><span class="pill-paid">Confirmed</span><span class="pill-paid">Paid</span></div><div class="table-row"><span>Sarah T.</span><span>Hourly / 5 hrs</span><span class="pill-draft">Draft</span><span>--</span></div><div class="table-row"><span>David K.</span><span>LGA → Brooklyn</span><span class="pill-draft">Draft</span><span>--</span></div><div class="table-row"><span>Olivia M.</span><span>Round Trip</span><span class="pill-paid">Confirmed</span><span class="pill-paid">Paid</span></div></div></div>
+<div class="draft-visual"><p style="font-size:11px;line-height:1.55;color:#667085">Illustrative admin table — sample names, statuses and paid entries are not actual customer transactions.</p><div class="draft-table"><div class="table-head"><span>Customer</span><span>Trip</span><span>Status</span><span>Payment</span></div><div class="table-row"><span>Marcus R.</span><span>JFK → Manhattan</span><span class="pill-paid">Confirmed</span><span class="pill-paid">Paid</span></div><div class="table-row"><span>Sarah T.</span><span>Hourly / 5 hrs</span><span class="pill-draft">Draft</span><span>--</span></div><div class="table-row"><span>David K.</span><span>LGA → Brooklyn</span><span class="pill-draft">Draft</span><span>--</span></div><div class="table-row"><span>Olivia M.</span><span>Round Trip</span><span class="pill-paid">Confirmed</span><span class="pill-paid">Paid</span></div></div></div>
 </div>
 </div>
 </section>
@@ -863,21 +863,21 @@ html,body{max-width:100%;overflow-x:hidden}
 <div class="container faq-shell">
 <div class="faq-intro reveal"><div class="kicker"><span class="dot"></span>Booking System FAQ</div><h2>Understand the System <span>Before We Build It.</span></h2><p>These are the questions that usually matter most to a limo operator deciding whether to move from manual inquiry handling to a connected booking and operations workflow.</p></div>
 <div class="faq-list reveal">
-<details class="faq" open=""><summary>What is limo booking and reservation software?</summary><div class="answer">Limo booking and reservation software is a connected system that lets customers enter trip details, apply configured pricing, choose a vehicle, pay online and create a booking record for the operator's Admin Portal.</div></details>
-<details class="faq"><summary>Is this just a booking form?</summary><div class="answer"><strong>No.</strong> The booking form is only the customer-facing entry point. The system connects trip details, vehicle selection, configured pricing, final payable total, card payment, confirmation and the Admin Portal record.</div></details>
-<details class="faq"><summary>Does the customer see the price before paying?</summary><div class="answer">Yes. The system applies the pricing rules configured for the selected ride and shows the final payable total before the payment step.</div></details>
-<details class="faq"><summary>Does the customer have to wait for us to send a quote?</summary><div class="answer">For standard rides covered by your configured rules, <strong>no manual quote wait is required.</strong> The system calculates the price and moves the customer directly toward payment. Exceptional or custom trips can still be handled manually if your business needs that flexibility.</div></details>
-<details class="faq"><summary>How does card payment work?</summary><div class="answer">The booking flow connects to a secure payment processor. The customer reviews the total and completes card payment as part of the booking journey rather than sending card details to your staff.</div></details>
-<details class="faq"><summary>What happens immediately after successful payment?</summary><div class="answer">The reservation moves into the confirmed workflow and the Admin Portal can show the customer details, trip information, selected vehicle, payable total, payment state and booking status for operations.</div></details>
+<details class="faq" open=""><summary>What is limo booking and reservation software?</summary><div class="answer">Our documented custom workflow gathers trip details, records customer requests and supports operator-created quotations and notifications. Automated customer pricing, checkout and confirmation are additional integrations that must be scoped and verified separately.</div></details>
+<details class="faq"><summary>Is this just a booking form?</summary><div class="answer"><strong>No.</strong> The customer request can connect to an operator-facing quotation and booking record. Other modules, including online card payments, require an agreed integration scope and testing.</div></details>
+<details class="faq"><summary>Does the customer see the price before paying?</summary><div class="answer">An operator can prepare and send a quote. Automatic customer-facing fares before checkout are possible only when the pricing engine and any payment steps have been configured and tested for that project.</div></details>
+<details class="faq"><summary>Does the customer have to wait for us to send a quote?</summary><div class="answer">In the documented workflow, an operator can review and send a quote. Removing that manual step for standard trips would require a separately configured and verified automated-pricing workflow.</div></details>
+<details class="faq"><summary>How does card payment work?</summary><div class="answer">Secure payment processing is an optional project integration, not a proven active checkout on this page. The payment provider, authorization, webhooks, confirmations and failure states must be agreed and tested before launch.</div></details>
+<details class="faq"><summary>What happens immediately after successful payment?</summary><div class="answer">If a project includes a tested payment processor and confirmation workflow, payment events can update the reservation record and trigger customer/operator notifications. This page does not represent a recorded live charge.</div></details>
 <details class="faq"><summary>Can the system handle airport, point-to-point, round trip and hourly bookings?</summary><div class="answer">Yes. Each ride type can present the inputs and pricing logic appropriate to that service instead of forcing every customer through the same generic form.</div></details>
 <details class="faq"><summary>Can we use our own airport rates and hourly prices?</summary><div class="answer">Yes. The system is designed around your commercial rules. Airport flat rates, P2P logic, hourly rates, round-trip logic, additional stops, gratuity and applicable fees can be configured around the way your company prices rides.</div></details>
 <details class="faq"><summary>Can customers choose a vehicle?</summary><div class="answer">Yes. Customer-facing fleet options can include the relevant vehicle details, capacity and presentation, and the selected vehicle is carried into the booking record.</div></details>
-<details class="faq"><summary>What can we manage from the Admin Portal?</summary><div class="answer">The business side can be built to manage core operational information such as vehicles, capacities, vehicle photos, pricing configuration, airport rates, hourly rules, bookings, statuses, payments and incomplete Draft bookings.</div></details>
+<details class="faq"><summary>What can we manage from the Admin Portal?</summary><div class="answer">The documented capability covers booking requests, quotation handling and related data. Fleet information, pricing administration, payment status and draft workflows can be scoped as further modules rather than assumed to be delivered in every installation.</div></details>
 <details class="faq"><summary>What is a Draft Booking?</summary><div class="answer">A Draft is an incomplete booking or quotation workflow record. Depending on the agreed implementation, it can help operators identify requests that still need review or follow-up.</div></details>
 <details class="faq"><summary>Can customers receive booking notifications?</summary><div class="answer">Yes. Email and SMS notifications can be connected to important booking events so the customer and the business receive the updates configured for the workflow.</div></details>
 <details class="faq"><summary>Does automation replace our staff?</summary><div class="answer">No. It removes repetitive work from standard bookings. Your team still manages real operations, exceptions, service quality and customer situations that require human judgment.</div></details>
 <details class="faq"><summary>Can this work with our existing website?</summary><div class="answer">It can be designed as part of a new website or integrated into an existing digital presence, depending on the current technology and the booking experience you want customers to have.</div></details>
-<details class="faq"><summary>How much time can this save?</summary><div class="answer">The exact time depends on your current workflow and booking volume. The clearest saving is that standard pricing, payment confirmation and booking record creation no longer need to be repeated manually for every customer. If your current manual pricing response takes 10-15 minutes, that waiting window can be removed for rides covered by the automated rules.</div></details>
+<details class="faq"><summary>How much time can this save?</summary><div class="answer">Time savings depend on the actual workflow, volume and integrations delivered. Structured requests and operator quotations can reduce manual re-entry; payment and instant-confirmation time savings should not be claimed without real measured deployment evidence.</div></details>
 </div>
 </div>
 </section>
