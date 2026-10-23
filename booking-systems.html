@@ -738,8 +738,8 @@ html,body{max-width:100%;overflow-x:hidden}
 <div class="versus"><div class="versus-badge">VS</div></div>
 <div class="compare-side modern"><div class="compare-label">Illustrative Automation Roadmap</div><h3>Request. Quote. Approve. Confirm.</h3><div class="flow-list">
 <div class="flow-item"><div class="flow-no">01</div><div><strong>Customer enters trip</strong><span>Correct fields for the ride type</span></div><em>Instant</em></div>
-<div class="flow-item"><div class="flow-no">02</div><div><strong>System applies pricing</strong><span>Your configured business rules</span></div><em>Instant</em></div>
-<div class="flow-item"><div class="flow-no">03</div><div><strong>Total is shown</strong><span>Clear payable amount</span></div><em>Instant</em></div>
+<div class="flow-item"><div class="flow-no">02</div><div><strong>Pricing rules (optional)</strong><span>Requires tested rule configuration</span></div><em>Instant</em></div>
+<div class="flow-item"><div class="flow-no">03</div><div><strong>Operator quote prepared</strong><span>Customer-facing total is scope-dependent</span></div><em>Instant</em></div>
 <div class="flow-item"><div class="flow-no">04</div><div><strong>Optional card payment</strong><span>Requires processor integration</span></div><em>Online</em></div>
 <div class="flow-item"><div class="flow-no">05</div><div><strong>Operator confirms trip</strong><span>After acceptance and required checks</span></div><em>Done</em></div>
 <div class="flow-item"><div class="flow-no">06</div><div><strong>Admin record updates</strong><span>Trip, quote and reservation status</span></div><em>Synced</em></div>
@@ -799,13 +799,13 @@ html,body{max-width:100%;overflow-x:hidden}
 </section>
 <section class="section soft" id="pricing-engine">
 <div class="container">
-<div class="section-head reveal"><div><div class="kicker"><span class="dot"></span>Automated Pricing Engine</div><h2>Your Pricing Rules. <span>Calculated Automatically.</span></h2></div><p>The system is not using one generic formula for every ride. Different service types can follow the pricing logic your company actually uses.</p></div>
+<div class="section-head reveal"><div><div class="kicker"><span class="dot"></span>Pricing Integration Options</div><h2>Your Pricing Rules. <span>Configured for Each Workflow.</span></h2></div><p>The sample below illustrates how pricing rules could be configured for different ride types. An automatic customer-facing pricing engine requires separate implementation and testing.</p></div>
 <div class="pricing-shell reveal">
 <div class="pricing-copy"><h3>Illustrative Pricing Rules and Quote Total.</h3><p>The $228 example below shows a possible calculation breakdown, not a real customer charge or a verified live pricing engine. Operator quotes can be prepared for review before any optional payment integration.</p><div class="formula">
 <div class="formula-row"><span>Transportation Base</span><strong>$180.00</strong></div>
 <div class="formula-row"><span>Configured Gratuity</span><strong>$27.00</strong></div>
 <div class="formula-row"><span>Applicable Surcharge / Fee</span><strong>$21.00</strong></div>
-<div class="formula-row total"><span>Final Payable Total</span><strong>$228.00</strong></div>
+<div class="formula-row total"><span>Illustrative Total</span><strong>$228.00</strong></div>
 </div></div>
 <div class="pricing-cards">
 <article class="price-card"><div class="price-icon"><span aria-hidden="true" class="step-brand-logo"></span></div><h4>Airport Flat Rates</h4><p>Specific airport routes can use predetermined vehicle/service pricing.</p></article>
@@ -822,7 +822,7 @@ html,body{max-width:100%;overflow-x:hidden}
 <div class="container">
 <div class="payment-band reveal">
 <div class="payment-copy"><div class="kicker"><span class="dot"></span>Optional Payment Integration</div><h3>Payment and Confirmation Are Scoped, Not Assumed.</h3><p>This diagram illustrates a possible extension of the quote workflow. Payment processing, paid-status synchronization and automatic reservation confirmation require separately verified integrations. This is not evidence of a live payment transaction.</p></div>
-<div class="payment-flow"><div class="payment-step"><div class="check">1</div><b>Review Total</b><span>Customer sees final bill</span></div><div class="payment-step"><div class="check">2</div><b>Pay by Card</b><span>Secure payment processor</span></div><div class="payment-step"><div class="check">3</div><b>Confirmation</b><span>Reservation moves forward</span></div><div class="payment-step"><div class="check">4</div><b>Admin Updated</b><span>Trip + payment + status</span></div></div>
+<div class="payment-flow"><div class="payment-step"><div class="check">1</div><b>Review Total</b><span>Customer sees final bill</span></div><div class="payment-step"><div class="check">2</div><b>Optional Checkout</b><span>Processor must be verified</span></div><div class="payment-step"><div class="check">3</div><b>Confirmation</b><span>Only after required checks</span></div><div class="payment-step"><div class="check">4</div><b>Admin Updated</b><span>States depend on integration</span></div></div>
 </div>
 </div>
 </section>
