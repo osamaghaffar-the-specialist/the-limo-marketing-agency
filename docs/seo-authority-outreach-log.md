@@ -3,6 +3,14 @@
 **Started:** 2026-10-12  
 **Purpose:** Record real authority/outreach actions separately from the prospect strategy document. This log does not treat a sent email as a backlink, placement, partnership, membership or endorsement.
 
+## 2026-10-23 — Ground Transportation Podcast (US Industry Media)
+
+| Prospect | Market | Action | Contact route | Topic / pitch | Status | Next step |
+|---|---|---|---|---|---|---|
+| Ground Transportation Podcast (Ken Lucci / James Blain) | US ground transportation | One individualized remote-guest / operator-education pitch sent from `limomarketingagencyinfo@gmail.com` | `james@paxtraining.com` — co-host James Blain's public business address as listed by the Chauffeured Transportation Association of New Jersey; no official podcast guest-submission email was found | “From ride request to confirmed reservation: a booking handoff audit”; complements their 2026-05-13 Mark Petree episode by distinguishing enquiry → operator quote → acceptance → confirmation, with a link to our existing browser-based [12-point audit](../resources.html#limo-booking-conversion-audit). No named client, lead count, live card-payment result or unverifiable ROI claimed. | **SENT — 2026-10-23**; connected Gmail message `1a169584bde1b0e5`, thread `1a169584bde1b0e5`; **NO REPLY / ACCEPTANCE / PUBLICATION / BACKLINK CLAIMED** | Await genuine editorial reply. If interested, share [guest outline](ground-transportation-podcast-booking-handoff-outline-2026-10-23.md) or prepare a de-identified demonstration. Do not send duplicate pitches or demand backlinks. |
+
+**Sources checked:** https://www.groundtransportationpodcast.com/2400189/episodes/19157171-stop-wasting-ad-spend-secrets-of-a-winning-limo-marketing-strategy and https://ctanj.org/affinity-program. Existing Gmail search for host and show names/domains returned no earlier correspondence before this send. A public association-listed business address is not proof that the email was delivered to the host's inbox; Gmail confirmed **SENT**, not human receipt.
+
 ## 2026-10-20 — UK Editorial Outreach
 
 | Prospect | Market | Action | Contact route | Topic / pitch | Status | Next step |
