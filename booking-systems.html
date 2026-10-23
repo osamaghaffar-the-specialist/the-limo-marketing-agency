@@ -228,7 +228,7 @@
           "name": "What is a Draft Booking?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "A Draft is an incomplete customer booking saved before payment. It gives your team visibility into customers who showed booking intent but did not finish the journey."
+            "text": "A Draft is an incomplete booking or quotation workflow record. Depending on the agreed implementation, it can help operators identify requests that still need review or follow-up."
           }
         },
         {
@@ -761,18 +761,18 @@ html,body{max-width:100%;overflow-x:hidden}
 </section>
 <section class="section soft" id="system-flow">
 <div class="container">
-<div class="section-head reveal"><div><div class="kicker"><span class="dot"></span>Complete Automated Journey</div><h2>What Happens from the First Click to the <span>Confirmed Booking.</span></h2></div><p>This is the customer and operations journey working as one system, instead of six disconnected tasks handled by different people.</p></div>
+<div class="section-head reveal"><div><div class="kicker"><span class="dot"></span>Connected Booking Journey</div><h2>What Happens from the First Click to the <span>Operator Quote.</span></h2></div><p>The request and quotation stages are supported by documented implementation work. Payment and automatic confirmation are optional integrations requiring project-specific delivery and verification.</p></div>
 <div class="journey-shell reveal">
-<div class="journey-top"><h3>Website Visitor → Paid Booking → Operations</h3><p>The system collects the right information once, then carries it forward into pricing, payment and the Admin Portal.</p></div>
+<div class="journey-top"><h3>Website Visitor → Request → Operator Quote</h3><p>The quote workflow carries trip information to the operator. Any integrated payment and confirmation stages must be scoped and tested separately.</p></div>
 <div class="journey-grid">
 <article class="journey-step"><div class="step-num">01</div><div class="step-icon"><span aria-hidden="true" class="step-brand-logo"></span></div><h4>Select Ride Type</h4><p>Airport, P2P, round trip or hourly.</p></article>
 <article class="journey-step"><div class="step-num">02</div><div class="step-icon"><span aria-hidden="true" class="step-brand-logo"></span></div><h4>Enter Trip Details</h4><p>Route, date, time, stops and service-specific fields.</p></article>
 <article class="journey-step"><div class="step-num">03</div><div class="step-icon"><span aria-hidden="true" class="step-brand-logo"></span></div><h4>Select Vehicle</h4><p>Suitable fleet choices based on your setup.</p></article>
 <article class="journey-step"><div class="step-num">04</div><div class="step-icon"><span aria-hidden="true" class="step-brand-logo"></span></div><h4>Calculate Total</h4><p>Your rates, fees and pricing rules are applied.</p></article>
-<article class="journey-step"><div class="step-num">05</div><div class="step-icon"><span aria-hidden="true" class="step-brand-logo"></span></div><h4>Pay by Card</h4><p>Secure payment inside the booking flow.</p></article>
-<article class="journey-step"><div class="step-num">06</div><div class="step-icon"><span aria-hidden="true" class="step-brand-logo"></span></div><h4>Confirmed &amp; Synced</h4><p>Booking and payment status appear in Admin Portal.</p></article>
+<article class="journey-step"><div class="step-num">05</div><div class="step-icon"><span aria-hidden="true" class="step-brand-logo"></span></div><h4>Optional Payment</h4><p>Secure checkout requires a configured and verified payment provider.</p></article>
+<article class="journey-step"><div class="step-num">06</div><div class="step-icon"><span aria-hidden="true" class="step-brand-logo"></span></div><h4>Confirmation Stage</h4><p>Reservation status follows accepted quotes and any implemented integrations.</p></article>
 </div>
-<div class="journey-foot"><strong>One connected customer journey.</strong><span>Trip → Vehicle → Price → Payment → Confirmation → Operations</span></div>
+<div class="journey-foot"><strong>One configurable customer journey.</strong><span>Trip Request → Operator Quote → Acceptance → Optional Payment → Confirmation</span></div>
 </div>
 </div>
 </section>
@@ -784,12 +784,12 @@ html,body{max-width:100%;overflow-x:hidden}
 <div class="feature-row"><div class="ficon"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M5 6h14v12H5zM8 9h8M8 13h5"></path></svg></div><div><strong>Trip Details</strong><small>Pickup, drop-off, stops, date, time and ride-specific information.</small></div></div>
 <div class="feature-row"><div class="ficon"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><circle cx="8" cy="8" r="3"></circle><path d="M3 20c0-4 2-7 5-7s5 3 5 7M16 7h5M18.5 4.5v5"></path></svg></div><div><strong>Passengers &amp; Luggage</strong><small>Structured capacity information before the customer chooses a vehicle.</small></div></div>
 <div class="feature-row"><div class="ficon"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M3 16h18l-2-6H5l-2 6zM6 16v2M18 16v2"></path></svg></div><div><strong>Vehicle Selection</strong><small>Present the fleet choices that fit the trip and the customer's requirements.</small></div></div>
-<div class="feature-row"><div class="ficon"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M4 5h16v14H4zM7 9h10M7 13h6"></path></svg></div><div><strong>Live Total</strong><small>The configured fare is calculated and shown before the payment step.</small></div></div>
-<div class="feature-row"><div class="ficon"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><rect height="12" rx="2" width="18" x="3" y="6"></rect><path d="M3 10h18"></path></svg></div><div><strong>Secure Card Payment</strong><small>The customer completes payment without waiting for a manual standard quote.</small></div></div>
+<div class="feature-row"><div class="ficon"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M4 5h16v14H4zM7 9h10M7 13h6"></path></svg></div><div><strong>Quote or Fare</strong><small>Operator quotations are documented; automated public fare display is a scoped integration.</small></div></div>
+<div class="feature-row"><div class="ficon"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><rect height="12" rx="2" width="18" x="3" y="6"></rect><path d="M3 10h18"></path></svg></div><div><strong>Optional Card Payment</strong><small>Customer checkout requires payment integration and end-to-end testing.</small></div></div>
 </div></article>
 <article class="portal-panel dark"><div class="panel-title"><h3>Admin &amp; Operations Portal</h3><span>Business Control</span></div><p>The information created by the booking flow becomes an operational record instead of another message your team has to re-enter.</p><div class="feature-list">
-<div class="feature-row"><div class="ficon"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M4 5h16v14H4zM7 9h10M7 13h10M7 17h6"></path></svg></div><div><strong>Confirmed Booking Record</strong><small>Customer, trip, selected vehicle, total, payment and booking status in one place.</small></div></div>
-<div class="feature-row"><div class="ficon"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M5 12l4 4L19 6"></path></svg></div><div><strong>Payment Visibility</strong><small>Your team can immediately see whether the reservation has moved into a paid/confirmed state.</small></div></div>
+<div class="feature-row"><div class="ficon"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M4 5h16v14H4zM7 9h10M7 13h10M7 17h6"></path></svg></div><div><strong>Trip &amp; Quote Record</strong><small>Structured customer, trip, selected vehicle and quotation data for operator review.</small></div></div>
+<div class="feature-row"><div class="ficon"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M5 12l4 4L19 6"></path></svg></div><div><strong>Optional Payment Status</strong><small>Available when checkout and payment-state integrations have been implemented and verified.</small></div></div>
 <div class="feature-row"><div class="ficon"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M3 16h18l-2-6H5l-2 6zM6 16v2M18 16v2"></path></svg></div><div><strong>Fleet &amp; Vehicle Data</strong><small>Manage customer-facing vehicle information, capacity, photos and pricing associations.</small></div></div>
 <div class="feature-row"><div class="ficon"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M4 5h16v14H4zM8 9h8M8 13h8"></path></svg></div><div><strong>Pricing Configuration</strong><small>Control airport rates, P2P logic, hourly pricing and applicable fees from the business side.</small></div></div>
 <div class="feature-row"><div class="ficon"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M12 3v18M5 8h14M5 16h14"></path></svg></div><div><strong>Draft &amp; Incomplete Bookings</strong><small>See customers who started the journey but did not finish, so the lead is not invisible.</small></div></div>
@@ -821,7 +821,7 @@ html,body{max-width:100%;overflow-x:hidden}
 <section class="section" id="payment-confirmation">
 <div class="container">
 <div class="payment-band reveal">
-<div class="payment-copy"><div class="kicker"><span class="dot"></span>Payment to Confirmation</div><h3>Customer Pays. Your Portal Knows.</h3><p>The customer reviews the final amount, completes card payment and receives confirmation. On the business side, the booking record reflects the trip, selected vehicle, total and booking/payment status so your team can move directly into operations.</p></div>
+<div class="payment-copy"><div class="kicker"><span class="dot"></span>Optional Payment Integration</div><h3>Payment and Confirmation Are Scoped, Not Assumed.</h3><p>This diagram illustrates a possible extension of the quote workflow. Payment processing, paid-status synchronization and automatic reservation confirmation require separately verified integrations. This is not evidence of a live payment transaction.</p></div>
 <div class="payment-flow"><div class="payment-step"><div class="check">1</div><b>Review Total</b><span>Customer sees final bill</span></div><div class="payment-step"><div class="check">2</div><b>Pay by Card</b><span>Secure payment processor</span></div><div class="payment-step"><div class="check">3</div><b>Confirmation</b><span>Reservation moves forward</span></div><div class="payment-step"><div class="check">4</div><b>Admin Updated</b><span>Trip + payment + status</span></div></div>
 </div>
 </div>
@@ -873,7 +873,7 @@ html,body{max-width:100%;overflow-x:hidden}
 <details class="faq"><summary>Can we use our own airport rates and hourly prices?</summary><div class="answer">Yes. The system is designed around your commercial rules. Airport flat rates, P2P logic, hourly rates, round-trip logic, additional stops, gratuity and applicable fees can be configured around the way your company prices rides.</div></details>
 <details class="faq"><summary>Can customers choose a vehicle?</summary><div class="answer">Yes. Customer-facing fleet options can include the relevant vehicle details, capacity and presentation, and the selected vehicle is carried into the booking record.</div></details>
 <details class="faq"><summary>What can we manage from the Admin Portal?</summary><div class="answer">The business side can be built to manage core operational information such as vehicles, capacities, vehicle photos, pricing configuration, airport rates, hourly rules, bookings, statuses, payments and incomplete Draft bookings.</div></details>
-<details class="faq"><summary>What is a Draft Booking?</summary><div class="answer">A Draft is an incomplete customer booking saved before payment. It gives your team visibility into customers who showed booking intent but did not finish the journey.</div></details>
+<details class="faq"><summary>What is a Draft Booking?</summary><div class="answer">A Draft is an incomplete booking or quotation workflow record. Depending on the agreed implementation, it can help operators identify requests that still need review or follow-up.</div></details>
 <details class="faq"><summary>Can customers receive booking notifications?</summary><div class="answer">Yes. Email and SMS notifications can be connected to important booking events so the customer and the business receive the updates configured for the workflow.</div></details>
 <details class="faq"><summary>Does automation replace our staff?</summary><div class="answer">No. It removes repetitive work from standard bookings. Your team still manages real operations, exceptions, service quality and customer situations that require human judgment.</div></details>
 <details class="faq"><summary>Can this work with our existing website?</summary><div class="answer">It can be designed as part of a new website or integrated into an existing digital presence, depending on the current technology and the booking experience you want customers to have.</div></details>
@@ -882,7 +882,7 @@ html,body{max-width:100%;overflow-x:hidden}
 </div>
 </section>
 <section class="final-cta" id="book-meeting">
-<div class="container"><div class="cta-card reveal"><div class="cta-copy"><div class="kicker"><span class="dot"></span>Build Your Booking System</div><h2>Ready to Turn Website Traffic into Paid Bookings?</h2><p>We build the customer booking flow, pricing logic, card payment journey and Admin Portal around the way your limo business actually operates.</p></div><div class="cta-action"><a class="btn btn-primary" href="contact.html#consultation">Book a Meeting →</a></div></div></div>
+<div class="container"><div class="cta-card reveal"><div class="cta-copy"><div class="kicker"><span class="dot"></span>Build Your Booking System</div><h2>Ready to Connect Ride Requests and Operator Quotes?</h2><p>We build structured ride requests and operator quotation workflows around your business. Automated pricing, online payment and immediate confirmation can be scoped as additional integrations where appropriate.</p></div><div class="cta-action"><a class="btn btn-primary" href="contact.html#consultation">Book a Meeting →</a></div></div></div>
 </section>
 </main>
 <footer class="footer"><div class="container footer-inner"><div class="footer-brand"><svg class="footer-logo" viewbox="0 0 2000 2000"><path d="M 999 200 L 336 583 L 336 1042 L 1001 1424 L 1397 1195 L 1397 846 L 1472 802 L 1473 1239 L 1000 1513 L 336 1130 L 336 1349 L 1000 1732 L 1663 1349 L 1663 583 L 1568 528 L 868 932 L 868 1041 L 962 1096 L 1207 957 L 1207 1085 L 999 1206 L 528 934 L 525 693 L 998 419 L 1075 463 L 602 737 L 602 888 L 790 997 L 793 845 L 1455 463 Z" fill="#5170FE"></path></svg>The Limo Marketing Agency</div><span>Automated Booking &amp; Operations Systems for Limo and Black-Car Companies</span></div></footer>
